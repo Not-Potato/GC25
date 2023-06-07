@@ -8,16 +8,15 @@
 	<meta charset="UTF-8">
 	<title>GC25 | Main Page</title>
 	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/custom.css">
 </head>
 <body>
 	<div id="wrap" class="w-100">
-			<jsp:include page="./common/header.jsp"></jsp:include>
+		<jsp:include page="./common/header.jsp"></jsp:include>
         <!-- header include 영역 -->
 
-
-
         <section id="visual" class="">
-            <div class="inner m-auto" style="width: 1400px;">
+            <div class="inner m-auto">
                 <!-- 배너 영역 -->
                 <!-- <img src=""> -->
                 <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
@@ -33,7 +32,7 @@
 
         <main id="container" class="main">
             <section id="content">
-                <div class="inner m-auto d-flex" style="width: 1400px;">
+                <div class="inner m-auto d-flex">
                     <div class="상담후기 w-50 pe-3">
                         <!-- 강의 카드 -->
                         <div class="card bg-light mt-3">
@@ -146,6 +145,6 @@
         <!-- footer include 영역 -->
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
-	
+	<script src="../../js/bootstrap.min.js"></script>
 </body>
 </html>
