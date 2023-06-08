@@ -9,8 +9,8 @@
 </head>
 <body>
 
-	<footer class="p-3 bg-light text-black mt-5">
-		<div class="m-auto text-center" style="width: 1400px">
+	<footer class="footer">
+		<div class="mt-5 text-center p-5 bg-light text-black">
 			푸터입니다.
 		</div>
 	</footer>
