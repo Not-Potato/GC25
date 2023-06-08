@@ -28,7 +28,7 @@ public class AcademyDAO {
 	}
 	
 	
-	// 전체 리스트 보기
+	// 학원 리스트 전체 보기 (확인용)
 	public ArrayList<AcademyDTO> selectAllArticle() {
 		ArrayList<AcademyDTO> list = new ArrayList();
 		
@@ -36,8 +36,8 @@ public class AcademyDAO {
 			con = ds.getConnection();
 			
 			String query ="""
-					SELECT a_index, a_name, a_tel, a_address, a_postal, a_satisfaction
-					FROM a_academy		
+					SELECT a_number,a_name,a_tel,a_address,a_avgscore
+					FROM GC25_ACADEMY	
 				""";
 			
 			
@@ -45,19 +45,19 @@ public class AcademyDAO {
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				int a_index = rs.getInt("a_index");
-				String a_name = rs.getString("a_name"); 
-				int a_tel = rs.getInt("a_tel"); 
-				String a_address = rs.getString("a_address");
-				int a_satisfaction = rs.getInt("a_satisfaction");
+				int academyNumber = rs.getInt("a_number");
+				String academyName = rs.getString("a_name"); 
+				String academyTel = rs.getString("a_tel"); 
+				String academyAddress = rs.getString("a_address");
+				int academyAvgScore = rs.getInt("a_avgscore");
 				
 				AcademyDTO academy = new AcademyDTO(); 
 				
-				academy.setA_index(a_index);
-				academy.setA_name(a_name);
-				academy.setA_tel(a_tel);
-				academy.setA_address(a_address);
-				academy.setA_satisfaction(a_satisfaction);
+				academy.setAcademyNumber(academyNumber);
+				academy.setAcademyName(academyName);
+				academy.setAcademyTel(academyTel);
+				academy.setAcademyAddress(academyAddress);
+				academy.setAcademyAvgScore(academyAvgScore);
 				
 				list.add(academy); 
 			}
@@ -74,6 +74,4 @@ public class AcademyDAO {
 	}
 	
 	
-	
-	// 검색결과보기
 }//end of academyDAO

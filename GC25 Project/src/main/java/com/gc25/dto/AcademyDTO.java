@@ -2,75 +2,69 @@ package com.gc25.dto;
 
 public class AcademyDTO {
 	
-	int a_index; 
-	String a_name;
-	int a_tel; 
-	String a_address;
-	int a_postal;
-	int a_satisfaction; 
+	int academyNumber; //학원 고유번호 
+	String academyName; //학원 명
+	String academyTel; //학원 전화번호
+	String academyAddress; //학원 주소
+	int academyAvgScore; //학원 만족도
 
-	
-	
+	//기본생성자
 	public AcademyDTO() {
 	}
 
-	public AcademyDTO(String a_name, int a_tel, String a_address, int a_postal, int a_satisfaction) {
-		this.a_name = a_name;
-		this.a_tel = a_tel;
-		this.a_address = a_address;
-		this.a_postal = a_postal;
-		this.a_satisfaction = a_satisfaction;
+	//생성자
+	public AcademyDTO(int academyNumber, String academyName, String academyTel, String academyAddress,
+			int academyAvgScore) {
+		super();
+		this.academyNumber = academyNumber;
+		this.academyName = academyName;
+		this.academyTel = academyTel;
+		this.academyAddress = academyAddress;
+		this.academyAvgScore = academyAvgScore;
 	}
 
+	public int getAcademyNumber() {
+		return academyNumber;
+	}
+
+	public void setAcademyNumber(int academyNumber) {
+		this.academyNumber = academyNumber;
+	}
+
+	public String getAcademyName() {
+		return academyName;
+	}
+
+	public void setAcademyName(String academyName) {
+		this.academyName = academyName;
+	}
+
+	public String getAcademyTel() {
+		return academyTel;
+	}
+
+	public void setAcademyTel(String academyTel) {
+		this.academyTel = academyTel;
+	}
+
+	public String getAcademyAddress() {
+		return academyAddress;
+	}
+
+	public void setAcademyAddress(String academyAddress) {
+		this.academyAddress = academyAddress;
+	}
+
+	public int getAcademyAvgScore() {
+		return academyAvgScore;
+	}
+
+	public void setAcademyAvgScore(int academyAvgScore) {
+		this.academyAvgScore = academyAvgScore;
+	}
 	
 	
-	public int getA_index() {
-		return a_index;
-	}
-
-	public void setA_index(int a_index) {
-		this.a_index = a_index;
-	}
-
-	public String getA_name() {
-		return a_name;
-	}
-
-	public void setA_name(String a_name) {
-		this.a_name = a_name;
-	}
-
-	public int getA_tel() {
-		return a_tel;
-	}
-
-	public void setA_tel(int a_tel) {
-		this.a_tel = a_tel;
-	}
-
-	public String getA_address() {
-		return a_address;
-	}
-
-	public void setA_address(String a_address) {
-		this.a_address = a_address;
-	}
-
-	public int getA_postal() {
-		return a_postal;
-	}
-
-	public void setA_postal(int a_postal) {
-		this.a_postal = a_postal;
-	}
-
-	public int getA_satisfaction() {
-		return a_satisfaction;
-	}
-
-	public void setA_satisfaction(int a_satisfaction) {
-		this.a_satisfaction = a_satisfaction;
-	}
+	
 	
 	
 }
