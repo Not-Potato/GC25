@@ -4,17 +4,18 @@
 <head>
 	<meta charset="UTF-8">
 	<title>footer</title>
-	<link href="../../css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../resources/css/custom.css" rel="stylesheet">
 
 </head>
 <body>
 
-	<footer class="p-3 bg-light text-black mt-5">
-		<div class="m-auto text-center" style="width: 1400px">
+	<footer class="footer">
+		<div class="mt-5 text-center p-5 bg-light text-black">
 			푸터입니다.
 		</div>
 	</footer>
   
-	<script src="../../js/bootstrap.min.js"></script>
+	<script src="../../resources/js/bootstrap.min.js"></script>
 </body>
 </html>
