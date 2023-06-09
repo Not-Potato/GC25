@@ -11,9 +11,9 @@ public class AcademyService {
 		academyDAO = new AcademyDAO(); 
 	}
 	
+	
 	public ArrayList<AcademyDTO> listAcademys() {
-		ArrayList<AcademyDTO> academyList = academyDAO.selectAllArticle();
-		
+		ArrayList<AcademyDTO> academyList = academyDAO.selectAllArticles();
 		return  academyList; 
 	}
 	

@@ -21,7 +21,7 @@ public class AcademyDAO {
 		try {
 			Context ctx = new InitialContext(); 
 			Context env = (Context) ctx.lookup("java:/comp/env");	
-			ds = (DataSource)env.lookup("jdbc/oracle");
+			ds = (DataSource) env.lookup("jdbc/oracle");
 		}catch (Exception ex) {
 			ex.printStackTrace();
 		}	
@@ -29,17 +29,18 @@ public class AcademyDAO {
 	
 	
 	// 학원 리스트 전체 보기 (확인용)
-	public ArrayList<AcademyDTO> selectAllArticle() {
-		ArrayList<AcademyDTO> list = new ArrayList();
+	public ArrayList<AcademyDTO> selectAllArticles() {
+		System.out.println("DAO");
+		ArrayList<AcademyDTO> list = new ArrayList<AcademyDTO>();
 		
 		try {
 			con = ds.getConnection();
 			
 			String query ="""
-					SELECT a_number,a_name,a_tel,a_address,a_avgscore
-					FROM GC25_ACADEMY	
-				""";
-			
+						SELECT a_number, a_name, a_tel,a_address, a_avgscore
+						FROM GC25_ACADEMY
+					""";	
+			System.out.println(query);
 			
 			pstmt = con.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
@@ -58,7 +59,7 @@ public class AcademyDAO {
 				academy.setAcademyTel(academyTel);
 				academy.setAcademyAddress(academyAddress);
 				academy.setAcademyAvgScore(academyAvgScore);
-				
+			
 				list.add(academy); 
 			}
 			

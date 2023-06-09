@@ -1,75 +1,141 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
-
+<c:set var="academyList" value="${requestScope.academyList}"/>
+<%
+	request.setAttribute("pageName", "academymap");
+%>
 <!DOCTYPE html>
 <html lang="ko-KR">
 <head>
 	<meta charset="UTF-8">
 	<title> 학원 검색 </title>
-	<link rel="stylesheet" type="text/css" href="../css/academymap2.css">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-   	<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/custom.css">
+<!--  	<link rel="stylesheet" type="text/css" href="../css/academymap2.css">  -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   		<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script> 
 
 </head>
 <body>
-
-   <div id="container">
-        <div id="header">
-          <p id="header-map">학원찾기</p>
-        </div>
-    
-            <div id="map" style="width:500px; height:350px;"></div> 
-
-        
-        <div id="information"> 
-        	<div id="filter-zone">
-        			<div id="search">
-						<input id="search_value" type="text" onkeyup ='searchmap()'placeholder="안양 컴퓨터학원"> 
+	<div id="wrap" class="w-100">
+ 		<jsp:include page="../views/common/header.jsp"></jsp:include>
+   		<!-- header include 영역 -->
+ 
+		
+		<section id="" class="mt-5">
+			<div class="inner m-auto">
+				<h2 class="text-center p-4 bg-light border rounded-pill mb-4 m-auto text-primary w-800">학원 위치 보기</h2>
+			</div>
+		</section> 
+		
+		<main id="container" class="main">
+			<section id="content">
+				<!-- 지도 출력 -->
+				<div class="inner m-auto">
+					<div class="position-relative">
+						<div class="col-12">
+							<div style="display:flex; justify-content:center;">
+								<div id="map" style="width:70%; height:470px;"></div>	
+							</div>
+							<br>
+							<br>
+							
+							<div style="display:flex; justify-content:center;">
+								<input id="search_value" type="text" onkeyup ='searchmap()' style="width: 600px" style="width: 600px" placeholder="검색어를 입력하세요  ex) 안양 컴퓨터학원" > 
+								<p class="text-center"><a class="btn btn-primary" href="/academymap/listAcademy.do">검색</a></p>
+							</div>
+							<br>
+							<br>
+						</div>
 					</div>
-            		<select id="filter">
-    					<option value="nono">정렬필터</option>
-    					<option value="highest">모두보기 </option> 
-    					<!--  academyDAO selectAll 매소드활용-->
-    					<option value="lastest">최신순</option>
-    					<option value="highest">평점높은순 </option>
-					</select>
+				</div>	
+				
+	
+		
+				<!-- 설명 출력 -->
+				<div class="container text-center">
+				 	<c:if test="${not empty academyList}">
+						<c:forEach var="academy" items="${academyList}">
+				  			<div class="row">
+				   	 			<h3 class="col-6 col-md-4">학원명</h3>
+				   				<div class="col-md-8">
+	            					<p>${academy.academyName}</p>
+				    			</div>
+				  			</div>
+				 			<br>
+				 			<br>
+				
+				
+				  			<div class="row">
+				    			<h3 class="col-6 col-md-4">학원 주소</h3>
+				    			<div class="col-md-8">
+	            					<p>${academy.academyAddress}</p>
+       				 		 
+				    			</div>
+				 			</div>
+				   			<br>
+				  			<br>
+				  
+				    		<div class="row">
+				    			<h3 class="col-6 col-md-4"> 학원 평점</h3>
+				    			<div class="col-md-8">	
+				    				<p>${academy.academyAvgScore}</p>
+				    			</div>
+				 	 		</div>
+							<hr>
+				 		</c:forEach>
+				 	</c:if> 
+				  
+					<c:if test="${empty academyList}">
+		            			<p>결과 없음! 검색어를 입력해주세요.</p>
+					</c:if> 
 					
-					
-			</div>	
-            <div id="academy-name">
-                <p id="name">학원 명</p>
-                <div id="name-content">
-                	
-            
-                
-                </div>
-            </div>
-            <div id="academy-address">
-                <p id="address">학원 주소</p>
-                <div id="address-content">경기도 안양시 만안구 안양4동 676-91</div>
-            </div>
-            <div id="academy-summary">
-                <p id="summary">학원 소개</p>
-                <div id="name-content">안양에 위치한 그린컴퓨터아특학원입니다. 그것은 아주 거지같기 떄문에 오시지 않는 편이 좋습니다.</div>
-            </div>
-        </div>
-            <nav aria-label="...">
-              <ul class="pagination">
-                 <li class="page-item disabled">
-                 <a class="page-link">Previous</a>
-                 </li>
-                 <li class="page-item"><a class="page-link" href="#">1</a></li>
-                 <li class="page-item active" aria-current="page">
-                 <a class="page-link" href="#">2</a>
-                 </li>
-                 <li class="page-item"><a class="page-link" href="#">3</a></li>
-                 <li class="page-item">
-                 <a class="page-link" href="#">Next</a>
-                </li>
-                </ul>
-            </nav>
-        </div>   
+<!-- 페이지네이션 -->	
+
+
+			<nav aria-label="...">
+				<ul class="pagination justify-content-center">
+				<!-- 이전 -->		
+					<c:choose>
+						<c:when test="${pageNum <= pagePerScreen}">	
+							
+							    <li class="page-item disabled"><a class="page-link">Previous</a></li>	    
+						</c:when>	 
+						<c:otherwise>
+							<li class="page-item"><a class="page-link" href="${contextPath}/board?pageNum=${ startPage - 1 }">Previous</a></li>
+						</c:otherwise> 
+					</c:choose>  	
+				<!-- n 페이지  -->
+					<c:forEach var="page" begin="${ startPage }" end="${ endPage}" step="1">	
+						<c:choose> 
+							<c:when test="${ page ==pageNum }"> 
+							    <li class="page-item active"><a class="page-link" href="#">${page}</a></li>
+							</c:when>
+							<c:otherwise>   
+							    <li class="page-item"><a class="page-link" href="#">${ page }</a></li>
+						   </c:otherwise>
+						</c:choose>	    
+					</c:forEach>	
+						    
+				<!-- 이후 -->			    
+					<c:choose>	 
+						<c:when test="${endPage != totalPage}">   
+							<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+						</c:when>
+						<c:otherwise>
+							<li class="page-item"><a class="page-link" href="#">Next</a></li>
+						</c:otherwise>	    
+					</c:choose>
+			  </ul>
+			</nav>
+
+				</div><!-- 설명 출력 끝 -->
+			</section>
+	 </main>
+ 
+     	<jsp:include page="../views/common/footer.jsp"></jsp:include>  
+	</div><!-- end of wrap -->	  
+    
     
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f9658f5229a3c587b3729aa940473f7&libraries=services"></script>    
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>	
@@ -79,16 +145,14 @@
 	
 	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
-	        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+	        center: new kakao.maps.LatLng(37.39884708067333, 126.92081108993685), // 지도의 중심좌표
 	        level: 3 // 지도의 확대 레벨
 	    };  
 	
-	var search_value;
 	
 	function searchmap() {
-		searchValue = document.getElementById('search_value').value;
+		var searchValue = document.getElementById('search_value').value;
 		ps.keywordSearch(searchValue, placesSearchCB); 
-		console.log("");
 	};
 	
 	// 지도를 생성합니다    
@@ -97,6 +161,7 @@
 	// 장소 검색 객체를 생성합니다
 	var ps = new kakao.maps.services.Places(); 
 	
+
 	// 키워드로 장소를 검색합니다
 	//ps.keywordSearch(search_value, placesSearchCB); 
 	
@@ -118,6 +183,7 @@
 	    } 
 	}
 	
+
 	// 지도에 마커를 표시하는 함수입니다
 	function displayMarker(place) {
 	    
@@ -126,13 +192,50 @@
 	        map: map,
 	        position: new kakao.maps.LatLng(place.y, place.x) 
 	    });
-	
+	    
 	    // 마커에 클릭이벤트를 등록합니다
 	    kakao.maps.event.addListener(marker, 'click', function() {
 	        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
 	        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
 	        infowindow.open(map, marker);
-	    });
+	    });  
 	}
+	
+	// 마커를 담을 배열입니다
+	var markers = [];
+	// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
+	function addMarker(position, idx, title) {
+	    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
+	        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
+	        imgOptions =  {
+	            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+	            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+	            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+	        },
+	        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
+	            marker = new kakao.maps.Marker({
+	            position: position, // 마커의 위치
+	            image: markerImage 
+	        });
+
+	    marker.setMap(map); // 지도 위에 마커를 표출합니다
+	    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
+
+	    return marker;
+	}	
+	
+	for(var i = 0; i < markers.length; i++) {
+		console.log(markers[i]);
+	}
+
+	// 지도 위에 표시되고 있는 마커를 모두 제거합니다
+/* 	function removeMarker() {
+	    for ( var i = 0; i < markers.length; i++ ) {
+	        markers[i].setMap(null);
+	    }   
+	    markers = [];
+	}
+	 */
+
 	</script>
 </body>
