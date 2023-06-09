@@ -7,8 +7,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>GC25 | Write Foreword Page</title>
-	<link rel="stylesheet" href="../css/bootstrap.min.css">
-	<link rel="stylesheet" href="../css/custom.css">
+	<link href="../resources/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../resources/css/custom.css" rel="stylesheet">
 </head>
 <body>
 	<div id="wrap" class="w-100">
@@ -66,6 +66,6 @@
 		<!-- footer include 영역 -->
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
-	<script src="../../js/bootstrap.min.js"></script>
+	<script src="../../resources/js/bootstrap.min.js"></script>
 </body>
 </html>

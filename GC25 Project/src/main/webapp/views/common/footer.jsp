@@ -4,7 +4,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>footer</title>
-	<link href="../../css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../resources/css/bootstrap.min.css" rel="stylesheet">
+	<link href="../../resources/css/custom.css" rel="stylesheet">
 
 </head>
 <body>
@@ -15,6 +16,6 @@
 		</div>
 	</footer>
   
-	<script src="../../js/bootstrap.min.js"></script>
+	<script src="../../resources/js/bootstrap.min.js"></script>
 </body>
 </html>

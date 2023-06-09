@@ -1,11 +1,10 @@
 package com.gc25.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -31,53 +30,99 @@ public class AfterwordBoardDAO {
 	// 목록 반환 메소드
 	// (정렬 구분, 페이지 번호)
 	public ArrayList<AfterwordBoardDTO> getList(String searchType, int pageNumber) {
-		ArrayList<AfterwordBoardDTO> list = null;
+		ArrayList<AfterwordBoardDTO> list = new ArrayList<>();
 		String query = "";
+		int offset = (pageNumber - 1) * 10;
+		// 1페이지 --> 0
+		// 2페이지 --> 10
+		// 3페이지 --> 20
 		
 		try {
 			con = ds.getConnection();
 			if (searchType.equals("최신순")) {
-				query = "SELECT ab_number, m_number, a_number, a_name, ab_course, ab_date, ab_teacher, ab_totalscore, ab_open, ab_end, ab_major, ab_cost, ab_teacherscore, ab_facilityscore, ab_curriculumscore, ab_title, ab_contents, ab_recommned, ab_views FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_date DESC) WHERE ROWNUM >= ? AND ROWNUM <= ?";
+				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
+				query = """
+					SELECT ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount 
+					FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_date DESC) 
+					OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
+				""";
 			} else if (searchType.equals("추천순")) {
-				query = "SELECT * FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_recommned DESC) WHERE ROWNUM >= ? AND ROWNUM <= ?";
+				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
+				query = """
+					SELECT ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+					FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_recommend DESC) 
+						OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
+				""";
+			} else if (searchType.equals("댓글순")) {
+				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
+				query = """
+					SELECT ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+					FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_commentcount DESC) 
+						OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
+				""";
+			} else if (searchType.equals("조회순")) {
+				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
+				query = """
+					SELECT ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+					FROM (SELECT * 
+						FROM GC25_AFTERWORD_BOARD 
+						ORDER BY ab_views DESC) 
+						OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
+				""";
 			}
 			
 			pstmt = con.prepareStatement(query);
-			pstmt.setString(1, Integer.toString(pageNumber));
-			pstmt.setString(2, Integer.toString(pageNumber * 10));
+			pstmt.setInt(1, offset);
 			ResultSet rs = pstmt.executeQuery();
 			
-			System.out.println("파라미터 추가한 sql! " + query);
 			rs = pstmt.executeQuery();
-			System.out.println("받아온 값! " + rs);
 			
 			while (rs.next()) {
-				System.out.println("bbb");
-				int aBoardNumber = rs.getInt("ab_number");
-				int memberNumber = rs.getInt("m_number");
-				int academyNumber = rs.getInt("a_number");
-				String academyName = rs.getString("a_name");
-				Date aBoardDate = rs.getDate("ab_date");
-				String aBoardTeacher = rs.getString("ab_teacher");
-				int aBoardTotalScore = rs.getInt("ab_totalscore");
-				Date aBoardOpen = rs.getDate("ab_open");
-				Date aBoardEnd = rs.getDate("ab_end");
-				int aBoardMajor = rs.getInt("ab_major");
-				int aBoardCost = rs.getInt("ab_cost");
-				int aBoardTeacherScore = rs.getInt("ab_teacherscore");
-				String aBoardFacilityScore = rs.getString("ab_facilityscore");
-				String aBoardCurriculumScore = rs.getString("ab_curriculumscore");
-				String aBoardTitle = rs.getString("ab_title");
-				String aBoardContents = rs.getString("ab_contents");
-				int aBoardRecommned = rs.getInt("ab_recommned");
-				int aBoardViews = rs.getInt("ab_views");
+				// 전부 가져와서 담기
+//				int aBoardNumber = rs.getInt("ab_number");
+//				int memberNumber = rs.getInt("m_number");
+//				int academyNumber = rs.getInt("a_number");
+//				String academyName = rs.getString("a_name");
+//				Date aBoardDate = rs.getDate("ab_date");
+//				String aBoardTeacher = rs.getString("ab_teacher");
+//				int aBoardTotalScore = rs.getInt("ab_totalscore");
+//				Date aBoardOpen = rs.getDate("ab_open");
+//				Date aBoardEnd = rs.getDate("ab_end");
+//				int aBoardMajor = rs.getInt("ab_major");
+//				int aBoardCost = rs.getInt("ab_cost");
+//				int aBoardTeacherScore = rs.getInt("ab_teacherscore");
+//				String aBoardFacilityScore = rs.getString("ab_facilityscore");
+//				String aBoardCurriculumScore = rs.getString("ab_curriculumscore");
+//				String aBoardTitle = rs.getString("ab_title");
+//				String aBoardContents = rs.getString("ab_contents");
+//				int aBoardRecommend = rs.getInt("ab_recommend");
+//				int aBoardViews = rs.getInt("ab_views");
+//				int aBoardCommentCount = rs.getInt("ab_commentcount");
+				
+//				AfterwordBoardDTO a = (new AfterwordBoardDTO(aBoardNumber, memberNumber, academyNumber, academyName,
+//						aBoardDate, aBoardTeacher, aBoardTotalScore, aBoardOpen, aBoardEnd, aBoardMajor, aBoardCost,
+//						aBoardTeacherScore, aBoardFacilityScore, aBoardCurriculumScore, aBoardTitle, aBoardContents,
+//						aBoardRecommend, aBoardViews, aBoardCommentCount));
 
-				AfterwordBoardDTO a = (new AfterwordBoardDTO(aBoardNumber, memberNumber, academyNumber, academyName,
-						aBoardDate, aBoardTeacher, aBoardTotalScore, aBoardOpen, aBoardEnd, aBoardMajor, aBoardCost,
-						aBoardTeacherScore, aBoardFacilityScore, aBoardCurriculumScore, aBoardTitle, aBoardContents,
-						aBoardRecommned, aBoardViews));
+				//필요한 것만 가져와서 담기
+				//ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+				Timestamp writeDate = rs.getTimestamp("ab_date");
+//				Date aBoardDate = rs.getDate("ab_date");
+				String title = rs.getString("ab_title");
+				String contents = rs.getString("ab_contents");
+				int recommend = rs.getInt("ab_recommend");
+				int views = rs.getInt("ab_views");
+				int commentCount = rs.getInt("ab_commentcount");
+				AfterwordBoardDTO a = new AfterwordBoardDTO();
+				a.setWriteDate(writeDate);
+				a.setTitle(title);
+				a.setContents(contents);
+				a.setRecommend(recommend);
+				a.setViews(views);
+				a.setCommentCount(commentCount);
 
 				System.out.println(a);
+				list.add(a);
 			}
 			
 			System.out.println("반복문 종료지점");
@@ -91,52 +136,32 @@ public class AfterwordBoardDAO {
 		return list;
 	}
 
-	public List<AfterwordBoardDTO> listAfterwordBoard() {
-		List<AfterwordBoardDTO> list = new ArrayList<>();
-
+	public int getTotalPage() {
+		int totalPage = 0;
+		
 		try {
 			con = ds.getConnection();
-			String query = "SELECT * FROM GC25_AFTERWORD_BOARD";
+
+//			String query = "SELECT CEIL(count(*) / 10) total_page FROM GC25_AFTERWORD_BOARD";
+			String query = "SELECT COUNT(DISTINCT ab_number) AS total_count FROM GC25_AFTERWORD_BOARD";
+			System.out.println(query);
+			
 			pstmt = con.prepareStatement(query);
+			
 			ResultSet rs = pstmt.executeQuery();
-
-
-			while (rs.next()) {
-				System.out.println("bbb");
-				int aBoardNumber = rs.getInt("ab_number");
-				int memberNumber = rs.getInt("m_number");
-				int academyNumber = rs.getInt("a_number");
-				String academyName = rs.getString("a_name");
-				Date aBoardDate = rs.getDate("ab_date");
-				String aBoardTeacher = rs.getString("ab_teacher");
-				int aBoardTotalScore = rs.getInt("ab_totalscore");
-				Date aBoardOpen = rs.getDate("ab_open");
-				Date aBoardEnd = rs.getDate("ab_end");
-				int aBoardMajor = rs.getInt("ab_major");
-				int aBoardCost = rs.getInt("ab_cost");
-				int aBoardTeacherScore = rs.getInt("ab_teacherscore");
-				String aBoardFacilityScore = rs.getString("ab_facilityscore");
-				String aBoardCurriculumScore = rs.getString("ab_curriculumscore");
-				String aBoardTitle = rs.getString("ab_title");
-				String aBoardContents = rs.getString("ab_contents");
-				int aBoardRecommned = rs.getInt("ab_recommned");
-				int aBoardViews = rs.getInt("ab_views");
-
-				AfterwordBoardDTO a = (new AfterwordBoardDTO(aBoardNumber, memberNumber, academyNumber, academyName,
-						aBoardDate, aBoardTeacher, aBoardTotalScore, aBoardOpen, aBoardEnd, aBoardMajor, aBoardCost,
-						aBoardTeacherScore, aBoardFacilityScore, aBoardCurriculumScore, aBoardTitle, aBoardContents,
-						aBoardRecommned, aBoardViews));
-
-				System.out.println(a);
-			}
-
+			
+			rs.next();
+			
+			double totalCount = rs.getDouble(1);
+		    totalPage = (int) Math.ceil(totalCount / 10.0);
+			System.out.println("전체 페이지: "+ totalPage);
+			
 			rs.close();
 			pstmt.close();
 			con.close();
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		return list;
+		return totalPage;
 	}
 }

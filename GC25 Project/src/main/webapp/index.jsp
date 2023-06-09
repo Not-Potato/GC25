@@ -2,6 +2,8 @@
 <%@page import="java.util.ArrayList"%>
 <%@page import="com.gc25.dto.AfterwordBoardDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath"  value="${pageContext.request.contextPath}" />
 <%
 	request.setAttribute("pageName", "index");
 %>
@@ -10,8 +12,8 @@
 <head>
 	<meta charset="UTF-8">
 	<title>GC25 | Main Page</title>
-	<link rel="stylesheet" href="./css/bootstrap.min.css">
-	<link rel="stylesheet" href="./css/custom.css">
+	<link href="<c:url value='/resources/css/bootstrap.min.css' />" rel="stylesheet">
+	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 </head>
 <body>
 	<div id="wrap" class="w-100">
@@ -26,11 +28,9 @@
                     <div class="col-md-6 px-0">
                         <h1 class="display-4 fst-italic">배너 들어갈 자리</h1>
                         <p class="lead my-3">
-                        	<%
-                        	AfterwordBoardDAO dao = new AfterwordBoardDAO();
-                        	ArrayList<AfterwordBoardDTO> list = dao.getList("추천순", 1);
-                        	%>
-                        	배너 들어갈 자리,,.. 배너 들어갈 자리,,..,,, 배너 들어갈 자리,...,,</p>
+                        	배너 들어갈 자리,,.. 배너 들어갈 자리,,..,,, 배너 들어갈 자리,...,,
+                        	<a href="${contextPath}/afterwordboard/afterwordboardlist.do" class="nav-link px-2">수강 후기</a>
+                        </p>
                         <p class="lead mb-0"><a href="#" class="text-white fw-bold">ㅂㅐ너자리.</a></p>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
         <main id="container" class="main">
             <section id="content">
                 <div class="inner m-auto d-flex">
-                    <div class="상담후기 w-50 pe-3">
+                    <div class="w-50 pe-3">
                         <!-- 강의 카드 -->
                         <div class="card bg-light mt-3">
                             <!-- 강의 소개 -->
@@ -83,7 +83,7 @@
 
                     </div>
 
-                    <div class="수강후기 w-50 ps-3">
+                    <div class="w-50 ps-3">
                         <!-- 강의 카드 -->
                         <div class="card bg-light mt-3">
                             <!-- 강의 소개 -->
@@ -154,6 +154,8 @@
         <!-- footer include 영역 -->
         <jsp:include page="./views/common/footer.jsp"></jsp:include>
     </div>
-	<script src="./js/bootstrap.min.js"></script>
+    <script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
+	<script src="<c:url value='/resources/js/jquery.js' />"></script>
+	<script src="<c:url value='/resources/js/popper.js' />"></script>
 </body>
 </html>
