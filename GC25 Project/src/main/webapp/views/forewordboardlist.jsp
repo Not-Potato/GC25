@@ -73,7 +73,7 @@
 						
 						<c:otherwise>
 							<c:forEach  var="after" items="${ list }" varStatus="afterNum" >
-								<div class="card my-3">
+								<div class="card my-3" onclick="location.href='${contextPath}/forewordboard/forewordboardviewer.do?boardNum=${ list[afterNum.index].boardNumber }'">
 									<h5 class="card-header">${ list[afterNum.index].title }</h5>
 									<div class="card-body">
 										<h6 class="card-title">${ list[afterNum.index].contents }</h6>

@@ -42,28 +42,28 @@ public class AfterwordBoardDAO {
 			if (searchType.equals("최신순")) {
 				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount 
+					SELECT ab_number, ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount 
 					FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_date DESC) 
 					OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("추천순")) {
 				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+					SELECT ab_number, ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
 					FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_recommend DESC) 
 						OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("댓글순")) {
 				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+					SELECT ab_number, ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
 					FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_commentcount DESC) 
 						OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("조회순")) {
 				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+					SELECT ab_number, ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
 					FROM (SELECT * 
 						FROM GC25_AFTERWORD_BOARD 
 						ORDER BY ab_views DESC) 
@@ -78,34 +78,9 @@ public class AfterwordBoardDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				// 전부 가져와서 담기
-//				int aBoardNumber = rs.getInt("ab_number");
-//				int memberNumber = rs.getInt("m_number");
-//				int academyNumber = rs.getInt("a_number");
-//				String academyName = rs.getString("a_name");
-//				Date aBoardDate = rs.getDate("ab_date");
-//				String aBoardTeacher = rs.getString("ab_teacher");
-//				int aBoardTotalScore = rs.getInt("ab_totalscore");
-//				Date aBoardOpen = rs.getDate("ab_open");
-//				Date aBoardEnd = rs.getDate("ab_end");
-//				int aBoardMajor = rs.getInt("ab_major");
-//				int aBoardCost = rs.getInt("ab_cost");
-//				int aBoardTeacherScore = rs.getInt("ab_teacherscore");
-//				String aBoardFacilityScore = rs.getString("ab_facilityscore");
-//				String aBoardCurriculumScore = rs.getString("ab_curriculumscore");
-//				String aBoardTitle = rs.getString("ab_title");
-//				String aBoardContents = rs.getString("ab_contents");
-//				int aBoardRecommend = rs.getInt("ab_recommend");
-//				int aBoardViews = rs.getInt("ab_views");
-//				int aBoardCommentCount = rs.getInt("ab_commentcount");
-				
-//				AfterwordBoardDTO a = (new AfterwordBoardDTO(aBoardNumber, memberNumber, academyNumber, academyName,
-//						aBoardDate, aBoardTeacher, aBoardTotalScore, aBoardOpen, aBoardEnd, aBoardMajor, aBoardCost,
-//						aBoardTeacherScore, aBoardFacilityScore, aBoardCurriculumScore, aBoardTitle, aBoardContents,
-//						aBoardRecommend, aBoardViews, aBoardCommentCount));
-
-				//필요한 것만 가져와서 담기
-				//ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+				// 필요한 것만 가져와서 담기
+				// ab_number, ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+				int boardNumber = rs.getInt("ab_number");
 				Timestamp writeDate = rs.getTimestamp("ab_date");
 //				Date aBoardDate = rs.getDate("ab_date");
 				String title = rs.getString("ab_title");
@@ -114,6 +89,7 @@ public class AfterwordBoardDAO {
 				int views = rs.getInt("ab_views");
 				int commentCount = rs.getInt("ab_commentcount");
 				AfterwordBoardDTO a = new AfterwordBoardDTO();
+				a.setBoardNumber(boardNumber);
 				a.setWriteDate(writeDate);
 				a.setTitle(title);
 				a.setContents(contents);

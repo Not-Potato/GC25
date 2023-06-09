@@ -40,30 +40,27 @@ public class ForewordBoardDAO {
 		try {
 			con = ds.getConnection();
 			if (searchType.equals("최신순")) {
-				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
+				// 글 번호, 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT fb_title, fb_contents, fb_date, fb_recommend, fb_views, fb_commentcount 
+					SELECT fb_number, fb_title, fb_contents, fb_date, fb_recommend, fb_views, fb_commentcount 
 					FROM (SELECT * FROM GC25_FOREWORD_BOARD ORDER BY fb_date DESC) 
 					OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("추천순")) {
-				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT fb_title, fb_contents, fb_date, fb_recommend, fb_views, fb_commentcount 
+					SELECT fb_number, fb_title, fb_contents, fb_date, fb_recommend, fb_views, fb_commentcount 
 					FROM (SELECT * FROM GC25_FOREWORD_BOARD ORDER BY fb_recommend DESC) 
 					OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("댓글순")) {
-				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT fb_title, fb_contents, fb_date, fb_recommend, fb_views, fb_commentcount 
+					SELECT fb_number, fb_title, fb_contents, fb_date, fb_recommend, fb_views, fb_commentcount 
 					FROM (SELECT * FROM GC25_FOREWORD_BOARD ORDER BY fb_commentcount DESC) 
 					OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("조회순")) {
-				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT fb_title, fb_contents, fb_date, fb_recommend, fb_views, fb_commentcount 
+					SELECT fb_number, fb_title, fb_contents, fb_date, fb_recommend, fb_views, fb_commentcount 
 					FROM (SELECT * FROM GC25_FOREWORD_BOARD ORDER BY fb_views DESC) 
 					OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
@@ -76,7 +73,8 @@ public class ForewordBoardDAO {
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				//fb_title, fb_contents, fb_date, fb_recommned, fb_views, fb_commentcount
+				// fb_number, fb_title, fb_contents, fb_date, fb_recommned, fb_views, fb_commentcount
+				int boardNumber = rs.getInt("fb_number");
 				Timestamp writeDate = rs.getTimestamp("fb_date");
 //				Date aBoardDate = rs.getDate("fb_date");
 				String title = rs.getString("fb_title");
@@ -85,6 +83,7 @@ public class ForewordBoardDAO {
 				int views = rs.getInt("fb_views");
 				int commentCount = rs.getInt("fb_commentcount");
 				ForewordBoardDTO f = new ForewordBoardDTO();
+				f.setBoardNumber(boardNumber);
 				f.setWriteDate(writeDate);
 				f.setTitle(title);
 				f.setContents(contents);
