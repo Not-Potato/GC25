@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!-- jstl 사용 -->
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- 현재 페이지 정보 -->
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <c:set var="academyList" value="${requestScope.academyList}"/>
+
 <%
 	request.setAttribute("pageName", "academymap");
 %>
@@ -30,7 +34,9 @@
 		
 		<main id="container" class="main">
 			<section id="content">
+			
 				<!-- 지도 출력 -->
+				
 				<div class="inner m-auto">
 					<div class="position-relative">
 						<div class="col-12">
@@ -53,83 +59,83 @@
 	
 		
 				<!-- 설명 출력 -->
+				
 				<div class="container text-center">
-				 	<c:if test="${not empty academyList}">
-						<c:forEach var="academy" items="${academyList}">
-				  			<div class="row">
-				   	 			<h3 class="col-6 col-md-4">학원명</h3>
-				   				<div class="col-md-8">
-	            					<p>${academy.academyName}</p>
-				    			</div>
-				  			</div>
-				 			<br>
-				 			<br>
-				
-				
-				  			<div class="row">
-				    			<h3 class="col-6 col-md-4">학원 주소</h3>
-				    			<div class="col-md-8">
-	            					<p>${academy.academyAddress}</p>
-       				 		 
-				    			</div>
-				 			</div>
-				   			<br>
-				  			<br>
-				  
-				    		<div class="row">
-				    			<h3 class="col-6 col-md-4"> 학원 평점</h3>
-				    			<div class="col-md-8">	
-				    				<p>${academy.academyAvgScore}</p>
-				    			</div>
-				 	 		</div>
-							<hr>
-				 		</c:forEach>
-				 	</c:if> 
-				  
-					<c:if test="${empty academyList}">
-		            			<p>결과 없음! 검색어를 입력해주세요.</p>
-					</c:if> 
-					
-<!-- 페이지네이션 -->	
-
-
-			<nav aria-label="...">
-				<ul class="pagination justify-content-center">
-				<!-- 이전 -->		
 					<c:choose>
-						<c:when test="${pageNum <= pagePerScreen}">	
+						<c:when test="${empty academyList}">
+			            			<p>결과 없음! 검색어를 입력해주세요.</p>
+						</c:when> 
+						
+					 	<c:otherwise>
+							<c:forEach var="academy" items="${academyList}">
+					  			<div class="row">
+					   	 			<h3 class="col-6 col-md-4">학원명</h3>
+					   				<div class="col-md-8">
+		            					<p>${academy.academyName}</p>
+					    			</div>
+					  			</div>
+					 			<br>
+					 			<br>
+					
+					
+					  			<div class="row">
+					    			<h3 class="col-6 col-md-4">학원 주소</h3>
+					    			<div class="col-md-8">
+		            					<p>${academy.academyAddress}</p>
+	       				 		 
+					    			</div>
+					 			</div>
+					   			<br>
+					  			<br>
+					  
+					    		<div class="row">
+					    			<h3 class="col-6 col-md-4"> 학원 평점</h3>
+					    			<div class="col-md-8">	
+					    				<p>${academy.academyAvgScore}</p>
+					    			</div>
+					 	 		</div>
+								<hr>
+					 		</c:forEach>
+					 		
+					
+							<nav aria-label="...">
+								<ul class="pagination justify-content-center">
 							
-							    <li class="page-item disabled"><a class="page-link">Previous</a></li>	    
-						</c:when>	 
-						<c:otherwise>
-							<li class="page-item"><a class="page-link" href="${contextPath}/board?pageNum=${ startPage - 1 }">Previous</a></li>
-						</c:otherwise> 
-					</c:choose>  	
-				<!-- n 페이지  -->
-					<c:forEach var="page" begin="${ startPage }" end="${ endPage}" step="1">	
-						<c:choose> 
-							<c:when test="${ page ==pageNum }"> 
-							    <li class="page-item active"><a class="page-link" href="#">${page}</a></li>
-							</c:when>
-							<c:otherwise>   
-							    <li class="page-item"><a class="page-link" href="#">${ page }</a></li>
-						   </c:otherwise>
-						</c:choose>	    
-					</c:forEach>	
-						    
-				<!-- 이후 -->			    
-					<c:choose>	 
-						<c:when test="${endPage != totalPage}">   
-							<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-						</c:when>
-						<c:otherwise>
-							<li class="page-item"><a class="page-link" href="#">Next</a></li>
-						</c:otherwise>	    
+									
+		<%-- 								<c:if test="${pageNum == pagePerScreen}">	
+											console.log(pageNum); 
+											console.log(pagePerScreen); 
+											    <li class="page-item disabled"><a class="page-link">Previous</a></li>	    
+										</c:if >	 
+										<c:if test="${pageNum < pagePerScreen}">
+											<li class="page-item"><a class="page-link" href="${contextPath}/academymap?pageNum=${ startPage - 1 }">Previous</a></li>
+										</c:if> 
+									 --%>
+								
+									<c:forEach var="page" begin="${ startPage }" end="${endPage}" step="1">	
+										<c:choose> 
+											<c:when test="${ page == pageNum }"> 
+											    <li class="page-item active"><a class="page-link" href="#">${page}</a></li>
+											</c:when>
+											<c:otherwise>   
+											    <li class="page-item"><a class="page-link" href="${contextPath}/academymap2?pageNum=${ page }">${page}</a></li>
+										   </c:otherwise>
+										</c:choose>	    
+									</c:forEach>	
+										   
+								    	 
+<%-- 										<c:if test="${endPage != totalPage}">   
+											<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+										</c:if >
+										<c:if test="${!endPage != totalPage}">
+											<li class="page-item"><a class="page-link" href="#">Next</a></li>
+										</c:if>	     --%>
+							  </ul>
+							</nav>
+					 	</c:otherwise> 
 					</c:choose>
-			  </ul>
-			</nav>
-
 				</div><!-- 설명 출력 끝 -->
+					
 			</section>
 	 </main>
  

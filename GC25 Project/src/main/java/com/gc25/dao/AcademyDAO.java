@@ -29,7 +29,7 @@ public class AcademyDAO {
 	
 	
 	// 학원 리스트 전체 보기 (확인용)
-	public ArrayList<AcademyDTO> selectAllArticles() {
+	public ArrayList<AcademyDTO> selectAllArticles(int pageNumber) {
 		System.out.println("DAO");
 		ArrayList<AcademyDTO> list = new ArrayList<AcademyDTO>();
 		
@@ -72,6 +72,39 @@ public class AcademyDAO {
 		}
 		
 		return list; 
+	}
+	
+	
+	//전체페이지 가져오기
+	public int getTotalPage() {
+		int totalPage = 0;
+		
+		try {
+			
+				con = ds.getConnection(); 
+			
+			//	String query = "SELECT CEIL(COUNT(*)) total_page from GC25_ACADEMY";
+				String query = "SELECT COUNT(DISTINCT A_NUMBER) AS TOTAL_COUNT FROM GC25_ACADEMY";
+				System.out.println(query);
+				
+				pstmt = con.prepareStatement(query); 
+				
+				ResultSet rs = pstmt.executeQuery();
+						
+				rs.next();
+				
+				double totalCount = rs.getDouble(1);
+			totalPage = (int) Math.ceil(totalCount / 1.0); 
+				System.out.println("전체 페이지:" + totalPage);
+				
+				rs.close(); 
+				pstmt.close(); 
+				con.close(); 
+				
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		return totalPage;
 	}
 	
 	

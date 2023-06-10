@@ -12,10 +12,14 @@ public class AcademyService {
 	}
 	
 	
-	public ArrayList<AcademyDTO> listAcademys() {
-		ArrayList<AcademyDTO> academyList = academyDAO.selectAllArticles();
+	public ArrayList<AcademyDTO> listAcademys(int pageNo) {
+		ArrayList<AcademyDTO> academyList = academyDAO.selectAllArticles(pageNo);
 		return  academyList; 
 	}
-	
+
+	public int getTotalPage( ) {
+		return academyDAO.getTotalPage();
+	}
+
 }
 
