@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+.container {
+	margin:0 auto;
+}
+ h2 {
+	text-align: center;
+	padding:20px;
+	background-color:#00D4EA;
+}
+
+.bodyContainer {
+	display:flex;
+	justify-content: center;
+	margin-top:50px;
+}
+
+
+#profile {
+	display:flex;
+	flex-direction: column;
+	margin-right:40px;
+}
+#profile #profileImg {
+	width:100px;
+	height:100px;
+	border-radius: 50%;
+}
+#profile input {
+	margin-top:20px;
+	width:100px;
+	height:40px;
+}
+#inputBox {
+	width:400px;
+	height:500px;
+	margin-left:20px;
+	  
+}
+#inputBox table input {
+	width:200px;
+	height:50px;
+	margin-bottom :40px;
+	
+}
