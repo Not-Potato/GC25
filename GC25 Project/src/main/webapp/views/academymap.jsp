@@ -1,251 +1,202 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!-- jstl 사용 -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!-- 현재 페이지 정보 -->
+<c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
+<c:set var="academyList" value="${academyList}"/>
+<c:set var="pageNum" value="${pageNum}"/>
+<c:set var="searchValue" value="${searchValue}"/>
+<%
+	request.setAttribute("pageName", "academymap");
+%>
+
+
+<!-- 위도 경도로 지도 위치 나타내기 -->
 <!DOCTYPE html>
-<html>
+<html lang="ko-KR">
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
-	<link rel="stylesheet" type="text/css" href="../css/academymap.css">
+	<title> 학원 검색 </title>
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/custom.css">
+<!--  	<link rel="stylesheet" type="text/css" href="../css/academymap2.css">  -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+   		<script src="https://use.fontawesome.com/releases/v5.2.0/js/all.js"></script> 
+
 </head>
 <body>
+	<div id="wrap" class="w-100">
+ 		<jsp:include page="../views/common/header.jsp"></jsp:include>
+   		<!-- header include 영역 -->
+ 
+		
+		<section id="" class="mt-5">
+			<div class="inner m-auto">
+				<h2 class="text-center p-4 bg-light border rounded-pill mb-4 m-auto text-primary w-800">학원 위치 보기</h2>
+			</div>
+		</section> 
+		
+		<main id="container" class="main">
+			<section id="content">
+			
+				<!-- 지도 출력 -->
+				<div class="inner m-auto">
+					<div class="position-relative">
+						<div class="col-12">
+							<div style="display:flex; justify-content:center;">
+								<div id="staticMap" style="width:70%; height:350px;"></div>							
+							</div>
+							
+							<br>
+							<br>
+							
+							<div style="display:flex; justify-content:center;">
+							
+								<!-- <form id="searchForm" action="/academymap/listAcademy.do"> -->
+								<form id="searchForm" action="${contextPath}/academymap/listAcademy.do?searchValue=${searchValue}">
+									<input id="searchValue"  name="searchValue" type="text" onclick ='searchmap()' style="width: 600px" style="width: 600px" placeholder="검색어를 입력하세요  ex)안양 컴퓨터학원" > 
+					
+									<input type="submit" value="검색">
+								</form>
+								
+							</div>
+							<br>
+							<br>
+						</div>
+					</div>
+				</div>	
+				
+	
+		
+				<!-- 설명 출력 -->
+				<div class="container text-center">
+					<c:choose>
+						<c:when test="${empty academyList}">
+			            			<p id="searchResult">검색어를 입력해주세요.</p>
+						</c:when> 
+						
+					 	<c:otherwise>
+					  			<div class="row"> 
+					   	 			<h3 class="col-6 col-md-4">학원 명</h3>
+					   				<div class="col-md-8">
+		            					<p id="academyName">${academyList[pageNum-1].academyName}</p>
+					    			</div>
+					  			</div>
+					 			<br>
+					 			<br>
+					
+					
+					  			<div class="row">
+					    			<h3 class="col-6 col-md-4">학원 주소</h3>
+					    			<div class="col-md-8">
+		            					<p>도로명주소: ${academyList[pageNum-1].academyRodeAddress}</p>
+		            					<p>일반 주소: ${academyList[pageNum-1].academyAddress}</p>
+					    			</div>
+					 			</div>
+					   			<br>
+					  			<br>
+					  
+					    		<div class="row">
+					    			<h3 class="col-6 col-md-4"> 학원 평점</h3>
+					    			<div class="col-md-8">	
+					    				<p id="academyAvgScore">${academyList[pageNum-1].academyAvgScore}</p> 
+					    			</div>
+					 	 		</div>
+					 	 	
+					 	 		
+								<hr>
+					 		
+					
+							<nav aria-label="...">
+								<ul class="pagination justify-content-center">
+							
+ 										<c:if test="${pageNum == 1 && pageNum < -1 }">	
+											    <li class="page-item disabled"><a class="page-link">Previous</a></li>	    
+										</c:if >	 
+										
+										<c:if test="${pageNum != 1}">
+											<li class="page-item"><a class="page-link" href="${contextPath}/academymap/listAcademy.do?pageNum=${pageNum-1}&searchValue=${searchValue}">Previous</a></li>
+										</c:if>  
+									 
+								
+									<c:forEach var="page" begin="${startPage}" end="${endPage}" step="1">	
+										<c:choose> 
+											<c:when test="${ page == pageNum }"> 
+											    <li class="page-item active"><a class="page-link" href="#">${page}</a></li>
+											</c:when>
+											<c:otherwise>   
+											    <li class="page-item"><a class="page-link" href="${contextPath}/academymap/listAcademy.do?pageNum=${page}&searchValue=${searchValue}">${page}</a></li>
+										   </c:otherwise>
+										</c:choose>	    
+									</c:forEach>	
+										   
+								    	 
+										<c:if test="${pageNum == endPage && pageNum > endPage}">   
+											<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+										</c:if >
+										<c:if test="${ pageNum != endPage}">
+											<li class="page-item"><a class="page-link" href="${contextPath}/academymap/listAcademy.do?pageNum=${pageNum+ 1}&searchValue=${searchValue}">Next</a></li>
+										</c:if>	     
+							  </ul>
+							</nav>
+					 	</c:otherwise> 
+					</c:choose>
+				</div><!-- 설명 출력 끝 -->
+					
+			</section>
+	 </main>
+ 
+     	<jsp:include page="../views/common/footer.jsp"></jsp:include>  
+	</div><!-- end of wrap -->	  
+    
+    
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f9658f5229a3c587b3729aa940473f7"></script>
 
-<div class="map_wrap">
-    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
-
-    <div id="menu_wrap" class="bg_white">
-        <div class="option">
-            <div>
-                <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="컴퓨터학원" id="keyword" size="15"> 
-                    <button type="submit">검색하기</button> 
-                </form>
-            </div>
-        </div>
-        <hr>
-        <ul id="placesList"></ul>
-        <div id="pagination"></div>
-    </div>
-</div>
-
-
-<script type="text/javascript"src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f9658f5229a3c587b3729aa940473f7&libraries=services"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>	
 
 <script>
 
-// 마커를 담을 배열입니다
-var markers = [];
 
-var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-        level: 3 // 지도의 확대 레벨
-    };  
+	var academyNameElement = document.getElementById("academyName");
+	
+	var academyName = academyNameElement ? academyNameElement.textContent : "";
+	var academyY = "${academyList[pageNum-1].academyY}";
+	var academyX = "${academyList[pageNum-1].academyX}";
+	
+	var marker;
+	
+	if (academyName !== ""){
+	
+	// 이미지 지도에 표시할 마커입니다
+		marker = {
+	    		position: new kakao.maps.LatLng(academyY, academyX), 
+	   			 text: academyName // text 옵션을 설정하면 마커 위에 텍스트를 함께 표시할 수 있습니다
+		};
+	
+		
+	var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
+	    staticMapOption = { 
+	        center: new kakao.maps.LatLng(academyY, academyX), // 이미지 지도의 중심좌표
+	        level: 3, // 이미지 지도의 확대 레벨
+	        marker: marker // 이미지 지도에 표시할 마커
+	    };
+	
+	}else {
+		marker = {
+	           	//position: new kakao.maps.LatLng(37.39876608892914, 126.9209608170776),
+	            //text: ""
+	        };
+	var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
+    staticMapOption = { 
+        center: new kakao.maps.LatLng(37.39876608892914, 126.9209608170776), // 이미지 지도의 중심좌표
+        level: 3, // 이미지 지도의 확대 레벨
+        marker: marker // 이미지 지도에 표시할 마커
+	    };	
+	}
 
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption); 
+	// 이미지 지도를 생성합니다
+	var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
 
-// 장소 검색 객체를 생성합니다
-var ps = new kakao.maps.services.Places();  
-
-// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-var infowindow = new kakao.maps.InfoWindow({zIndex:1});
-
-// 키워드로 장소를 검색합니다
-searchPlaces();
-
-// 키워드 검색을 요청하는 함수입니다
-function searchPlaces() {
-
-    var keyword = document.getElementById('keyword').value;
-
-    if (!keyword.replace(/^\s+|\s+$/g, '')) {
-        alert('키워드를 입력해주세요!');
-        return false;
-    }
-
-    // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-    ps.keywordSearch( keyword, placesSearchCB); 
-}
-
-// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-function placesSearchCB(data, status, pagination) {
-    if (status === kakao.maps.services.Status.OK) {
-
-        // 정상적으로 검색이 완료됐으면
-        // 검색 목록과 마커를 표출합니다
-        displayPlaces(data);
-
-        // 페이지 번호를 표출합니다
-        displayPagination(pagination);
-
-    } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-
-        alert('검색 결과가 존재하지 않습니다.');
-        return;
-
-    } else if (status === kakao.maps.services.Status.ERROR) {
-
-        alert('검색 결과 중 오류가 발생했습니다.');
-        return;
-
-    }
-}
-
-// 검색 결과 목록과 마커를 표출하는 함수입니다
-function displayPlaces(places) {
-
-    var listEl = document.getElementById('placesList'), 
-    menuEl = document.getElementById('menu_wrap'),
-    fragment = document.createDocumentFragment(), 
-    bounds = new kakao.maps.LatLngBounds(), 
-    listStr = '';
-    
-    // 검색 결과 목록에 추가된 항목들을 제거합니다
-    removeAllChildNods(listEl);
-
-    // 지도에 표시되고 있는 마커를 제거합니다
-    removeMarker();
-    
-    for ( var i=0; i<places.length; i++ ) {
-
-        // 마커를 생성하고 지도에 표시합니다
-        var placePosition = new kakao.maps.LatLng(places[i].y, places[i].x),
-            marker = addMarker(placePosition, i), 
-            itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
-        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-        // LatLngBounds 객체에 좌표를 추가합니다
-        bounds.extend(placePosition);
-
-        // 마커와 검색결과 항목에 mouseover 했을때
-        // 해당 장소에 인포윈도우에 장소명을 표시합니다
-        // mouseout 했을 때는 인포윈도우를 닫습니다
-        (function(marker, title) {
-            kakao.maps.event.addListener(marker, 'mouseover', function() {
-                displayInfowindow(marker, title);
-            });
-
-            kakao.maps.event.addListener(marker, 'mouseout', function() {
-                infowindow.close();
-            });
-
-            itemEl.onmouseover =  function () {
-                displayInfowindow(marker, title);
-            };
-
-            itemEl.onmouseout =  function () {
-                infowindow.close();
-            };
-        })(marker, places[i].place_name);
-
-        fragment.appendChild(itemEl);
-    }
-
-    // 검색결과 항목들을 검색결과 목록 Element에 추가합니다
-    listEl.appendChild(fragment);
-    menuEl.scrollTop = 0;
-
-    // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-    map.setBounds(bounds);
-}
-
-// 검색결과 항목을 Element로 반환하는 함수입니다
-function getListItem(index, places) {
-
-    var el = document.createElement('li'),
-    itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
-                '<div class="info">' +
-                '   <h5>' + places.place_name + '</h5>';
-
-    if (places.road_address_name) {
-        itemStr += '    <span>' + places.road_address_name + '</span>' +
-                    '   <span class="jibun gray">' +  places.address_name  + '</span>';
-    } else {
-        itemStr += '    <span>' +  places.address_name  + '</span>'; 
-    }
-                 
-      itemStr += '  <span class="tel">' + places.phone  + '</span>' +
-                '</div>';           
-
-    el.innerHTML = itemStr;
-    el.className = 'item';
-
-    return el;
-}
-
-// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-function addMarker(position, idx, title) {
-    var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-        imageSize = new kakao.maps.Size(36, 37),  // 마커 이미지의 크기
-        imgOptions =  {
-            spriteSize : new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
-            spriteOrigin : new kakao.maps.Point(0, (idx*46)+10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-            offset: new kakao.maps.Point(13, 37) // 마커 좌표에 일치시킬 이미지 내에서의 좌표
-        },
-        markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imgOptions),
-            marker = new kakao.maps.Marker({
-            position: position, // 마커의 위치
-            image: markerImage 
-        });
-
-    marker.setMap(map); // 지도 위에 마커를 표출합니다
-    markers.push(marker);  // 배열에 생성된 마커를 추가합니다
-
-    return marker;
-}
-
-// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-function removeMarker() {
-    for ( var i = 0; i < markers.length; i++ ) {
-        markers[i].setMap(null);
-    }   
-    markers = [];
-}
-
-// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-function displayPagination(pagination) {
-    var paginationEl = document.getElementById('pagination'),
-        fragment = document.createDocumentFragment(),
-        i; 
-
-    // 기존에 추가된 페이지번호를 삭제합니다
-    while (paginationEl.hasChildNodes()) {
-        paginationEl.removeChild (paginationEl.lastChild);
-    }
-
-    for (i=1; i<=pagination.last; i++) {
-        var el = document.createElement('a');
-        el.href = "#";
-        el.innerHTML = i;
-
-        if (i===pagination.current) {
-            el.className = 'on';
-        } else {
-            el.onclick = (function(i) {
-                return function() {
-                    pagination.gotoPage(i);
-                }
-            })(i);
-        }
-
-        fragment.appendChild(el);
-    }
-    paginationEl.appendChild(fragment);
-}
-
-// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-// 인포윈도우에 장소명을 표시합니다
-function displayInfowindow(marker, title) {
-    var content = '<div style="padding:5px;z-index:1;">' + title + '</div>';
-
-    infowindow.setContent(content);
-    infowindow.open(map, marker);
-}
-
- // 검색결과 목록의 자식 Element를 제거하는 함수입니다
-function removeAllChildNods(el) {   
-    while (el.hasChildNodes()) {
-        el.removeChild (el.lastChild);
-    }
-}
 </script>
-</body>
+	</body>
+	</html>

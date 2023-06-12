@@ -21,5 +21,7 @@ public class AcademyService {
 		return academyDAO.getTotalPage(searchValue );
 	}
 
+	
+	
 }
 
