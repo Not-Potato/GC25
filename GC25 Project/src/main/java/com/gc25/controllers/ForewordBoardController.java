@@ -95,13 +95,12 @@ public class ForewordBoardController extends HttpServlet {
 				case "/upload.do" -> {
 					System.out.println("포스팅 발행!!!!");
 					
-					System.out.println(request.getParameter("academyNum"));
-					
 					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 //					dto.setMemberNumber(Integer.parseInt(session.getAttribute("memberNumber")));
-					dto.setMemberNumber(1234);
+					dto.setMemberNumber(10020);
 
 					// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
+					// 학원번호, 학원이름, 과정구분, 제목, 내용
 					dto.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
 					dto.setAcademyName(request.getParameter("academyName"));
 					dto.setCourse(request.getParameter("course"));

@@ -71,6 +71,7 @@ public class AfterwordBoardDAO {
 				""";
 			}
 			
+			System.out.println(query);
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, offset);
 			ResultSet rs = pstmt.executeQuery();
@@ -99,12 +100,9 @@ public class AfterwordBoardDAO {
 				a.setViews(views);
 				a.setCommentCount(commentCount);
 
-				System.out.println(a);
 				list.add(a);
 			}
 			
-			System.out.println("반복문 종료지점");
-
 			rs.close();
 			pstmt.close();
 			con.close();
@@ -132,7 +130,6 @@ public class AfterwordBoardDAO {
 			
 			double totalCount = rs.getDouble(1);
 		    totalPage = (int) Math.ceil(totalCount / 10.0);
-			System.out.println("전체 페이지: "+ totalPage);
 			
 			rs.close();
 			pstmt.close();
@@ -141,5 +138,69 @@ public class AfterwordBoardDAO {
 			e.printStackTrace();
 		}
 		return totalPage;
+	}
+	
+	// 글 업로드
+	public int upload(AfterwordBoardDTO dto) {
+		int result = 0;
+		String query = "";
+				
+		try {
+			// 글 업로드 시작
+			con = ds.getConnection();
+			// 고유번호, 1 "회원번호", 2 "학원번호", 3 "학원이름", 4 "과정구분", 작성일자, 5 "강사명", 6 "개강일", 7 "종강일", 
+			// 8 "전공/비전공", 9 "유/무상", 10 "전체 만족도", 11 "강사 만족도", 12 "시설 만족도", 13 "커리큘럼 만족도" 14 "제목", 15 "내용",
+			// 추천수, 조회수, 댓글수
+			query = """
+						INSERT INTO GC25_AFTERWORD_BOARD (
+							ab_number, m_number, a_number, a_name, ab_course, ab_date, 
+							ab_teacher, ab_open, ab_end, ab_major, ab_cost, ab_totalscore, ab_teacherscore,
+							ab_facilityscore, ab_curriculumscore, ab_title, ab_contents, ab_recommend, ab_views,
+							ab_commentcount
+						) VALUES (
+							seq_GC25_AFTERWORD_BOARD.nextval, ?, ?, ?, ?, SYSDATE, ?, ?, ?, ?, ?, ?, ?, ?, ?, 
+							?, ?, 0, 0, 0
+						)
+					""";
+			System.out.println(query);
+			pstmt = con.prepareStatement(query);
+			
+			pstmt.setInt(1, dto.getMemberNumber());
+			pstmt.setInt(2, dto.getAcademyNumber());
+			pstmt.setString(3, dto.getAcademyName());
+			pstmt.setString(4, dto.getCourse());
+			pstmt.setString(5, dto.getTeacherName());
+			pstmt.setString(6, dto.getOpenDate());
+			pstmt.setString(7, dto.getEndDate());
+			pstmt.setString(8, dto.getMajor());
+			pstmt.setString(9, dto.getCost());
+			pstmt.setInt(10, dto.getTotalScore());
+			pstmt.setInt(11, dto.getTeacherScore());
+			pstmt.setInt(12, dto.getFacilityScore());
+			pstmt.setInt(13, dto.getCurriculumScore());
+			pstmt.setString(14, dto.getTitle());
+			pstmt.setString(15, dto.getContents());
+			
+			result = pstmt.executeUpdate();
+			
+			if (result == 1) {
+				System.out.println("업로드 성공!");
+			}
+			
+			// 글 업로드 종료
+			// 회원 등급 확인 시작
+			query = """
+						UPDATE GC25_MEMBER
+						SET m_status = 1
+						WHERE m_number = ? AND m_status = 0
+					""";
+			System.out.println(query);
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, dto.getMemberNumber());
+			pstmt.executeUpdate();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return result;
 	}
 }

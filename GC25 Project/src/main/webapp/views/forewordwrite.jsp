@@ -10,7 +10,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | Write Foreword Page</title>
+	<title>GC25 | Foreword Write Page</title>
 	<link href="../resources/css/bootstrap.min.css" rel="stylesheet">
 	<link href="../resources/css/custom.css" rel="stylesheet">
 </head>
@@ -49,9 +49,9 @@
                             <select class="form-select" id="course" name="course">
                             	<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
                                 <option disabled selected value="">----- 과정 구분 -----</option>
-                                <option value="front">프론트엔드</option>
-                                <option value="back">백엔드</option>
-                                <option value="full">풀스택</option>
+                                <option value="프론트엔드">프론트엔드</option>
+                                <option value="백엔드">백엔드</option>
+                                <option value="풀스택">풀스택</option>
                             </select>
                         </div>
 

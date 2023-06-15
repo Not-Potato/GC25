@@ -93,12 +93,8 @@ public class ForewordBoardDAO {
 				f.setViews(views);
 				f.setCommentCount(commentCount);
 
-				System.out.println(f);
 				list.add(f);
 			}
-			
-			System.out.println("반복문 종료지점");
-
 			rs.close();
 			pstmt.close();
 			con.close();
@@ -108,13 +104,13 @@ public class ForewordBoardDAO {
 		return list;
 	}
 
+	// 전체 페이지 수 가져오기
 	public int getTotalPage() {
 		int totalPage = 0;
 		
 		try {
 			con = ds.getConnection();
 
-//			String query = "SELECT CEIL(count(*) / 10) total_page FROM GC25_AFTERWORD_BOARD";
 			String query = "SELECT COUNT(DISTINCT fb_number) AS total_count FROM GC25_FOREWORD_BOARD";
 			System.out.println(query);
 			
@@ -126,7 +122,6 @@ public class ForewordBoardDAO {
 			
 			double totalCount = rs.getDouble(1);
 		    totalPage = (int) Math.ceil(totalCount / 10.0);
-			System.out.println("전체 페이지: "+ totalPage);
 			
 			rs.close();
 			pstmt.close();
@@ -137,11 +132,13 @@ public class ForewordBoardDAO {
 		return totalPage;
 	}
 	
+	// 글 업로드
 	public int upload(ForewordBoardDTO dto) {
 		int result = 0;
 		String query = "";
 				
 		try {
+			// 글 업로드 시작
 			con = ds.getConnection();
 			// 고유번호, 1 "회원번호", 2 "학원번호", 3 "학원이름", 4 "과정구분", 작성일자, 5 "제목", 6 "내용", 추천수, 조회수, 댓글수
 			query = """
@@ -159,7 +156,22 @@ public class ForewordBoardDAO {
 			pstmt.setString(6, dto.getContents());
 			
 			result = pstmt.executeUpdate();
-			if (result == 1) System.out.println("저장 성공!");
+			
+			if (result == 1) {
+				System.out.println("업로드 성공!");
+			}
+			
+			// 글 업로드 종료
+			// 회원 등급 확인 시작
+			query = """
+						UPDATE GC25_MEMBER
+						SET m_status = 1
+						WHERE m_number = ? AND m_status = 0
+					""";
+			System.out.println(query);
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, dto.getMemberNumber());
+			pstmt.executeUpdate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

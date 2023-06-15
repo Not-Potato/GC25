@@ -35,7 +35,7 @@
 			<section id="content">
                 <div class="w-800 m-auto">
 					<div class="d-flex justify-content-between">
-						<button type="button" class="btn btn-primary">글 작성</button>
+						<button type="button" onclick="location.href='${contextPath}/afterword/write.do'" class="btn btn-primary">글 작성</button>
 						
 						<div class="btn-group">
 							<button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
