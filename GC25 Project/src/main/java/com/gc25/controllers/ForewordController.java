@@ -2,7 +2,6 @@ package com.gc25.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -12,33 +11,42 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import com.gc25.dto.AfterwordBoardDTO;
-import com.gc25.service.AfterwordBoardService;
+import com.gc25.dto.CommentDTO;
+import com.gc25.dto.ForewordBoardDTO;
+import com.gc25.service.CommentService;
+import com.gc25.service.ForewordBoardService;
+import com.gc25.service.ForewordViewerService;
 
-@WebServlet("/afterword/*")
-public class AfterwordBoardController extends HttpServlet {
+@WebServlet("/foreword/*")
+public class ForewordController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	AfterwordBoardDTO dto;
-	AfterwordBoardService service;
+	ForewordBoardDTO dto;
+	ForewordBoardService service;
+	ForewordViewerService forewordViewerService;
+	CommentService commentService;
 
 	public void init(ServletConfig config) throws ServletException {
-		dto = new AfterwordBoardDTO();
-		service = new AfterwordBoardService();
+		dto = new ForewordBoardDTO();
+		service = new ForewordBoardService();
+		forewordViewerService = new ForewordViewerService();
+		commentService = new CommentService();
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
+		HttpSession session = request.getSession();
 		
 		String views = "/views";
 		String nextPage = "";
 		String action = request.getPathInfo();
 		
-		ArrayList<AfterwordBoardDTO> list = new ArrayList<>();
+		ArrayList<ForewordBoardDTO> list = new ArrayList<>();
 		
 		try {
-			// 넘어온 주소가 /afterwordboard 혹은 /afterwordboard/인 경우 첫 페이지로 이동
+			// 넘어온 주소가 /forewordboard 혹은 /forewordboard/인 경우 첫 페이지로 이동
 			if (action == null || action.equals("/")) action = "/board.do";
 			
 			switch (action) {
@@ -72,7 +80,7 @@ public class AfterwordBoardController extends HttpServlet {
 					// 리스트 불러오기
 					list = service.getList(searchType, pageNum);
 					
-					// 
+					//
 					request.setAttribute("searchType", searchType);
 					request.setAttribute("pageNum", pageNum);
 					request.setAttribute("totalPage", totalPage);
@@ -83,29 +91,20 @@ public class AfterwordBoardController extends HttpServlet {
 					// 리스트 반환
 					request.setAttribute("list", list);
 					
-					nextPage = views + "/afterwordboard.jsp";
+					nextPage = views + "/forewordboard.jsp";
 				}
 				// 글 작성 페이지
 				case "/write.do" -> {
 					System.out.println("글 작성 페이지로 이동!!!");
-					nextPage = views + "/afterwordwrite.jsp";
+					nextPage = views + "/forewordwrite.jsp";
 				}
 				// 글 업로드 --> 작성 완료 얼럿 창 --> 목록으로 이동
 				case "/upload.do" -> {
 					System.out.println("포스팅 발행!!!!");
 					
 					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
-//					dto.setMemberNumber(Integer.parseInt(session.getAttribute("memberNumber")));
-					dto.setMemberNumber(10020);
-					
-					// 개강일과 종강일은 같이 들어오기 때문에 받아서 split으로 잘라서 담아야 함
-					String openToEnd = request.getParameter("openToEnd");
-					String open = openToEnd.split(" ~ ")[0];
-					String end = openToEnd.split(" ~ ")[1];
-					
-					// 체크박스 --> null(off)로 넘어오면 각각 "비전공", "무상"
-					String major = request.getParameter("major") == null ? "비전공" : request.getParameter("major");
-					String cost = request.getParameter("cost") == null ? "무상" : request.getParameter("cost");
+					dto.setMemberNumber((Integer)(session.getAttribute("memberNumber")));
+//					dto.setMemberNumber(10020);
 
 					// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 					// 학원번호, 학원이름, 과정구분, 제목, 내용
@@ -114,17 +113,6 @@ public class AfterwordBoardController extends HttpServlet {
 					dto.setCourse(request.getParameter("course"));
 					dto.setTitle(request.getParameter("title"));
 					dto.setContents(request.getParameter("contents"));
-					// 수강후기에서 추가된 항목들도 dto에 담기
-					// 강사 명, 개강일, 종강일, 전공/비전공 여부, 유/무상 여부, 전체 만족도, 강사 만족도, 학원시설 만족도, 커리큘럼 만족도
-					dto.setTeacherName(request.getParameter("teacher"));
-					dto.setOpenDate(open);
-					dto.setEndDate(end);
-					dto.setMajor(major);
-					dto.setCost(cost);
-					dto.setTotalScore(Integer.parseInt(request.getParameter("totalScore")));
-					dto.setTeacherScore(Integer.parseInt(request.getParameter("teacherScore")));
-					dto.setFacilityScore(Integer.parseInt(request.getParameter("facScore")));
-					dto.setCurriculumScore(Integer.parseInt(request.getParameter("curriScore")));
 					
 					service.upload(dto);
 					
@@ -135,13 +123,57 @@ public class AfterwordBoardController extends HttpServlet {
 					out.print("""
 							<script>
 								alert("게시글 작성 성공!");
-								document.location.href = "%s/afterword";
+								document.location.href = "%s/foreword";
 							</script>
 							""".formatted(request.getContextPath()) );
 				}
+				//게시글 상세보기	
+				case "/viewer.do"-> {
+					
+					//해당 게시글의 게시글 번호 가져오기
+					String boardNumStr = request.getParameter("boardNum");
+					int boardNum = Integer.parseInt(boardNumStr);
+					
+					//상담후기 게시글이니 수강후기게시글은 기본 0으로 셋팅??이게 필요한가??? 
+					int aBoardNum = 0;
+					
+					//본문 가져오기
+					ForewordBoardDTO forewordBoardDTO = forewordViewerService.getForewordBoard(boardNum);					
+					request.setAttribute("forewordBoardDTO", forewordBoardDTO);
+					
+					//댓글 리스트 가져오기
+					ArrayList<CommentDTO> commentList =  commentService.getForewordComment(boardNum);
+				 	request.setAttribute("commentList", commentList);
+				 	
+				 	
+					//사용자 아이디 심어주기 (TEST)
+					int memberNum = 10000;
+					session.setAttribute("memberEmail", memberNum); 
+					
+					
+					nextPage = views + "/forewordviewer.jsp";					
+				}
+				//추천(좋아요) 수 업데이트	
+				case "/recommend.do" ->{
+					//해당 게시글의 게시글 번호 가져오기
+					String boardNumStr = request.getParameter("boardNum");
+					int boardNum = Integer.parseInt(boardNumStr);
+					
+					//사용자 아이디 가져오기
+					int memberNum= (Integer) session.getAttribute("memberNumber"); 
+					int aBoard = 0; 
+					
+					//게시글 좋아요 수 +1 (DB에 업데이트)
+					forewordViewerService.setRecommend(memberNum, boardNum, aBoard);
+	
+					//다음페이지 이동
+					nextPage = "/foreword/viewer.do";
+					
+				}
+				
 				// 디폴트 페이지 = 게시판 (글 목록)
 				default -> {
-					nextPage = "/afterword/board.do";
+					nextPage = "/foreword/board.do";
 				}
 			}
 			
@@ -150,6 +182,7 @@ public class AfterwordBoardController extends HttpServlet {
 				RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 				dispatch.forward(request, response);
 			}
+			
  		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

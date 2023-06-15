@@ -32,37 +32,53 @@ public class AcademyDAO {
 	}
 	
 	
-	// 학원 리스트 전체 보기 (확인용)
-	public ArrayList<AcademyDTO> selectAllArticles(int pageNumber) {
-		System.out.println("DAO");
+	// 형주 작업 영역
+
+// 검색어 적용 학원 리스트 가져오기
+	public ArrayList<AcademyDTO> selectArticle(int pageNumber , String searchValue) {
 		ArrayList<AcademyDTO> list = new ArrayList<AcademyDTO>();
 		
 		try {
 			con = ds.getConnection();
 			
 			String query ="""
-						SELECT a_number, a_name, a_tel,a_address, a_avgscore
-						FROM GC25_ACADEMY
+						SELECT a_name, a_tel, a_address, a_roadAddress, a_avgscore, a_url, a_x, a_y
+						FROM GC25_ACADEMY 
+						WHERE a_name LIKE ? OR a_address LIKE ? OR a_roadAddress LIKE ?
 					""";	
-			System.out.println(query);
 			
 			pstmt = con.prepareStatement(query);
+		
+			pstmt.setString(1,"%"+searchValue+"%"); 
+			pstmt.setString(2,"%" +searchValue+"%"); 
+			pstmt.setString(3,"%" +searchValue+"%");
+			
+			System.out.println(query);
+			
+		
+			
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				int academyNumber = rs.getInt("a_number");
-				String academyName = rs.getString("a_name"); 
+				String academyName = rs.getString("a_name");			
 				String academyTel = rs.getString("a_tel"); 
 				String academyAddress = rs.getString("a_address");
+				String academyRoadAddress = rs.getString("a_roadAddress");
 				int academyAvgScore = rs.getInt("a_avgscore");
+				String academyUrl = rs.getString("a_url"); 
+				String academyX = rs.getString("a_x");
+				String academyY = rs.getString("a_y");
 				
 				AcademyDTO academy = new AcademyDTO(); 
 				
-				academy.setAcademyNumber(academyNumber);
 				academy.setAcademyName(academyName);
 				academy.setAcademyTel(academyTel);
 				academy.setAcademyAddress(academyAddress);
+				academy.setAcademyRodeAddress(academyRoadAddress);
+				academy.setAcademyUrl(academyUrl);
 				academy.setAcademyAvgScore(academyAvgScore);
+				academy.setAcademyX(academyX);
+				academy.setAcademyY(academyY);
 			
 				list.add(academy); 
 			}
@@ -77,29 +93,39 @@ public class AcademyDAO {
 		
 		return list; 
 	}
-	
-	
-	//전체페이지 가져오기
-	public int getTotalPage() {
+
+
+	//검색결과기준 전체 페이지 가져오기
+	public int getTotalPage(String searchValue) {
 		int totalPage = 0;
 		
 		try {
+			
 				con = ds.getConnection(); 
 			
 			//	String query = "SELECT CEIL(COUNT(*)) total_page from GC25_ACADEMY";
-				String query = "SELECT COUNT(DISTINCT A_NUMBER) AS TOTAL_COUNT FROM GC25_ACADEMY";
+				String query = """
+								SELECT COUNT(DISTINCT a_number) AS TOTAL_COUNT FROM GC25_ACADEMY
+								WHERE a_name LIKE ? OR a_address LIKE ? OR a_roadAddress LIKE ?
+						""";
 				System.out.println(query);
 				
 				pstmt = con.prepareStatement(query); 
 				
+				pstmt.setString(1,"%"+searchValue+"%"); 
+				pstmt.setString(2,"%" +searchValue+"%"); 
+				pstmt.setString(3,"%" +searchValue+"%");
+				
+				
 				ResultSet rs = pstmt.executeQuery();
 						
-				rs.next();
 				
-				double totalCount = rs.getDouble(1);
-			totalPage = (int) Math.ceil(totalCount / 1.0); 
-				System.out.println("전체 페이지:" + totalPage);
+				if (rs.next()) {
+					totalPage = rs.getInt(1);
 				
+				
+					System.out.println("전체 페이지:" + totalPage);
+				}
 				rs.close(); 
 				pstmt.close(); 
 				con.close(); 
@@ -109,6 +135,10 @@ public class AcademyDAO {
 		}
 		return totalPage;
 	}
+
+	
+	
+	// 자연 작업 영역
 	
 	// 자동 완성 함수 (검색어 --> 문자열 포함 여부 검사해서 5개 가져오기)
 	public ArrayList<AcademyDTO> autoComplete(String keyword) {

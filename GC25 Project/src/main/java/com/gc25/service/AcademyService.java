@@ -15,13 +15,13 @@ public class AcademyService {
 	}
 	
 	
-	public ArrayList<AcademyDTO> listAcademys(int pageNo) {
-		ArrayList<AcademyDTO> academyList = academyDAO.selectAllArticles(pageNo);
+	public ArrayList<AcademyDTO> listAcademys(int pageNo, String searchValue) {
+		ArrayList<AcademyDTO> academyList = academyDAO.selectArticle(pageNo, searchValue);
 		return  academyList; 
 	}
 
-	public int getTotalPage( ) {
-		return academyDAO.getTotalPage();
+	public int getTotalPage(String searchValue) {
+		return academyDAO.getTotalPage(searchValue );
 	}
 	
 	public ArrayList<AcademyDTO> autoComplete(String keyword) {
