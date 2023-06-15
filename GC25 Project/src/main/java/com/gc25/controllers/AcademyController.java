@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -48,16 +49,22 @@ public class AcademyController extends HttpServlet {
 		
 		try {
 			// 넘어온 주소가 /academymap 혹은 /academymap/ 인 경우 첫 페이지로 이동
-			if (action == null || action.equals("/")) action = "listAcademy.do";
-			else if (action.equals("/listAcademy.do")) action = "listAcademy.do";
+			if (action == null || action.equals("/")) action = "map.do";
+			else if (action.equals("/map.do")) action = "map.do";
 			
 			switch(action) {
-				case "listAcademy.do" -> {
+				case "map.do" -> {
 					// 현재 페이지 넘버 가지고 오기
 					String pageNumStr = request.getParameter("pageNum");
+					String searchValue = request.getParameter("searchValue");
+					
+					HttpSession session = request.getSession();
+					session.setAttribute("searchValue", searchValue);
 					
 					System.out.println("controller pageNumStr:" + pageNumStr);
+					System.out.println("controller searchValue (사용자 검색어):" + searchValue);
 					
+					String savedSearchValue = (String) session.getAttribute("searchValue");
 					
 					// 페이지 넘버 값이 없으면 1 적용 / 있으면 그 값 그대로 유지
 					pageNumStr = (pageNumStr == null || pageNumStr.equals("") ? "1" : pageNumStr); 
@@ -65,25 +72,23 @@ public class AcademyController extends HttpServlet {
 					// 받아온 pageNumStr int로 캐스팅 
 					int pageNum = Integer.parseInt(pageNumStr);
 					
-					System.out.println("controller pageNum:" + pageNum);
-					
-					// 한 페이지에 보여질 학원글 수
+					System.out.println(pageNum);
+					// 한 페이지에 보여질 학원글 수 : 1개
 					int pagePerScreen = 1; 
 					
 					// 현재 게시물의 전체 페이지 수 
-					int totalPage = academyService.getTotalPage();
-					System.out.println("서비스에서 가져온 controller totalPage:" + totalPage);
+					int totalPage = academyService.getTotalPage(searchValue);
 					
 					
 					// 마지막 페이지 = 현재페이지 + (페이지당 글 수 - (현재페이지 % 페이지당 글 수) 
 					int endPage = totalPage;
 					int startPage = endPage - (endPage -1);
 					
-					System.out.println("controller startPage:" + startPage);
-					
-				
+					System.out.println("controller endPage" + endPage);
+					System.out.println("controller startPage" +startPage);
 					// 리스트 불러오기
-					academyList = academyService.listAcademys(pageNum);
+					
+					academyList = academyService.listAcademys(pageNum, searchValue);
 					
 					//
 					request.setAttribute("pageNum", pageNum);
@@ -91,12 +96,14 @@ public class AcademyController extends HttpServlet {
 					request.setAttribute("startPage", startPage);
 					request.setAttribute("endPage", endPage);
 					request.setAttribute("pagePerScreen", pagePerScreen);
+					//request.setAttribute("searchValue", searchValue);
 					
 					// 리스트 반환
 					request.setAttribute("academyList", academyList);
 					
-					nextPage ="../views/academymap2.jsp";
+					nextPage ="../views/academymap.jsp";
 				}
+		
 				case "/search" -> {
 					// 검색창에 입력된 값 받아오기
 					String keyword = request.getParameter("keyword");

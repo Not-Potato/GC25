@@ -62,7 +62,7 @@
 						<c:choose>
 						
 						<c:when test="${ empty list }" >
-							<div class="card my-3" onclick="location.href='${contextPath}/afterword/viewer.do?boardNum=${ list[afterNum.index].boardNumber }'">
+							<div class="card my-3" onclick="location.href='${contextPath}/foreword/viewer.do?boardNum=${ list[afterNum.index].boardNumber }'">
 								<h5 class="card-header fw-bold">
 									제목 (등록된 게시글이 존재하지 않을 경우 보이는 페이지입니다)
 								</h5>

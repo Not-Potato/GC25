@@ -42,7 +42,7 @@
 					</li>
 			    	<li><a href="${contextPath}/foreword/board.do" class="nav-link px-2 <%= menu1 %>">상담 후기</a></li>
 					<li><a href="${contextPath}/afterword/board.do" class="nav-link px-2 <%= menu2 %>">수강 후기</a></li>
-					<li><a href="#" class="nav-link px-2 <%= menu3 %>">학원 찾기</a></li>
+					<li><a href="${contextPath}/academy/map.do" class="nav-link px-2 <%= menu3 %>">학원 찾기</a></li>
 				</ul>
 			
 				<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -50,7 +50,7 @@
 				</form>
 			
 				<div class="text-end">
-					<button type="button" class="btn btn-outline-primary me-2">Login</button>
+					<button type="button" class="btn btn-outline-primary me-2" >Login</button>
 					<button type="button" class="btn btn-primary">Sign-up</button>
 				</div>
 			</div>
