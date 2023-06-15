@@ -11,11 +11,17 @@ public class CommentDTO {
 	private String commentContents; //댓글내용
 	private Date commentDate; //작성일자
 	
+	// 사용자 정보 가져오기 위한 추가 항목
+	private String nickname; // 닉네임
+	private String imageFileName; // 이미지
+	
+	
+	
 	public CommentDTO() {
 	}
 
 	public CommentDTO(int commentNumber, int aBoardNumber, int fBoardNumber, int memberNumber, String commentContents,
-			Date commentDate) {
+			Date commentDate, String nickname, String imageFileName) {
 		super();
 		this.commentNumber = commentNumber;
 		this.aBoardNumber = aBoardNumber;
@@ -23,6 +29,8 @@ public class CommentDTO {
 		this.memberNumber = memberNumber;
 		this.commentContents = commentContents;
 		this.commentDate = commentDate;
+		this.nickname = nickname;
+		this.imageFileName = imageFileName;
 	}
 
 	public int getCommentNumber() {
@@ -72,9 +80,27 @@ public class CommentDTO {
 	public void setCommentDate(Date commentDate) {
 		this.commentDate = commentDate;
 	}
+
 	
+	//DB 조회용
+	
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getImageFileName() {
+		return imageFileName;
+	}
+
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+
 	
 	
 
-	
 }
