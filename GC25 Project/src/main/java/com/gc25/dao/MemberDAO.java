@@ -163,7 +163,7 @@ public class MemberDAO {
 	
 
 	
-	public String getMemberImageFileName(String memberImageFileName, String memberEmail) {
+	public String getMemberImageFileName(String memberEmail) {
 		try {
 			con = ds.getConnection();
 			
@@ -176,15 +176,20 @@ public class MemberDAO {
 			System.out.println(query);
 			
 			pstmt.setString(1, memberEmail);
-			System.out.println(memberEmail);
+			System.out.println("dao memberemail : "+memberEmail);
 			rs = pstmt.executeQuery();
 			
 			//같은 이름의 email 찾아서 반환
 			if (rs.next()){
-				if(rs.getString("memberImageFileName").equals("")) {
-					return "/images/profile.jpg";
+				String memberImageFileName = rs.getString("m_imagefilename");
+				if(memberImageFileName.equals("") || memberImageFileName==null) {
+					return "profile.jpg";
 				}
-			}	return "http://localhost:8080/images/"+rs.getShort("memberImageFileName");
+				else {
+					return rs.getString("m_imagefilename");
+				}
+			}
+//			}	return rs.getString("memberImageFileName");
 	
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -196,7 +201,7 @@ public class MemberDAO {
 				ex.printStackTrace();
 			}
 		}
-		return "http://localhost:8080/images/profile.jpg"; //오류발생시 null값 반환
+		return "profile.jpg"; //오류발생시 null값 반환
 	}
 	
 	public String setMemberImageFileName(String memberImageFileName, String memberEmail) {
@@ -215,10 +220,11 @@ public class MemberDAO {
 			pstmt.setString(2, memberEmail);
 			System.out.println(memberEmail);
 			
-			pstmt.executeUpdate();
+			int updateCount = pstmt.executeUpdate();
+
 			
 			//같은 이름의 email 찾아서 반환
-			if (rs.next()){
+			if (updateCount > 0){
 				return memberImageFileName;
 			}
 	
@@ -390,7 +396,7 @@ public class MemberDAO {
 			return -1;
 		}
 		
-		public String getMemberNumber(String memberEmail) {
+		public int getMemberNumber(String memberEmail) {
 			try {
 				//connection 하나 가져오기
 				con = ds.getConnection();
@@ -406,7 +412,7 @@ public class MemberDAO {
 				rs = pstmt.executeQuery();
 				
 				if (rs.next()) {
-					 String memberNumber = rs.getString(1);
+					 int memberNumber = rs.getInt(1);
 		            return memberNumber;
 		        }
 				
@@ -420,7 +426,8 @@ public class MemberDAO {
 					ex.printStackTrace();
 				}
 			}
-			return null;
+			
+			return 0;
 		}
 		
 }

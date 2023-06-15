@@ -276,12 +276,12 @@ public class MemberController extends HttpServlet {
 						session = request.getSession(); // 세션 가져오기
 						session.setMaxInactiveInterval(1800);//30분 세션유지
 						//회원번호 세션에 저장하기 위해 가져오기
-						String memberNumber = memberService.getMemberNumber(memberEmail);
+						int memberNumber = memberService.getMemberNumber(memberEmail);
 						//닉네임, 이메일 세션에 저장하기 위해 가져오기
 						MemberDTO member= memberService.getMember(memberEmail);
 						
 						memberNickname = member.getMemberNickname();
-						memberImageFileName = member.getMemberImageFileName();
+						memberImageFileName = memberService.getMemberImageFileName(memberImageFileName, memberEmail);
 						memberStatus = member.getMemberStatus();
 						
 						//세션에 저장
@@ -433,7 +433,8 @@ public class MemberController extends HttpServlet {
 				}
 				case "/mypage" -> { 
 					
-					PrintWriter script = response.getWriter();
+					int result = 0;
+					
 					PrintWriter out = response.getWriter();
 					String passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@!%*#?&])[A-Za-z\\d@!%*#?&]{8,12}$";
 					
@@ -444,79 +445,98 @@ public class MemberController extends HttpServlet {
 				    	memberEmail=(String)session.getAttribute("memberEmail");
 				    } else {
 				        // 로그인 되어있지 않은 경우
-						script.println("<script>");
-						script.println("alert('로그인을 해 주세요.')");
-						script.println("location.href='/views/login.jsp';");
-						script.println("</script>");
+				    	result=-100;
+				    	out.print(result);
+						return;
 				    }
 				    
 					//닉네임 중복 확인
-					
 				    session = request.getSession(); // 세션 가져오기
 					session.setMaxInactiveInterval(1800);//30분 세션유지
 				    //nickname 버튼 click 했다면 넘어오는 nicknameOverlapCheck
 					nicknameOverlapCheckParam = request.getParameter("nicknameOverlapCheck");
-					System.out.println("mypage 이메일버튼 on/off 여부: " + nicknameOverlapCheckParam);
+					//System.out.println("mypage 이메일버튼 on/off 여부: " + nicknameOverlapCheckParam);
 					//getparameter는 string 타입이기 때문에 boolean으로 형 변환 click 했다면 true 넘어옴.
 					boolean nicknameOverlapCheck = Boolean.parseBoolean(nicknameOverlapCheckParam);
 					int nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
 					
-					if(nicknameCheckSuccess==0 || memberNickname=="" || memberNickname==null) {
+					//닉네임 바꾸지 않는다면 -> 중복검사 할 필요 없음.
+					if(memberNickname.equals("") || memberNickname==null) {
 						session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
 						nicknameOverlapCheck=true;
-						int result= 0;
-						out.print(result);
-						return;
+						MemberDTO member= memberService.getMember(memberEmail);
+						memberNickname = member.getMemberNickname();
 					}
 					else {
-						System.out.println("nicknameOverlapCheck???? :" + nicknameOverlapCheck);
-						
 						if(nicknameOverlapCheck){
 							nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
+							System.out.println("memberNickname: "+memberNickname);
 							System.out.println("nicknameCheckSuccess: "+nicknameCheckSuccess);
+							//중복검사했고 중복되지 않은 닉네임이라면
 							if(nicknameCheckSuccess == 1) {
+								 memberNickname = request.getParameter("memberNickname"); 
 								 session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
 								 session.setAttribute("memberNickname", memberNickname);
-								 int result= 1;
+							} else if (nicknameCheckSuccess == 0){
+								 result= -200;
 								 out.print(result);
 								 return;
-							} 
+							}
+						}else {
+							result= -300;
+							 out.print(result);
+							 return;
 						}
 					}
+					
 					if (memberPwd==null || memberPwd.equals("")|| memberPwd2==null || memberPwd2.equals("")) {
-							 
-						script.println("<script>");
-						script.println("alert('수정을 취소합니다.')");
-						script.println("location.href='/index.jsp';");
-						script.println("</script>");
-									
-					}
+						 result= -400;
+						 out.print(result);
+						 return;		
+					} 
+				
+				//비밀번호 불일치
+				if (!memberPwd.equals(memberPwd2)) {
+					result = -500; 
+					out.print(result);
 					
-					int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
+					return;
+				}//비밀번호 정규식에 부합
+				else if (!memberPwd.matches(passwordReg)) {
+					result = -600; 
+					out.print(result);
+					return;
+				}
+				
+				memberImageFileName = memberService.setMemberImageFileName(memberImageFileName, memberEmail);
+				
+				 //비밀번호 받아서 세팅
+			    if(request.getParameter("memberPwd")!=null){
+					memberPwd=request.getParameter("memberPwd");
+					System.out.println("비밀번호 넘어오나? : " +memberPwd);
+					System.out.println("정규식에 맞나??"+memberPwd.matches(passwordReg));
 					
-					if (updateSuccess == 1){
-						out.print(updateSuccess);
-						return;
-					
-					}else if (updateSuccess == 0) {
-						out.print(updateSuccess);
-						return;
-					}
+				//이미지 파일 세팅
+				memberImageFileName = (String) session.getAttribute("fileName");
+				System.out.println(memberImageFileName);
+				
+				session.setAttribute("memberImageFileName", memberImageFileName);
+			
+				int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
+				if(updateSuccess==1) {
+					result = 1; 
+					out.print(result);
+					return;
+				}		
+				
 					break;
 				}//case
-				
+				}
 				case "/proflieImgChange" -> {
-					System.out.println("이미지 변경 메소드");
-					
-					String userResponseParam = request.getParameter("userResponse");
-					boolean userResponse = Boolean.parseBoolean(userResponseParam);
-					System.out.println("proflieImgChange넘어왔나???"+userResponse);
-					
-					if(userResponse) {
+				
 					//memberService.getMemberImageFileName(memberImageFileName, memberEmail);
 					//파일 저장할 경로
-					System.out.println("asdasdasdsad");
-					File curPath=new File("C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\images");
+					File curPath=new File("C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\images\\");
 //					System.out.println(curPath);
 					//DiskFileItemFactory는 FileItem 객체를 생성하기 위한 팩토리 클래스  
 					//->getSize(), getName(), isFormField 등을 제공 -> 업로드된 파일의 정보(이름, 크기, 타입 등)를 확인하고, 데이터에 접근하여 원하는 처리를 수행 
@@ -552,6 +572,8 @@ public class MemberController extends HttpServlet {
 									File uploadFile = new File(curPath+"\\"+fileName);
 									fileItem.write(uploadFile);
 									System.out.println("파일 이름 : " + fileName);
+									session.setAttribute("fileName", fileName);
+									
 									}
 								}//if	
 							
@@ -560,9 +582,26 @@ public class MemberController extends HttpServlet {
 					catch(Exception ex) {
 					ex.printStackTrace();
 					}
-				}//if
+				
 				}//case
-		
+				case "/proflieImgRemove" -> {
+					String userResponseParam = request.getParameter("userResponse");
+					boolean userResponse = Boolean.parseBoolean(userResponseParam);
+					
+					if(userResponse) {
+						memberImageFileName = memberService.getMemberImageFileName(memberImageFileName, memberEmail);
+						 String filePath = "C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\images\\"+memberImageFileName;
+					     File file = new File(filePath);
+					      
+					     if (file.delete()) {
+					        System.out.println("이미지가 삭제되었습니다.");
+					        
+					     } else {
+					        System.out.println("이미지 삭제를 실패했습니다.");
+					     }
+					}
+				}//case
+				
 			}//switch
 			
 		

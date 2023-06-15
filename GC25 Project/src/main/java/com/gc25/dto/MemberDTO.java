@@ -6,7 +6,8 @@ public class MemberDTO {
 	private String memberNickname;
 	private int memberStatus;
 	private String memberImageFileName;
-	private String memberNumber;
+	private int memberNumber;
+	
 	
 	public MemberDTO() {
 		
@@ -57,7 +58,7 @@ public class MemberDTO {
 	}
 
 	public String getMemberImageFileName() {
-		String memberImageFileName = "/profile.jpg";
+		String memberImageFileName = "profile.jpg";
 		return memberImageFileName;
 	}
 
@@ -65,14 +66,13 @@ public class MemberDTO {
 		this.memberImageFileName = memberImageFileName;
 	}
 
-	public String getMemberNumber() {
+	public int getMemberNumber() {
 		return memberNumber;
 	}
 
-	public void setMemberNumber(String memberNumber) {
+	public void setMemberNumber(int memberNumber) {
 		this.memberNumber = memberNumber;
 	}
-	
 	
 	
 	

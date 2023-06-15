@@ -42,7 +42,7 @@ public class MemberService {
 	
 	public String getMemberImageFileName(String memberImageFileName, String memberEmail) {
 		
-		String result = memberDAO.getMemberImageFileName(memberImageFileName, memberEmail);
+		String result = memberDAO.getMemberImageFileName(memberEmail);
 		
 		return result;
 	}
@@ -74,9 +74,9 @@ public class MemberService {
 		return result;
 	}
 	
-	public String getMemberNumber(String memberEmail) {
+	public int getMemberNumber(String memberEmail) {
 		
-		String result=memberDAO.getMemberNumber(memberEmail);
+		int result=memberDAO.getMemberNumber(memberEmail);
 		
 		return result;
 	}
