@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
+import oracle.jdbc.proxy._Proxy_;
+
 public class AfterwordBoardDTO {
 //	@Override
 //	public String toString() {
@@ -526,6 +528,17 @@ public class AfterwordBoardDTO {
 
 	public void setCommentCount(int commentCount) {
 		this.commentCount = commentCount;
+	}
+	
+	@Override
+	public String toString() {
+		return "AfterwordBoardDTO [글 번호: " + boardNumber + ", 작성자 번호: " + memberNumber + ", 학원 번호: "
+				+ academyNumber + ", 학원 이름: " + academyName + ", 작성일: " + writeDate + ", 강사명: "
+				+ teacherName + ", 총점: " + totalScore + ", 개강일: " + openDate
+				+ ", 종강일: " + endDate + ", 전공 여부: " + major + ", 유/무상 여부: " + cost
+				+ ", 강사 만족도: " + teacherScore + ", 시설 만족도: " + facilityScore
+				+ ", 커리큘럼 만족도: " + commentCount + ", 제목: " + title
+				+ ", 내용: " + contents + ", 추천 수: " + recommend + ", 조회수: " + views + ", 댓글수: " + commentCount +"]";
 	}
 
 }

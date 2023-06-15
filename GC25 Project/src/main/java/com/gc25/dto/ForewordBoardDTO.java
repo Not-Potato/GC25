@@ -22,7 +22,7 @@ public class ForewordBoardDTO {
 	// 글 내용
 	String contents;
 	// 추천 수
-	int recommned;
+	int recommend;
 	// 조회 수
 	int views;
 	// 댓글 수
@@ -42,7 +42,7 @@ public class ForewordBoardDTO {
 		this.setWriteDate(d);;
 		this.title = title;
 		this.contents = contents;
-		this.recommned = 0;
+		this.recommend = 0;
 		this.views = 0;
 		this.commentCount = 0;
 	}
@@ -116,12 +116,12 @@ public class ForewordBoardDTO {
 		this.contents = contents;
 	}
 
-	public int getRecommned() {
-		return recommned;
+	public int getRecommend() {
+		return recommend;
 	}
 
-	public void setRecommned(int recommned) {
-		this.recommned = recommned;
+	public void setRecommend(int recommend) {
+		this.recommend = recommend;
 	}
 
 	public int getViews() {
@@ -138,6 +138,12 @@ public class ForewordBoardDTO {
 
 	public void setCommentCount(int commentCount) {
 		this.commentCount = commentCount;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("글번호: %d, 작성자 고유번호: %d, 학원 고유번호: %d, 학원 명: %s, 과정구분: %s, 작성일: %s, 제목: %s, 내용: %s, 추천수: %d, 조회수: %d, 댓글수: %d", 
+				this.boardNumber, this.memberNumber, this.academyNumber, this.academyName, this.course, this.writeDate, this.title, this.contents, this.recommend, this.views, this.commentCount);
 	}
 	
 	

@@ -24,4 +24,8 @@ public class ForewordBoardService {
 		return dao.getTotalPage();
 	}
 	
+	public int upload(ForewordBoardDTO dto) {
+		return dao.upload(dto);
+	}
+	
 }

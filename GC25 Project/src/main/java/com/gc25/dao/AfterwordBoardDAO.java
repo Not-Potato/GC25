@@ -42,28 +42,28 @@ public class AfterwordBoardDAO {
 			if (searchType.equals("최신순")) {
 				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT ab_number, ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount 
+					SELECT ab_number, ab_title, ab_contents, a_name, ab_date, ab_recommend, ab_views, ab_commentcount 
 					FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_date DESC) 
 					OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("추천순")) {
 				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT ab_number, ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+					SELECT ab_number, ab_title, ab_contents, a_name, ab_date, ab_recommend, ab_views, ab_commentcount
 					FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_recommend DESC) 
 						OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("댓글순")) {
 				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT ab_number, ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+					SELECT ab_number, ab_title, ab_contents, a_name, ab_date, ab_recommend, ab_views, ab_commentcount
 					FROM (SELECT * FROM GC25_AFTERWORD_BOARD ORDER BY ab_commentcount DESC) 
 						OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("조회순")) {
 				// 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-					SELECT ab_number, ab_title, ab_contents, ab_date, ab_recommend, ab_views, ab_commentcount
+					SELECT ab_number, ab_title, ab_contents, a_name, ab_date, ab_recommend, ab_views, ab_commentcount
 					FROM (SELECT * 
 						FROM GC25_AFTERWORD_BOARD 
 						ORDER BY ab_views DESC) 
@@ -85,6 +85,7 @@ public class AfterwordBoardDAO {
 //				Date aBoardDate = rs.getDate("ab_date");
 				String title = rs.getString("ab_title");
 				String contents = rs.getString("ab_contents");
+				String academyName = rs.getString("a_name");
 				int recommend = rs.getInt("ab_recommend");
 				int views = rs.getInt("ab_views");
 				int commentCount = rs.getInt("ab_commentcount");
@@ -93,6 +94,7 @@ public class AfterwordBoardDAO {
 				a.setWriteDate(writeDate);
 				a.setTitle(title);
 				a.setContents(contents);
+				a.setAcademyName(academyName);
 				a.setRecommend(recommend);
 				a.setViews(views);
 				a.setCommentCount(commentCount);

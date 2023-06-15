@@ -1,6 +1,7 @@
 package com.gc25.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -10,11 +11,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.gc25.dto.ForewordBoardDTO;
 import com.gc25.service.ForewordBoardService;
 
-@WebServlet("/forewordboard/*")
+@WebServlet("/foreword/*")
 public class ForewordBoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	ForewordBoardDTO dto;
@@ -28,8 +30,9 @@ public class ForewordBoardController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
+		HttpSession session = request.getSession();
 		
-		String board = "/views";
+		String views = "/views";
 		String nextPage = "";
 		String action = request.getPathInfo();
 		
@@ -37,10 +40,11 @@ public class ForewordBoardController extends HttpServlet {
 		
 		try {
 			// 넘어온 주소가 /forewordboard 혹은 /forewordboard/인 경우 첫 페이지로 이동
-			if (action == null || action.equals("/")) action = "/forewordboardlist.do";
+			if (action == null || action.equals("/")) action = "/board.do";
 			
 			switch (action) {
-				case "/forewordboardlist.do" -> {
+				// 디폴트 페이지 = 게시판 (글 목록)
+				case "/board.do" -> {
 					// 현재 페이지의 정렬 기준, 페이지 넘버 가지고 오기
 					String searchType = request.getParameter("searchType");
 					String pageNumStr = request.getParameter("pageNum");
@@ -80,12 +84,47 @@ public class ForewordBoardController extends HttpServlet {
 					// 리스트 반환
 					request.setAttribute("list", list);
 					
-					nextPage = board + "/forewordboardlist.jsp";
+					nextPage = views + "/forewordboard.jsp";
+				}
+				// 글 작성 페이지
+				case "/write.do" -> {
+					System.out.println("글 작성 페이지로 이동!!!");
+					nextPage = views + "/forewordwrite.jsp";
+				}
+				// 글 업로드 --> 작성 완료 얼럿 창 --> 목록으로 이동
+				case "/upload.do" -> {
+					System.out.println("포스팅 발행!!!!");
+					
+					System.out.println(request.getParameter("academyNum"));
+					
+					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
+//					dto.setMemberNumber(Integer.parseInt(session.getAttribute("memberNumber")));
+					dto.setMemberNumber(1234);
+
+					// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
+					dto.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
+					dto.setAcademyName(request.getParameter("academyName"));
+					dto.setCourse(request.getParameter("course"));
+					dto.setTitle(request.getParameter("title"));
+					dto.setContents(request.getParameter("contents"));
+					
+					service.upload(dto);
+					
+					PrintWriter out = response.getWriter();
+					// forward 시 주소가 그대로 유지됨(upload.do) 
+					// 그 상태에서 f5(새로고침) --> 글 중복으로 작성됨
+					// 얼럿 창 띄우면서 확인 누르면 기본 페이지로 이동하게끔 처리
+					out.print("""
+							<script>
+								alert("게시글 작성 성공!");
+								document.location.href = "%s/foreword";
+							</script>
+							""".formatted(request.getContextPath()) );
 				}
 				
-				// 위에 있는 case 중에 해당되는 거 없으면 무조건 여기로 이동
+				// 디폴트 페이지 = 게시판 (글 목록)
 				default -> {
-					nextPage = board + "/forewordboardlist.jsp";
+					nextPage = "/foreword/board.do";
 				}
 			}
 			

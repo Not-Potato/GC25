@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.gc25.dto.AfterwordBoardDTO;
 import com.gc25.service.AfterwordBoardService;
 
-@WebServlet("/afterwordboard/*")
+@WebServlet("/afterword/*")
 public class AfterwordBoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	AfterwordBoardDTO dto;
@@ -29,7 +29,7 @@ public class AfterwordBoardController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
 		
-		String board = "/views";
+		String views = "/views";
 		String nextPage = "";
 		String action = request.getPathInfo();
 		
@@ -37,10 +37,11 @@ public class AfterwordBoardController extends HttpServlet {
 		
 		try {
 			// 넘어온 주소가 /afterwordboard 혹은 /afterwordboard/인 경우 첫 페이지로 이동
-			if (action == null || action.equals("/")) action = "/afterwordboardlist.do";
+			if (action == null || action.equals("/")) action = "/board.do";
 			
 			switch (action) {
-				case "/afterwordboardlist.do" -> {
+				// 디폴트 페이지 = 게시판 (글 목록)
+				case "/board.do" -> {
 					// 현재 페이지의 정렬 기준, 페이지 넘버 가지고 오기
 					String searchType = request.getParameter("searchType");
 					String pageNumStr = request.getParameter("pageNum");
@@ -80,12 +81,12 @@ public class AfterwordBoardController extends HttpServlet {
 					// 리스트 반환
 					request.setAttribute("list", list);
 					
-					nextPage = board + "/afterwordboardlist.jsp";
+					nextPage = views + "/afterwordboard.jsp";
 				}
 				
-				// 위에 있는 case 중에 해당되는 거 없으면 무조건 여기로 이동
+				// 디폴트 페이지 = 게시판 (글 목록)
 				default -> {
-					nextPage = board + "/afterwordboardlist.jsp";
+					nextPage = "/afterword/board.do";
 				}
 			}
 			
