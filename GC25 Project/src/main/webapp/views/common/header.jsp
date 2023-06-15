@@ -34,13 +34,14 @@
 			<div class="container d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 			
 				<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+				
 					<li>
-						<a class="navbar-brand" href="#">
+						<a class="navbar-brand" href="${contextPath}/">
                 			<img src="<c:url value='/resources/images/logo.svg' />" alt="GC25 Logo image" width="100">
 						</a>
 					</li>
-			    	<li><a href="${contextPath}/forewordboard/forewordboardlist.do" class="nav-link px-2 <%= menu1 %>">상담 후기</a></li>
-					<li><a href="${contextPath}/afterwordboard/afterwordboardlist.do" class="nav-link px-2 <%= menu2 %>">수강 후기</a></li>
+			    	<li><a href="${contextPath}/foreword/board.do" class="nav-link px-2 <%= menu1 %>">상담 후기</a></li>
+					<li><a href="${contextPath}/afterword/board.do" class="nav-link px-2 <%= menu2 %>">수강 후기</a></li>
 					<li><a href="#" class="nav-link px-2 <%= menu3 %>">학원 찾기</a></li>
 				</ul>
 			

@@ -1,6 +1,8 @@
 package com.gc25.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -14,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.gc25.dto.AfterwordBoardDTO;
 import com.gc25.service.AfterwordBoardService;
 
-@WebServlet("/afterwordboard/*")
+@WebServlet("/afterword/*")
 public class AfterwordBoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	AfterwordBoardDTO dto;
@@ -29,7 +31,7 @@ public class AfterwordBoardController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=utf-8");
 		
-		String board = "/views";
+		String views = "/views";
 		String nextPage = "";
 		String action = request.getPathInfo();
 		
@@ -37,10 +39,11 @@ public class AfterwordBoardController extends HttpServlet {
 		
 		try {
 			// 넘어온 주소가 /afterwordboard 혹은 /afterwordboard/인 경우 첫 페이지로 이동
-			if (action == null || action.equals("/")) action = "/afterwordboardlist.do";
+			if (action == null || action.equals("/")) action = "/board.do";
 			
 			switch (action) {
-				case "/afterwordboardlist.do" -> {
+				// 디폴트 페이지 = 게시판 (글 목록)
+				case "/board.do" -> {
 					// 현재 페이지의 정렬 기준, 페이지 넘버 가지고 오기
 					String searchType = request.getParameter("searchType");
 					String pageNumStr = request.getParameter("pageNum");
@@ -80,12 +83,65 @@ public class AfterwordBoardController extends HttpServlet {
 					// 리스트 반환
 					request.setAttribute("list", list);
 					
-					nextPage = board + "/afterwordboardlist.jsp";
+					nextPage = views + "/afterwordboard.jsp";
 				}
-				
-				// 위에 있는 case 중에 해당되는 거 없으면 무조건 여기로 이동
+				// 글 작성 페이지
+				case "/write.do" -> {
+					System.out.println("글 작성 페이지로 이동!!!");
+					nextPage = views + "/afterwordwrite.jsp";
+				}
+				// 글 업로드 --> 작성 완료 얼럿 창 --> 목록으로 이동
+				case "/upload.do" -> {
+					System.out.println("포스팅 발행!!!!");
+					
+					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
+//					dto.setMemberNumber(Integer.parseInt(session.getAttribute("memberNumber")));
+					dto.setMemberNumber(10020);
+					
+					// 개강일과 종강일은 같이 들어오기 때문에 받아서 split으로 잘라서 담아야 함
+					String openToEnd = request.getParameter("openToEnd");
+					String open = openToEnd.split(" ~ ")[0];
+					String end = openToEnd.split(" ~ ")[1];
+					
+					// 체크박스 --> null(off)로 넘어오면 각각 "비전공", "무상"
+					String major = request.getParameter("major") == null ? "비전공" : request.getParameter("major");
+					String cost = request.getParameter("cost") == null ? "무상" : request.getParameter("cost");
+
+					// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
+					// 학원번호, 학원이름, 과정구분, 제목, 내용
+					dto.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
+					dto.setAcademyName(request.getParameter("academyName"));
+					dto.setCourse(request.getParameter("course"));
+					dto.setTitle(request.getParameter("title"));
+					dto.setContents(request.getParameter("contents"));
+					// 수강후기에서 추가된 항목들도 dto에 담기
+					// 강사 명, 개강일, 종강일, 전공/비전공 여부, 유/무상 여부, 전체 만족도, 강사 만족도, 학원시설 만족도, 커리큘럼 만족도
+					dto.setTeacherName(request.getParameter("teacher"));
+					dto.setOpenDate(open);
+					dto.setEndDate(end);
+					dto.setMajor(major);
+					dto.setCost(cost);
+					dto.setTotalScore(Integer.parseInt(request.getParameter("totalScore")));
+					dto.setTeacherScore(Integer.parseInt(request.getParameter("teacherScore")));
+					dto.setFacilityScore(Integer.parseInt(request.getParameter("facScore")));
+					dto.setCurriculumScore(Integer.parseInt(request.getParameter("curriScore")));
+					
+					service.upload(dto);
+					
+					PrintWriter out = response.getWriter();
+					// forward 시 주소가 그대로 유지됨(upload.do) 
+					// 그 상태에서 f5(새로고침) --> 글 중복으로 작성됨
+					// 얼럿 창 띄우면서 확인 누르면 기본 페이지로 이동하게끔 처리
+					out.print("""
+							<script>
+								alert("게시글 작성 성공!");
+								document.location.href = "%s/afterword";
+							</script>
+							""".formatted(request.getContextPath()) );
+				}
+				// 디폴트 페이지 = 게시판 (글 목록)
 				default -> {
-					nextPage = board + "/afterwordboardlist.jsp";
+					nextPage = "/afterword/board.do";
 				}
 			}
 			
@@ -94,7 +150,6 @@ public class AfterwordBoardController extends HttpServlet {
 				RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 				dispatch.forward(request, response);
 			}
-			
  		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

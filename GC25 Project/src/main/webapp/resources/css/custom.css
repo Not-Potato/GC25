@@ -1,7 +1,71 @@
+/* 공용 사용 css */
 .inner {
 	width: 1400px;
 }
 
 .w-800 {
 	width: 800px;
+}
+
+/* ---------------- 자연 ---------------- */
+
+/* 자동 완성 리스트 */
+.searchList {
+    position: relative;
+}
+
+.searchList .autoComplete {
+	background: white;
+    position: absolute;
+    top: 0; left: 0;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+
+/* 자동 완성 리스트 in 현재 선택된 검색어 */
+.autoComplete > div.active {
+	background: #e0e5f6;
+	color: #000;
+}
+
+/* 자동 완성 리스트 in 현재 선택된 검색어 */
+.autoComplete > div {
+    padding: 5px 0 5px 15px;
+}
+
+.autoComplete > div:not(:last-child) {
+	border-bottom: 1px solid #ededed;
+}
+
+/* 별점 --> score */
+.starBox {
+  display: flex;
+  border: 1px solid black;
+}
+
+.emptyStar {
+  position: relative;
+  color: #ddd;
+  font-size: 25px;
+  text-align: center;
+}
+
+.emptyStar input {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.fillStar {
+  width: 0;
+  color: #ffc107;
+  position: absolute;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  pointer-events: none;
 }

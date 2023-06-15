@@ -4,292 +4,9 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 
-public class AfterwordBoardDTO {
-//	@Override
-//	public String toString() {
-//		return "AfterwordBoardDTO [aBoardNumber=" + aBoardNumber + ", memberNumber=" + memberNumber + ", academyNumber="
-//				+ academyNumber + ", academyName=" + academyName + ", aBoardDate=" + aBoardDate + ", aBoardTeacher="
-//				+ aBoardTeacher + ", aBoardTotalScore=" + aBoardTotalScore + ", aBoardOpen=" + aBoardOpen
-//				+ ", aBoardEnd=" + aBoardEnd + ", aBoardMajor=" + aBoardMajor + ", aBoardCost=" + aBoardCost
-//				+ ", aBoardTeacherScore=" + aBoardTeacherScore + ", aBoardFacilityScore=" + aBoardFacilityScore
-//				+ ", aBoardCurriculumScore=" + aBoardCurriculumScore + ", aBoardTitle=" + aBoardTitle
-//				+ ", aBoardContents=" + aBoardContents + ", aBoardRecommned=" + aBoardRecommned + ", aBoardViews="
-//				+ aBoardViews + "]";
-//	}
-//
-//	// 게시글 고유번호
-//	int aBoardNumber;
-//	// 작성자(회원) 고유번호
-//	int memberNumber;
-//	// 학원 고유번호
-//	int academyNumber;
-//	// 학원 명
-//	String academyName;
-//	// 과정 구분 (*이전 누락 건)
-//	String aBoardCourse;
-//	// 작성일
-//	String aBoardDate;
-//	// 강사 명
-//	String aBoardTeacher;
-//	// 평점
-//	int aBoardTotalScore;
-//	// 개강일
-//	Date aBoardOpen;
-//	// 종강일
-//	Date aBoardEnd;
-//	// 전공 여부
-//	int aBoardMajor;
-//	// 유/무상 여부
-//	int aBoardCost;
-//	// 강사 만족도
-//	int aBoardTeacherScore;
-//	// 학원 시설
-//	String aBoardFacilityScore;
-//	// 커리큘럼 만족도
-//	String aBoardCurriculumScore;
-//	// 글 제목
-//	String aBoardTitle;
-//	// 글 내용
-//	String aBoardContents;
-//	// 추천 수
-//	int aBoardRecommned;
-//	// 조회 수
-//	int aBoardViews;
-//	// 댓글 수
-//	int aBoardCommentCount;
-//	
-//	public AfterwordBoardDTO() {
-//		
-//	}
-//	
-//	public AfterwordBoardDTO(int aBoardNumber, int memberNumber, int academyNumber, String academyName, String aBoardCourse, Timestamp date,
-//			String aBoardTeacher, int aBoardTotalScore, Date aBoardOpen, Date aBoardEnd, int aBoardMajor,
-//			int aBoardCost, int aBoardTeacherScore, String aBoardFacilityScore, String aBoardCurriculumScore,
-//			String aBoardTitle, String aBoardContents, int aBoardRecommned, int aBoardViews, int aBoardCommentCount) {
-//		this.aBoardNumber = aBoardNumber;
-//		this.memberNumber = memberNumber;
-//		this.academyNumber = academyNumber;
-//		this.academyName = academyName;
-//		this.aBoardCourse = aBoardCourse;
-//		// 생성자 내에서 세터 호출하는 거 가능하다고는 하는데 실제로 되는지 테스트해 봐야 함!
-//		this.setaBoardDate(date);
-//		this.aBoardTeacher = aBoardTeacher;
-//		this.aBoardTotalScore = aBoardTotalScore;
-//		this.aBoardOpen = aBoardOpen;
-//		this.aBoardEnd = aBoardEnd;
-//		this.aBoardMajor = aBoardMajor;
-//		this.aBoardCost = aBoardCost;
-//		this.aBoardTeacherScore = aBoardTeacherScore;
-//		this.aBoardFacilityScore = aBoardFacilityScore;
-//		this.aBoardCurriculumScore = aBoardCurriculumScore;
-//		this.aBoardTitle = aBoardTitle;
-//		this.aBoardContents = aBoardContents;
-//		this.aBoardRecommned = aBoardRecommned;
-//		this.aBoardViews = aBoardViews;
-//		this.aBoardCommentCount = aBoardCommentCount;
-//	}
-//	
-//	public int getaBoardNumber() {
-//		return aBoardNumber;
-//	}
-//
-//
-//	public void setaBoardNumber(int aBoardNumber) {
-//		this.aBoardNumber = aBoardNumber;
-//	}
-//
-//
-//	public int getMemberNumber() {
-//		return memberNumber;
-//	}
-//
-//
-//	public void setMemberNumber(int memberNumber) {
-//		this.memberNumber = memberNumber;
-//	}
-//
-//
-//	public int getAcademyNumber() {
-//		return academyNumber;
-//	}
-//
-//
-//	public void setAcademyNumber(int academyNumber) {
-//		this.academyNumber = academyNumber;
-//	}
-//
-//
-//	public String getAcademyName() {
-//		return academyName;
-//	}
-//
-//
-//	public void setAcademyName(String academyName) {
-//		this.academyName = academyName;
-//	}
-//
-//
-//	public String getaBoardDate() {
-//		return aBoardDate;
-//	}
-//
-//
-//	public void setaBoardDate(Timestamp aBoardDate) {
-//		Date date = new Date(aBoardDate.getTime());
-//        
-//        // 날짜 형식을 원하는 형식으로 포맷팅
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//		this.aBoardDate = sdf.format(date);
-//	}
-//
-//
-//	public String getaBoardTeacher() {
-//		
-//		return aBoardTeacher;
-//	}
-//
-//
-//	public void setaBoardTeacher(String aBoardTeacher) {
-//		this.aBoardTeacher = aBoardTeacher;
-//	}
-//
-//
-//	public int getaBoardTotalScore() {
-//		return aBoardTotalScore;
-//	}
-//
-//
-//	public void setaBoardTotalScore(int aBoardTotalScore) {
-//		this.aBoardTotalScore = aBoardTotalScore;
-//	}
-//
-//
-//	public Date getaBoardOpen() {
-//		return aBoardOpen;
-//	}
-//
-//
-//	public void setaBoardOpen(Date aBoardOpen) {
-//		this.aBoardOpen = aBoardOpen;
-//	}
-//
-//
-//	public Date getaBoardEnd() {
-//		return aBoardEnd;
-//	}
-//
-//
-//	public void setaBoardEnd(Date aBoardEnd) {
-//		this.aBoardEnd = aBoardEnd;
-//	}
-//
-//
-//	public int getaBoardMajor() {
-//		return aBoardMajor;
-//	}
-//
-//
-//	public void setaBoardMajor(int aBoardMajor) {
-//		this.aBoardMajor = aBoardMajor;
-//	}
-//
-//
-//	public int getaBoardCost() {
-//		return aBoardCost;
-//	}
-//
-//
-//	public void setaBoardCost(int aBoardCost) {
-//		this.aBoardCost = aBoardCost;
-//	}
-//
-//
-//	public int getaBoardTeacherScore() {
-//		return aBoardTeacherScore;
-//	}
-//
-//
-//	public void setaBoardTeacherScore(int aBoardTeacherScore) {
-//		this.aBoardTeacherScore = aBoardTeacherScore;
-//	}
-//
-//
-//	public String getaBoardFacilityScore() {
-//		return aBoardFacilityScore;
-//	}
-//
-//
-//	public void setaBoardFacilityScore(String aBoardFacilityScore) {
-//		this.aBoardFacilityScore = aBoardFacilityScore;
-//	}
-//
-//
-//	public String getaBoardCurriculumScore() {
-//		return aBoardCurriculumScore;
-//	}
-//
-//
-//	public void setaBoardCurriculumScore(String aBoardCurriculumScore) {
-//		this.aBoardCurriculumScore = aBoardCurriculumScore;
-//	}
-//
-//
-//	public String getaBoardTitle() {
-//		return aBoardTitle;
-//	}
-//
-//
-//	public void setaBoardTitle(String aBoardTitle) {
-//		this.aBoardTitle = aBoardTitle;
-//	}
-//
-//
-//	public String getaBoardContents() {
-//		return aBoardContents;
-//	}
-//
-//
-//	public void setaBoardContents(String aBoardContents) {
-//		this.aBoardContents = aBoardContents;
-//	}
-//
-//
-//	public int getaBoardRecommend() {
-//		return aBoardRecommend;
-//	}
-//
-//
-//	public void setaBoardRecommend(int aBoardRecommend) {
-//		this.aBoardRecommend = aBoardRecommend;
-//	}
-//
-//
-//	public int getaBoardViews() {
-//		return aBoardViews;
-//	}
-//
-//
-//	public void setaBoardViews(int aBoardViews) {
-//		this.aBoardViews = aBoardViews;
-//	}
-//
-//	public int getaBoardCommentCount() {
-//		return aBoardCommentCount;
-//	}
-//
-//	public void setaBoardCommentCount(int aBoardCommentCount) {
-//		this.aBoardCommentCount = aBoardCommentCount;
-//	}
-//
-//	public String getaBoardCourse() {
-//		return aBoardCourse;
-//	}
-//
-//	public void setaBoardCourse(String aBoardCourse) {
-//		this.aBoardCourse = aBoardCourse;
-//	}
+import oracle.jdbc.proxy._Proxy_;
 
+public class AfterwordBoardDTO {
 	// 게시글 고유번호
 	int boardNumber;
 	// 작성자(회원) 고유번호
@@ -304,22 +21,26 @@ public class AfterwordBoardDTO {
 	String writeDate;
 	// 강사 명
 	String teacherName;
-	// 평점
+	// 개강일 --> String 변경
+	String openDate;
+	// 종강일 --> String 변경
+	String endDate;
+	// 전공 여부 --> 데이터 타입 변경 ("전공" / "비전공"으로 저장)
+//	int major;
+	String major;
+	// 유/무상 여부 --> 데이터 타입 변경 ("유상" / "무상"으로 저장)
+//	int cost;
+	String cost;
+	// 전체 만족도
 	int totalScore;
-	// 개강일
-	Date openDate;
-	// 종강일
-	Date endDate;
-	// 전공 여부
-	int major;
-	// 유/무상 여부
-	int cost;
 	// 강사 만족도
 	int teacherScore;
-	// 학원 시설
-	String facilityScore;
-	// 커리큘럼 만족도
-	String curriculumScore;
+	// 학원 시설 만족도 --> 데이터 타입 변경 (1 ~ 10 숫자 저장)
+//	String facilityScore;
+	int facilityScore;
+	// 커리큘럼 만족도  --> 데이터 타입 변경 (1 ~ 10 숫자 저장)
+//	String curriculumScore;
+	int curriculumScore;
 	// 글 제목
 	String title;
 	// 글 내용
@@ -336,8 +57,8 @@ public class AfterwordBoardDTO {
 	}
 	
 	public AfterwordBoardDTO(int boardNumber, int memberNumber, int academyNumber, String academyName,
-			String course,  Timestamp date, String teacherName, int totalScore, Date openDate, Date endDate,
-			int major, int cost, int teacherScore, String facilityScore, String curriculumScore, String title,
+			String course,  Timestamp date, String teacherName, int totalScore, String openDate, String endDate,
+			String major, String cost, int teacherScore, int facilityScore, int curriculumScore, String title,
 			String contents) {
 		super();
 		this.boardNumber = boardNumber;
@@ -432,35 +153,35 @@ public class AfterwordBoardDTO {
 		this.totalScore = totalScore;
 	}
 
-	public Date getOpenDate() {
+	public String getOpenDate() {
 		return openDate;
 	}
 
-	public void setOpenDate(Date openDate) {
+	public void setOpenDate(String openDate) {
 		this.openDate = openDate;
 	}
 
-	public Date getEndDate() {
+	public String getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
 
-	public int getMajor() {
+	public String getMajor() {
 		return major;
 	}
 
-	public void setMajor(int major) {
+	public void setMajor(String major) {
 		this.major = major;
 	}
 
-	public int getCost() {
+	public String getCost() {
 		return cost;
 	}
 
-	public void setCost(int cost) {
+	public void setCost(String cost) {
 		this.cost = cost;
 	}
 
@@ -472,19 +193,19 @@ public class AfterwordBoardDTO {
 		this.teacherScore = teacherScore;
 	}
 
-	public String getFacilityScore() {
+	public int getFacilityScore() {
 		return facilityScore;
 	}
 
-	public void setFacilityScore(String facilityScore) {
+	public void setFacilityScore(int facilityScore) {
 		this.facilityScore = facilityScore;
 	}
 
-	public String getCurriculumScore() {
+	public int getCurriculumScore() {
 		return curriculumScore;
 	}
 
-	public void setCurriculumScore(String curriculumScore) {
+	public void setCurriculumScore(int curriculumScore) {
 		this.curriculumScore = curriculumScore;
 	}
 
@@ -526,6 +247,17 @@ public class AfterwordBoardDTO {
 
 	public void setCommentCount(int commentCount) {
 		this.commentCount = commentCount;
+	}
+	
+	@Override
+	public String toString() {
+		return "AfterwordBoardDTO [글 번호: " + boardNumber + ", 작성자 번호: " + memberNumber + ", 학원 번호: "
+				+ academyNumber + ", 학원 이름: " + academyName + ", 작성일: " + writeDate + ", 강사명: "
+				+ teacherName + ", 총점: " + totalScore + ", 개강일: " + openDate
+				+ ", 종강일: " + endDate + ", 전공 여부: " + major + ", 유/무상 여부: " + cost
+				+ ", 강사 만족도: " + teacherScore + ", 시설 만족도: " + facilityScore
+				+ ", 커리큘럼 만족도: " + commentCount + ", 제목: " + title
+				+ ", 내용: " + contents + ", 추천 수: " + recommend + ", 조회수: " + views + ", 댓글수: " + commentCount +"]";
 	}
 
 }
