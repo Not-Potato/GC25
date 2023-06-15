@@ -2,23 +2,20 @@ package com.gc25.dto;
 
 public class MemberDTO {
 	private String memberEmail;
-	private String memberEmailHash;
-	private String memberEmailChecked;
 	private String memberPwd;
 	private String memberNickname;
-	private String memberStatus;
+	private int memberStatus;
 	private String memberImageFileName;
+	private String memberNumber;
 	
 	public MemberDTO() {
 		
 	}
 
-	public MemberDTO(String memberEmail, String memberEmailHash, String memberEmailChecked, String memberPwd,
-			String memberNickname, String memberStatus, String memberImageFileName) {
+	public MemberDTO(String memberEmail, String memberPwd,
+			String memberNickname, int memberStatus, String memberImageFileName) {
 		
 		this.memberEmail = memberEmail;
-		this.memberEmailHash = memberEmailHash;
-		this.memberEmailChecked = memberEmailChecked;
 		this.memberPwd = memberPwd;
 		this.memberNickname = memberNickname;
 		this.memberStatus = memberStatus;
@@ -32,22 +29,6 @@ public class MemberDTO {
 
 	public void setMemberEmail(String memberEmail) {
 		this.memberEmail = memberEmail;
-	}
-
-	public String getMemberEmailHash() {
-		return memberEmailHash;
-	}
-
-	public void setMemberEmailHash(String memberEmailHash) {
-		this.memberEmailHash = memberEmailHash;
-	}
-
-	public String getMemberEmailChecked() {
-		return memberEmailChecked;
-	}
-
-	public void setMemberEmailChecked(String memberEmailChecked) {
-		this.memberEmailChecked = memberEmailChecked;
 	}
 
 	public String getMemberPwd() {
@@ -66,20 +47,30 @@ public class MemberDTO {
 		this.memberNickname = memberNickname;
 	}
 
-	public String getMemberStatus() {
+	public int getMemberStatus() {
+		
 		return memberStatus;
 	}
 
-	public void setMemberStatus(String memberStatus) {
+	public void setMemberStatus(int memberStatus) {
 		this.memberStatus = memberStatus;
 	}
 
 	public String getMemberImageFileName() {
+		String memberImageFileName = "/profile.jpg";
 		return memberImageFileName;
 	}
 
 	public void setMemberImageFileName(String memberImageFileName) {
 		this.memberImageFileName = memberImageFileName;
+	}
+
+	public String getMemberNumber() {
+		return memberNumber;
+	}
+
+	public void setMemberNumber(String memberNumber) {
+		this.memberNumber = memberNumber;
 	}
 	
 	

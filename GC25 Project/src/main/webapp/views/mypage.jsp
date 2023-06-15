@@ -19,34 +19,19 @@
 </head>
 <body>
 <%@ include file = "./common/header.jsp" %>
-<%
-	//로그인 정보 확인
-    String memberEmail = (String) session.getAttribute("memberEmail");
-    if (memberEmail != null) {
-        //로그인이 되어있는 경우
-    	memberEmail=(String)session.getAttribute("memberEmail");
-    } else {
-        // 로그인 되어있지 않은 경우
-    	PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("alert('로그인을 해 주세요.')");
-		script.println("location.href='/views/login.jsp';");
-		script.println("</script>");
-		script.close(); //오류생기면 이 jsp 페이지 종료
-    }
-    MemberDTO member = new MemberDAO().getMember(memberEmail);
-%>
+
 
 <div class="container"> 
 	 <h2>마이페이지</h2>
 	 <div class="bodyContainer"> 
       <div id="profile">
-        <img src="/images/profile.jpg" alt="기본이미지" id="profileImg">
-        <form method="post" enctype="multipart/form-data" action="/mem/imgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
-        	<input type="file" id="file">
-        	<input type="submit" value="수정">
+        <form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
+        	<img src="/images/profile.jpg" alt="기본이미지" id="profileImg" >
+        	<input type="hidden" name="chk" id="submit" value=""/>
+        	<input type="file" name="profile" id="profileImg">
+        	<button class="profileBtn" onclick="profileChange()">수정</button>
         </form>
-        <form method="post" enctype="multipart/form-data" action="/mem/imgRemove">
+        <form method="post" enctype="multipart/form-data" name="/mem/proflieImgRemove" action="/mem/proflieImgRemove">
         <button id="removeBtn" name="imgRemoveBtn" onclick="imgRemove();"> 삭제 </button>
         </form>
       </div>
@@ -84,6 +69,9 @@
                  <td>
                       <button class="nicknameCheckBtn" onclick="nicknameCheck()">중복 확인</button>
                  </td> 
+               		 <td>
+                        <div id="nicknameCheckMessage"></div>
+                    </td>
              </tr>
               <tr>
                   <td>
@@ -103,6 +91,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 
+var nicknameOverlapCheck = false;
 //비밀번호 일치 확인
 function passwordCheck(){
 	console.log("passwordRegCheckMessage")
@@ -128,6 +117,7 @@ function passwordCheck(){
 function nicknameCheck() {
 
 	event.preventDefault();
+	nicknameOverlapCheck = true;
 	
 	let memberNickname = $("#memberNickname").val();
 	console.log(memberNickname);
@@ -140,11 +130,11 @@ function nicknameCheck() {
 	$.ajax({
 		type :"post",
 		async : true,
-		
 		url : "/mem/mypage",
-		dataType : "text",
-		
-		data : "memberNickname=" + memberNickname , 
+		data : { 
+			memberNickname : memberNickname,
+			nicknameOverlapCheck : nicknameOverlapCheck
+		},
 		success : function(result) {
 			console.log(result);
 			if(result == 1) {
@@ -165,6 +155,70 @@ function nicknameCheck() {
 }
 
 
+function profileChange() {
+
+	event.preventDefault();
+	
+	var userResponse = confirm("이미지를 변경하시겠습니까?") 
+		if(userResponse){
+			userResponse=true;
+			console.log(userResponse);
+			changeSubmit();
+			alert("이미지 전송이 완료되었습니다.");
+			history.back();
+		}else{
+			userResponse=false;
+			console.log(userResponse);
+			alert('이미지 변경이 취소되었습니다.');
+			history.back();
+		}
+	
+	$.ajax({
+		type :"post",
+		async : true,
+		url : "/mem/proflieImgChange",
+		data : { 
+			userResponse : userResponse
+		},
+		success : function(result) {
+			console.log(result);
+			
+		},
+		error : function(result)  {
+			alert("오류가 발생했습니다.");
+		},
+		complete : function(result) {
+			
+		}
+	});
+	
+}
+
+function changeSubmit() {
+	 
+	  /* document.getElementById("proflieImgChange").submit(); */
+	  document.proflieImgChange.submit();
+	  console.log("여기??");
+	 
+	  $.ajax({
+			type :"post",
+			async : true,
+			url : "/mem/proflieImgChange",
+			processData: false,
+			contentType: false,
+			data: formData,
+			success : function(result) {
+				console.log(result);
+				
+			},
+			error : function(result)  {
+				alert("오류가 발생했습니다.");
+			},
+			complete : function(result) {
+				
+			}
+		});
+}
 </script>
 
 

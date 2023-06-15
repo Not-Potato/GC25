@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Properties;
-import java.util.Random;
 
 import javax.mail.Address;
 import javax.mail.Authenticator;
@@ -24,10 +23,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.json.simple.JSONObject;
 
+import com.gc25.dto.MemberDTO;
 import com.gc25.memberEmailUtil.Gmail;
 import com.gc25.memberEmailUtil.SHA256;
 import com.gc25.service.MemberService;
+
+
+
  
 @WebServlet("/mem/*")
 public class MemberController extends HttpServlet {
@@ -39,18 +43,22 @@ public class MemberController extends HttpServlet {
 		response.setContentType("text/html; charset=UTF-8");
 		HttpSession session = request.getSession();
 		
+		String emailOverlapCheckParam;
+		String nicknameOverlapCheckParam;
 		String action = request.getPathInfo();
 		MemberService memberService = new MemberService();
+		MemberDTO memberDTO = new MemberDTO();
+		JSONObject jsonResult = new JSONObject();
+		
 		
 		//사용자의 회원가입 요청 처리 -> 회원가입페이지에서 보내는 파라미터
 		String memberEmail = request.getParameter("memberEmail");
-		String memberEmailHash = request.getParameter("memberEmailHash");		
-		String memberEmailChecked = request.getParameter("memberEmailChecked");
 		String memberPwd = request.getParameter("memberPwd");
 		String memberPwd2 = request.getParameter("memberPwd2"); //비밀번호 확인용
 		String memberNickname = request.getParameter("memberNickname");
-		String memberStatus = request.getParameter("memberStatus");
-		String memberImageFileName = request.getParameter("memberImageFileName");
+		int memberStatus = memberDTO.getMemberStatus();
+		String memberImageFileName = memberDTO.getMemberImageFileName();
+		
 		
 		try {
 			if (action == null || action.equals("/")) action="/index.jsp";
@@ -60,58 +68,127 @@ public class MemberController extends HttpServlet {
 			switch(action) {
 				case "/emailCheck" -> {
 					
+					try {
 					//이메일 중복 확인 
-					int emailCheckSuccess = memberService.emailCheck(memberEmail);
-					System.out.println("emailCheckSuccess: "+emailCheckSuccess);
-					if(emailCheckSuccess == 1) {
-						 PrintWriter out = response.getWriter();
-						 out.print(emailCheckSuccess);
-						 return;
-					} else if (emailCheckSuccess == 0) {
-						PrintWriter out = response.getWriter();
-						out.print(emailCheckSuccess);
-						return;
+					session = request.getSession(); // 세션 가져오기
+					session.setMaxInactiveInterval(1800);//30분 세션유지
+					
+					//email 버튼 click 했다면 넘어오는 emailOverlapCheckParam
+					emailOverlapCheckParam = request.getParameter("emailOverlapCheck");
+					System.out.println("이메일버튼 on/off 여부: " + emailOverlapCheckParam);
+					//getparameter는 string 타입이기 때문에 boolean으로 형 변환 click 했다면 true 넘어옴.
+					boolean emailOverlapCheck = Boolean.parseBoolean(emailOverlapCheckParam);
+					System.out.println("emailOverlapCheck???? :" + emailOverlapCheck);
+					session.setAttribute("emailOverlapCheck", emailOverlapCheck);
+					
+					//email 중복확인 했다면??
+					if(emailOverlapCheck) {
+						//db에서 중복되는 email 확인
+						int emailCheckSuccess = memberService.emailCheck(memberEmail);
+						System.out.println("emailCheckSuccess: " + emailCheckSuccess);
+						//중복되는 email 없다면
+						if(emailCheckSuccess == 1) {
+							//세션에 email 중복 여부와 email 저장
+							session.setAttribute("emailCheckSuccess", emailCheckSuccess);
+							session.setAttribute("memberEmail", memberEmail);
+							//ajax로 넘겨주기
+							PrintWriter out = response.getWriter();
+							out.print(emailCheckSuccess);
+							return;
+						}
+					    else if (emailCheckSuccess == 0) {
+							//세션에 email 중복 여부 저장
+					    	session.setAttribute("emailCheckSuccess", emailCheckSuccess);
+							
+					    	PrintWriter out = response.getWriter();
+							out.print(emailCheckSuccess);
+							return;
+					    	}
+						} //if 
+							break;
+					}catch(Exception ex) {
+						ex.printStackTrace();
 					}
-					break;
-				}
-				case "/nicknameCheck" -> {	
-					//닉네임 중복 확인
-					int nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
-					System.out.println("nicknameCheckSuccess: "+nicknameCheckSuccess);
-					if(nicknameCheckSuccess == 1) {
-						 PrintWriter out = response.getWriter();
-						 out.print(nicknameCheckSuccess);
-						 return;
-					} else if (nicknameCheckSuccess == 0) {
-						PrintWriter out = response.getWriter();
-						out.print(nicknameCheckSuccess);
-						return;
+				}//case
+				case "/nicknameCheck" -> {
+					try {
+					session = request.getSession(); // 세션 가져오기
+					session.setMaxInactiveInterval(1800);//30분 세션유지
+					
+					//nickname 버튼 click 했다면 넘어오는 nicknameOverlapCheck
+					nicknameOverlapCheckParam = request.getParameter("nicknameOverlapCheck");
+					System.out.println("이메일버튼 on/off 여부: " + nicknameOverlapCheckParam);
+					//getparameter는 string 타입이기 때문에 boolean으로 형 변환 click 했다면 true 넘어옴.
+					boolean nicknameOverlapCheck = Boolean.parseBoolean(nicknameOverlapCheckParam);
+					System.out.println("nicknameOverlapCheck???? :" + nicknameOverlapCheck);
+					
+					if(nicknameOverlapCheck){
+						int nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
+						System.out.println("nicknameCheckSuccess: "+nicknameCheckSuccess);
+						if(nicknameCheckSuccess == 1) {
+							 session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
+							 session.setAttribute("memberNickname", memberNickname);
+							 PrintWriter out = response.getWriter();
+							 //jsonResult.put("result", nicknameCheckSuccess);
+							 out.print(nicknameCheckSuccess);
+							 return;
+						} else if (nicknameCheckSuccess == 0) {
+							session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
+							PrintWriter out = response.getWriter();
+							//jsonResult.put("result", nicknameCheckSuccess);
+							out.print(nicknameCheckSuccess);
+							return;
+						}
 					}
+					
 					break;
+					}catch(Exception ex) {
+						ex.printStackTrace();
+					}
 				} //case end
 				
-				case "/emailHashCheck" -> {
-				System.out.println(action);
-				int emailCheckSuccess = memberService.emailCheck(memberEmail);
-				int nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
-				System.out.println("emailHashCheck!!!!!!!!!!");
-				
+				case "/emailSend" -> {
 				
 					
+					System.out.println(action);
+					PrintWriter out = response.getWriter();
 					
-					//이메일 인증
-						if(emailCheckSuccess == 0) {
-							PrintWriter script = response.getWriter();
-							script.println("<script>");
-							script.println("alert('이메일 중복확인을 해주세요.')");
-							script.println("</script>");
-						}
-						else {
-						//Gmail 에서 아웃룩이나 다른 전자 메일 프로그램을 통해 메일을 보낼 수 있도록 하기 위해 
-						//Gmail SMTP(Simple Mail Transfer Protocol) 설정
-						//memberEmail = memberService.getMemberEmail(memberEmail);
-							
+					
+					int emailCheckSuccess = memberService.emailCheck(memberEmail);
+					
+					emailOverlapCheckParam = request.getParameter("emailOverlapCheck");
+					boolean emailOverlapCheck = (boolean) session.getAttribute("emailOverlapCheck");
+					
+					System.out.println("emailOverlapCheck emailsend에서 :" + emailOverlapCheck);
+					System.out.println("emailCheckSuccess emailsend에서 :" + emailCheckSuccess);
+					
+					if(emailOverlapCheck == false ||  emailOverlapCheckParam == null) {
+						System.out.println("return:"+emailCheckSuccess);
+					  //jsonResult.put("result", false);
+						int result=0;
+						out.print(result);
 						
+					}
+					System.out.println("success:"+emailCheckSuccess);
+					if (emailOverlapCheck) {
+						//jsonResult.put("result", true);
+						if(emailCheckSuccess == 0) {
+							int result=-1;
+							out.print(result);
+						}
+						else{
+							int result = 1;
+							out.print(result);
+							System.out.println("emailsendresult:"+result);
+						
+						
+					
+					
+					//이메일 중복확인을 했다면
+					//Gmail 에서 아웃룩이나 다른 전자 메일 프로그램을 통해 메일을 보낼 수 있도록 하기 위해 
+					//Gmail SMTP(Simple Mail Transfer Protocol) 설정
+					//memberEmail = memberService.getMemberEmail(memberEmail);
+							
 						System.out.println("이메일이메일!!!!"+emailCheckSuccess);
 						System.out.println("emailHashCheck"+memberEmail);
 						String host="http://localhost:8080/views/";
@@ -119,7 +196,7 @@ public class MemberController extends HttpServlet {
 						String to = memberEmail;
 						String subject="이메일 인증 메일입니다.";
 						String content="다음 링크에 접속하여 이메일 인증을 진행하세요."+
-							"<br><a href ='" + host + "emailCheck.jsp?code="+ new SHA256().getSHA256(to)+ "'>이메일 인증하기</a>";
+							"<br><a href ='" + host + "emailhashcheck.jsp?code="+ new SHA256().getSHA256(to)+ "'>이메일 인증하기</a>";
 						//실제 smtp에 접속하기 위한 정보
 						Properties p = new Properties();
 						p.put("mail.smtp.user",from); //관리자 구글 이메일 계정
@@ -145,12 +222,7 @@ public class MemberController extends HttpServlet {
 							msg.setContent(content,"text/html;charset=UTF-8" );
 							Transport.send(msg);
 							
-							PrintWriter script = response.getWriter();
-							script.println("<script>");
-							script.println("alert('인증코드가 발송되었습니다.')");
-							script.println("</script>");
-							
-							
+			
 						}catch(Exception ex){
 							ex.printStackTrace();
 							PrintWriter script = response.getWriter();
@@ -160,34 +232,21 @@ public class MemberController extends HttpServlet {
 							script.close(); //오류생기면 이 jsp 페이지 종료
 							return;
 						}
-//						String code = null;
-//						if(request.getParameter("code")!=null){
-//							code=request.getParameter("code");
-//						}
-//						//현재 사용자가 보낸 코드가 정확히 해당 사용자의 해시값 적용한 이메일주소와 일치하는지.
-//						boolean isRight = (new SHA256().getSHA256(memberEmail).equals(code))? true : false;
-//						
-//						System.out.println(isRight);
-//						System.out.println("controller emailhashcheck:"+new SHA256().getSHA256(memberEmail));
-//						System.out.println("controller emailhashcheck code :"+code);
+					}
 						
-//						if(isRight) {
-//							PrintWriter out = response.getWriter();
-//							out.print(isRight);
-//							return;
-//						} else {
-//							 PrintWriter out = response.getWriter();
-//							 out.print(isRight);
-//							 return;
-//						}
-					}//else	
-						break;
-				}//case
-			
+					}
+					   break;
+				}//case	   
+
 				case "/login" -> {
+				
+				try {
 				System.out.println("로그인주소:"+action);
 				System.out.println("왜 null이야?? :"+memberEmail);
 				System.out.println("대체왜안돼??:"+request.getParameter("memberEmail"));
+				
+				//Ajax 응답하기 위한
+				PrintWriter out = response.getWriter();
 				
 				//사용자가 전송한 email과 pwd 담기
 				if(request.getParameter("memberEmail")!=null) {
@@ -210,48 +269,225 @@ public class MemberController extends HttpServlet {
 					int loginSuccess = memberService.memberLogin(memberEmail, memberPwd);
 					System.out.println("비교결과 넘어왔나??:"+loginSuccess);
 					if(loginSuccess == 1) {
-						PrintWriter out = response.getWriter();
+						//로그인 성공 했다면
 						out.print(loginSuccess);
+						
+						//세션 설정
+						session = request.getSession(); // 세션 가져오기
+						session.setMaxInactiveInterval(1800);//30분 세션유지
+						//회원번호 세션에 저장하기 위해 가져오기
+						String memberNumber = memberService.getMemberNumber(memberEmail);
+						//닉네임, 이메일 세션에 저장하기 위해 가져오기
+						MemberDTO member= memberService.getMember(memberEmail);
+						
+						memberNickname = member.getMemberNickname();
+						memberImageFileName = member.getMemberImageFileName();
+						memberStatus = member.getMemberStatus();
+						
+						//세션에 저장
 						session.setAttribute("memberEmail",memberEmail);
+						session.setAttribute("memberNumber", memberNumber);
+						session.setAttribute("memberNickname", memberNickname);
+						session.setAttribute("memberStatus", memberStatus);
+						session.setAttribute("memberImageFileName",memberImageFileName);
+						//세션에 이메일, 회원번호,닉네임,이미지 저장
+						System.out.println("이메일 : " + memberEmail);
+						System.out.println("회원번호 : " +memberNumber);
+						System.out.println("닉네임 : "+memberNickname);
+						System.out.println("이미지 파일 : "+memberImageFileName);
+						System.out.println("등급 : "+memberStatus);
+						
+						
 						return;
 					}else if (loginSuccess == 0) { //관습적으로 로그인 성공은 1 실패는 0 반환 dao에서 그렇게 선언했기 때문에 0은 로그인 실패
-						PrintWriter out = response.getWriter();
+						
 						out.print(loginSuccess);
 						return;
 					} else if (loginSuccess == -1) { 
-						PrintWriter out = response.getWriter();
 						out.print(loginSuccess);
 						return;
 					}else if (loginSuccess == -2) { 
-						PrintWriter out = response.getWriter();
-						out.print(loginSuccess);	
-					}
-				}
-			  }
-				case "/mypage" -> {
-					
-					System.out.println("여기 세션 : " + session.getAttribute("memberEmail"));
-					
-						
-					//닉네임 중복 확인
-					int nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
-					System.out.println("nicknameCheckSuccess: "+nicknameCheckSuccess);
-					if(nicknameCheckSuccess == 1) {
-						 PrintWriter out = response.getWriter();
-						 out.print(nicknameCheckSuccess);
-						 return;
-					} else if (nicknameCheckSuccess == 0) {
-						PrintWriter out = response.getWriter();
-						out.print(nicknameCheckSuccess);
+						out.print(loginSuccess);
 						return;
 					}
+				} break;
+				}catch(Exception ex) {
+					ex.printStackTrace();
+				}
+			  }
+				case "/signup" -> {
 					
+					try {
+					PrintWriter script = response.getWriter();
+					PrintWriter out = response.getWriter();
+					//이메일 중복체크 여부
+					emailOverlapCheckParam = request.getParameter("emailOverlapCheck");
+					boolean emailOverlapCheck = Boolean.parseBoolean(emailOverlapCheckParam);
+					//닉네임 중복체크 여부
+					nicknameOverlapCheckParam = request.getParameter("nicknameOverlapCheck");
+					boolean nicknameOverlapCheck = Boolean.parseBoolean(nicknameOverlapCheckParam);
+					//비밀번호 패턴 정규식 -> js에도 있지만 그건 사용자 보여주기 위함.
+					String passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@!%*#?&])[A-Za-z\\d@!%*#?&]{8,12}$";
+					//세션에 저장되어 있는 이메일,닉네임 중복검사 결과 가져오기
+					int emailCheckSuccess = (int)session.getAttribute("emailCheckSuccess");
+					int nicknameCheckSuccess = (int)session.getAttribute("nicknameCheckSuccess");
+					
+					System.out.println("ec : "+emailCheckSuccess+"nc : "+nicknameCheckSuccess);
+					System.out.println("이메일버튼 on/off 여부: " + emailOverlapCheckParam);
+					System.out.println("닉네임버튼 on/off 여부: " + nicknameOverlapCheckParam);
+					
+					//이메일,비밀번호,닉네임을 저장한다.
+					if(request.getParameter("memberEmail")!=null){
+						memberEmail=request.getParameter("memberEmail");
+					}
+					if(request.getParameter("memberPwd")!=null){
+						memberPwd=request.getParameter("memberPwd");
+						System.out.println("비밀번호 넘어오나? : " +memberPwd);
+						System.out.println("정규식에 맞나??"+memberPwd.matches(passwordReg));
+						
+					}
+					if(request.getParameter("memberNickname")!=null){
+						memberNickname=request.getParameter("memberNickname");
+					}
+					
+					int result = 0 ; 
+				
+					//이메일,닉네임 중복 없고 비밀번호 두 개 일치했다면 -> 회원 객체 하나 만들고 result에 그 수 넣음
+					if (emailCheckSuccess == 1 && nicknameCheckSuccess == 1 && memberPwd.equals(memberPwd2)) {
+						//이메일 중복
+						if(emailCheckSuccess ==0) {
+							result = -200; 
+							out.print(result);
+							session.removeAttribute("emailOverlapCheck");
+							 return;
+						} //닉네임 중복
+						else if(nicknameCheckSuccess ==0) {
+							result = -300; 
+							out.print(result);
+							
+							 return;
+						}//이메일 중복체크 안 함
+						else if(emailOverlapCheck==false) {
+							result = -400; 
+							out.print(result);
+							
+							 return;
+						}//닉네임 중복체크 안 함
+						else if(nicknameOverlapCheck==false) {
+							result = -500; 
+							out.print(result);
+							
+							 return;
+						}//비밀번호 불일치
+						else if (!memberPwd.equals(memberPwd2)) {
+							result = -600; 
+							out.print(result);
+							
+							return;
+						}//비밀번호 정규식에 부합
+						else if (!memberPwd.matches(passwordReg)) {
+							result = -700; 
+							out.print(result);
+							
+							return;
+						}
+						//이메일 인증이 안 되어 있다면 (emailhashcheck.jsp에서 session으로 isRight에 인증 여부 저장함.)
+						boolean isRight = (boolean) session.getAttribute("isRight");
+						if (isRight == false) {
+							System.out.println(isRight);
+							result = -800; 
+							out.print(result);
+							session.removeAttribute("emailOverlapCheck");
+							return;
+						}
+						result = memberService.addMember(new MemberDTO(memberEmail, memberPwd, memberNickname, memberStatus, memberImageFileName));
+						  System.out.println("제발"+result);
+						  if (result==1) {
+							 // jsonResult.put("result", result);
+							  out.print(result);
+							  //이메일 인증 세션 만료
+							  session.removeAttribute("isRight");
+							return;
+							}
+						
+							//입력창 빈 곳이 있다면
+							else if (memberEmail==null || memberEmail.equals("") ||
+							    memberPwd==null || memberPwd.equals("")|| 
+								memberPwd2==null || memberPwd2.equals("") || 
+								memberNickname==null || memberNickname.equals("")) {
+								session.removeAttribute("isRight");
+								result = -800; 
+								out.print(result);
+								return;
+								
+							}
+					}
+					
+					break;
+					} catch (Exception ex) {
+						ex.printStackTrace();
+//						PrintWriter out = response.getWriter();
+//						int result = -1000;
+//						out.print(result);
+					}
+				}
+				case "/mypage" -> { 
+					
+					PrintWriter script = response.getWriter();
+					PrintWriter out = response.getWriter();
+					String passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@!%*#?&])[A-Za-z\\d@!%*#?&]{8,12}$";
+					
+					//로그인 정보 확인
+				    memberEmail = (String)session.getAttribute("memberEmail");
+				    if (memberEmail != null) {
+				        //로그인이 되어있는 경우
+				    	memberEmail=(String)session.getAttribute("memberEmail");
+				    } else {
+				        // 로그인 되어있지 않은 경우
+						script.println("<script>");
+						script.println("alert('로그인을 해 주세요.')");
+						script.println("location.href='/views/login.jsp';");
+						script.println("</script>");
+				    }
+				    
+					//닉네임 중복 확인
+					
+				    session = request.getSession(); // 세션 가져오기
+					session.setMaxInactiveInterval(1800);//30분 세션유지
+				    //nickname 버튼 click 했다면 넘어오는 nicknameOverlapCheck
+					nicknameOverlapCheckParam = request.getParameter("nicknameOverlapCheck");
+					System.out.println("mypage 이메일버튼 on/off 여부: " + nicknameOverlapCheckParam);
+					//getparameter는 string 타입이기 때문에 boolean으로 형 변환 click 했다면 true 넘어옴.
+					boolean nicknameOverlapCheck = Boolean.parseBoolean(nicknameOverlapCheckParam);
+					int nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
+					
+					if(nicknameCheckSuccess==0 || memberNickname=="" || memberNickname==null) {
+						session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
+						nicknameOverlapCheck=true;
+						int result= 0;
+						out.print(result);
+						return;
+					}
+					else {
+						System.out.println("nicknameOverlapCheck???? :" + nicknameOverlapCheck);
+						
+						if(nicknameOverlapCheck){
+							nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
+							System.out.println("nicknameCheckSuccess: "+nicknameCheckSuccess);
+							if(nicknameCheckSuccess == 1) {
+								 session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
+								 session.setAttribute("memberNickname", memberNickname);
+								 int result= 1;
+								 out.print(result);
+								 return;
+							} 
+						}
+					}
 					if (memberPwd==null || memberPwd.equals("")|| memberPwd2==null || memberPwd2.equals("")) {
 							 
-						PrintWriter script = response.getWriter();
 						script.println("<script>");
 						script.println("alert('수정을 취소합니다.')");
-						script.println("location.href='/views/login.jsp';");
+						script.println("location.href='/index.jsp';");
 						script.println("</script>");
 									
 					}
@@ -259,113 +495,85 @@ public class MemberController extends HttpServlet {
 					int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
 					
 					if (updateSuccess == 1){
-					    PrintWriter out = response.getWriter();
 						out.print(updateSuccess);
 						return;
 					
 					}else if (updateSuccess == 0) {
-						PrintWriter out = response.getWriter();
 						out.print(updateSuccess);
 						return;
 					}
-					
+					break;
 				}//case
 				
-				case "/imgChange" -> {
-					memberService.getMemberImageFileName(memberImageFileName, memberEmail);
+				case "/proflieImgChange" -> {
+					System.out.println("이미지 변경 메소드");
+					
+					String userResponseParam = request.getParameter("userResponse");
+					boolean userResponse = Boolean.parseBoolean(userResponseParam);
+					System.out.println("proflieImgChange넘어왔나???"+userResponse);
+					
+					if(userResponse) {
+					//memberService.getMemberImageFileName(memberImageFileName, memberEmail);
+					//파일 저장할 경로
+					System.out.println("asdasdasdsad");
 					File curPath=new File("C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\images");
+//					System.out.println(curPath);
+					//DiskFileItemFactory는 FileItem 객체를 생성하기 위한 팩토리 클래스  
+					//->getSize(), getName(), isFormField 등을 제공 -> 업로드된 파일의 정보(이름, 크기, 타입 등)를 확인하고, 데이터에 접근하여 원하는 처리를 수행 
 					DiskFileItemFactory factory=new DiskFileItemFactory();
 					//파일을 저장할 폴더 지정
 					factory.setRepository(curPath);
 					//저장할 파일 사이즈 지정
-					factory.setSizeThreshold(1024*1024);
-					
+					factory.setSizeThreshold(1024*1024*5);
+					//HTTP 요청으로부터 업로드된 파일을 추출하고 처리
 					ServletFileUpload upload = new ServletFileUpload(factory);
 				
 					try {
-						List items=upload.parseRequest(request); //request로 form이 리스트 형태로 넘어오면 
-						
-						for(int i = 0; i< items.size();i++) {
-							FileItem fi = (FileItem)items.get(i);
-							if(fi.isFormField()) {
-								System.out.println(fi.getFieldName()+"="+fi.getString("UTF-8"));
-							}else {
-								//저장 할 때 주소로 넘어오는데 파일 이름, 확장자만 사용?? ->윈도우는 주소에 \ 맥,리눅스는 /
-								//업로드한 파일 사이즈 확인, 크기가 0이 아닐 때만 저장
-								if(fi.getSize()>0) {
-									String fullpath = fi.getName();
+						List <FileItem> items=upload.parseRequest(request); //request로 form이 리스트 형태로 넘어오면 
+						//파일목록 (items)에서 첫번째 파일 아이템을 가져옴
+						//System.out.println("아이템:"+items);
+						for(FileItem fileItem : items) {
+							
+							//객체가 일판필드인지 파일필드인지 확인
+							if(!fileItem.isFormField()) { //파일필드면 false반환
+//								System.out.println(fileItem.getFieldName()+"="+fileItem.getString("UTF-8"));
+							
+									if(fileItem.getSize()>0) {
+									String fullpath = fileItem.getName();
+									//파일경로에서 마지막 \\를 찾아 저장 ex)C:\path\to\file.text라면
+									// idx=\file.txt
 									int idx=fullpath.lastIndexOf("\\"); //윈도우 사용자
 									
 									if(idx==-1) {
-										idx=fullpath.lastIndexOf("/"); //맥,리눅스 사용자  
+										idx=fullpath.lastIndexOf("/"); //만약 맥,리눅스 사용자라면
 									}
-									String fileName = fullpath.substring(idx+1); //전체 경로에서 파일 이름만 가져오기
-									File uploadFile = new File(curPath + "\\" + fileName);
-									
-									fi.write(uploadFile); //업로드한 파일 저장
-								}
-							}
-						}
-					}catch(Exception ex) {
-						ex.printStackTrace();
+									//idx는 " \ " 포함되어 있으므로 전체 경로에서 idx + 1 해주면 파일명만 저장 
+									String fileName = fullpath.substring(idx+1);
+									File uploadFile = new File(curPath+"\\"+fileName);
+									fileItem.write(uploadFile);
+									System.out.println("파일 이름 : " + fileName);
+									}
+								}//if	
+							
+						}//for
 					}
-					
-				}
-			}	//switch
+					catch(Exception ex) {
+					ex.printStackTrace();
+					}
+				}//if
+				}//case
+		
+			}//switch
 			
-			
-		}catch(Exception ex) {
-				ex.printStackTrace();
-		}
 		
-		}
-		
-		
-		
-//		
-//		
-//		//파라미터 값 중에 전달 안 되는 값이 있을 시 오류 발생시킴
-//		if (memberEmail==null || memberEmail.equals("") ||
-//		   memberPwd==null || memberPwd.equals("")
-//		    || memberPwd2==null || memberPwd2.equals("") || memberNickname==null || memberNickname.equals("")
-//		   ) {
-//			request.getSession().setAttribute("messageType", "오류메시지");
-//			request.getSession().setAttribute("messageContent", "모든 내용을 입력하세요.");
-//			response.sendRedirect("/views/signup.jsp");
-//			return;
-//			
-//		}
-//		//아이디 중복 여부 검사
-//		
-//		
-//		
-//		
-//		
-//		//회원 가입시 두 비밀번호가 일치하지 않는다면?
-//		if (!memberPwd.equals(memberPwd2)) {
-//				request.getSession().setAttribute("messageType", "오류메시지");
-//				request.getSession().setAttribute("messageContent", "비밀번호가 일치하지 않습니다.");
-//				response.sendRedirect("/views/signup.jsp");
-//				return;
-//				
-//		}
-//			
-//		
-		
-		
-		//여기까지 함수가 종료되지 않았다면 회원정보 모두 입력 받은 상태
-//		int result = new MemberDAO().addMember(memberEmail, memberPwd, memberNickname);
-//		
-//		if(result == 1 ) {
-//			request.getSession().setAttribute("messageType", "가입 성공 메시지");
-//			request.getSession().setAttribute("messageContent", "회원가입에 성공했습니다.");
-//			response.sendRedirect("/index.jsp");
-//			return;
-//		}else {
-//			request.getSession().setAttribute("messageType", "오류메시지");
-//			request.getSession().setAttribute("messageContent", "이미 존재하는 이메일입니다.");
-//			response.sendRedirect("/views/signup.jsp");
-//			return;
-//			
-//		}
+		}//try		
+		catch(Exception ex) {
+			ex.printStackTrace();
+		}	
+	}//dopost	
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doPost(request, response);
 	}
+}//class	
+
+	

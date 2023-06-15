@@ -161,39 +161,7 @@ public class MemberDAO {
 			return null; //오류발생시 null값 반환
 		}
 	
-	public boolean setMemberEmail(String memberEmail) {
-		try {
-			con = ds.getConnection();
-			
-			String query = """
-				UPDATE FROM GC25_MEMBER SET memberEmailChecked = true , memberEmailHash = ? WHERE m_email = ?
-				""";
-			pstmt = con.prepareStatement(query);
-			//콘솔창 쿼리 확인
-			System.out.println(query);
-			
-			pstmt.setString(1, new SHA256().getSHA256(memberEmail));
-			System.out.println(new SHA256().getSHA256(memberEmail));
-			pstmt.setString(2, memberEmail);
-			System.out.println(memberEmail);
-			rs = pstmt.executeQuery();
-			
-			if (rs.next()){
-				return true;
-			}
-	
-		}catch(Exception ex) {
-			ex.printStackTrace();
-		}finally {
-			try {
-				if(rs != null) rs.close();
-				if(pstmt != null) pstmt.close();
-			}catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		return false; //오류발생시 null값 반환
-	}
+
 	
 	public String getMemberImageFileName(String memberImageFileName, String memberEmail) {
 		try {
@@ -236,7 +204,7 @@ public class MemberDAO {
 			con = ds.getConnection();
 			
 			String query = """
-				UPDATE FROM GC25_MEMBER SET m_imagefilename = ? WHERE m_email = ?
+				UPDATE GC25_MEMBER SET m_imagefilename = ? WHERE m_email = ?
 				""";
 			pstmt = con.prepareStatement(query);
 			//콘솔창 쿼리 확인
@@ -246,7 +214,8 @@ public class MemberDAO {
 			System.out.println(memberImageFileName);
 			pstmt.setString(2, memberEmail);
 			System.out.println(memberEmail);
-			rs = pstmt.executeQuery();
+			
+			pstmt.executeUpdate();
 			
 			//같은 이름의 email 찾아서 반환
 			if (rs.next()){
@@ -269,22 +238,21 @@ public class MemberDAO {
 		
 	//회원 정보 저장
 	//MemberDTO import
-	public int addMember(String memberEmail, String memberEmailHash, String memberEmailChecked, String memberPwd,
+	public int addMember(String memberEmail, String memberPwd,
 			String memberNickname, int memberStatus, String memberImageFileName) {
 		try {
 			//connection 하나 가져오기
 			con = ds.getConnection();
 			//MEMBER table에 추가
-			String query = "INSERT INTO GC25_MEMBER VALUES (?, ?, ?, ?, ?, ?, ?)";
+			String query = "INSERT INTO GC25_MEMBER VALUES (seq_GC25_MEMBER.nextval, ?, ?, ?, ?, ?)";
 			pstmt = con.prepareStatement(query);
 			//m_index는 auto_increment열 -> 데이터베이스가 자동으로 증가시키는 값이므로, 값을 직접 설정할 필요 없음.
+			
 			pstmt.setString(1, memberEmail);
-			pstmt.setString(2, memberEmailHash);
-			pstmt.setString(3, memberEmailChecked);
-			pstmt.setString(4, memberPwd);
-			pstmt.setString(5, memberNickname);
-			pstmt.setInt(6, memberStatus);
-			pstmt.setString(7, memberImageFileName);
+			pstmt.setString(2, memberPwd);
+			pstmt.setString(3, memberNickname);
+			pstmt.setInt(4, memberStatus);
+			pstmt.setString(5, memberImageFileName);
 			
 			//준비된 sql문 실행 -> 실행된 sql 갯수 반환 (등록에 실패하면 0이하의 값 반환)
 			return pstmt.executeUpdate();
@@ -356,7 +324,7 @@ public class MemberDAO {
 					
 					//MEMBER table에서 memberEmail로 찾기
 					String query = """
-							SELECT * FROM GC25_MEMBER WHERE m_email= ? 
+							SELECT m_email , m_nickname , m_status, m_imagefilename  FROM GC25_MEMBER WHERE m_email= ? 
 						""";
 					pstmt = con.prepareStatement(query);
 					//콘솔창 쿼리 확인
@@ -368,13 +336,11 @@ public class MemberDAO {
 					
 					//같은 이름의 email 찾아서 반환
 					if (rs.next()){
-						member.setMemberEmail(memberEmail);
-						member.setMemberEmailHash(rs.getString("memberEmailHash"));
-						member.setMemberEmailChecked(rs.getString("memberEmailChecked"));
-						member.setMemberPwd(rs.getString("memberPwd"));
-						member.setMemberNickname(rs.getString("memberNickname"));
-						member.setMemberStatus(rs.getString("memberStatus"));
-						member.setMemberImageFileName(rs.getString("memberImageFileName"));
+						member.setMemberEmail(rs.getString("m_email"));
+						member.setMemberNickname(rs.getString("m_nickname"));
+						member.setMemberStatus(rs.getInt("m_status"));
+						member.setMemberImageFileName(rs.getString("m_imagefilename"));
+					
 					}
 			
 				}catch(Exception ex) {
@@ -387,6 +353,7 @@ public class MemberDAO {
 						ex.printStackTrace();
 					}
 				}
+				System.out.println(member);
 				return member; //오류발생시 null값 반환
 			}
 		
@@ -398,7 +365,7 @@ public class MemberDAO {
 				con = ds.getConnection();
 				//MEMBER table에 추가
 				String query = """
-						UPDATE FROM GC25_MEMBER SET m_pwd = ? , m_nickname = ? ,m_imagefilename = ? WHERE m_email = ?
+						UPDATE GC25_MEMBER SET m_pwd = ? , m_nickname = ? ,m_imagefilename = ? WHERE m_email = ?
 						""";
 				pstmt = con.prepareStatement(query);
 				//m_index는 auto_increment열 -> 데이터베이스가 자동으로 증가시키는 값이므로, 값을 직접 설정할 필요 없음.
@@ -422,4 +389,38 @@ public class MemberDAO {
 			}
 			return -1;
 		}
+		
+		public String getMemberNumber(String memberEmail) {
+			try {
+				//connection 하나 가져오기
+				con = ds.getConnection();
+				//MEMBER table에 추가
+				String query = """
+						SELECT seq_GC25_MEMBER.NEXTVAL
+						FROM GC25_MEMBER
+						WHERE m_email = ?
+						""";
+				pstmt = con.prepareStatement(query);
+				//m_index는 auto_increment열 -> 데이터베이스가 자동으로 증가시키는 값이므로, 값을 직접 설정할 필요 없음.
+				pstmt.setString(1, memberEmail);
+				rs = pstmt.executeQuery();
+				
+				if (rs.next()) {
+					 String memberNumber = rs.getString(1);
+		            return memberNumber;
+		        }
+				
+			}catch(Exception ex) {
+				ex.printStackTrace();
+			}finally {
+				try {
+					if(rs != null) rs.close();
+					if(pstmt != null) pstmt.close();
+				}catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			return null;
+		}
+		
 }

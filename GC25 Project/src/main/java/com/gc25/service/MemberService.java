@@ -28,15 +28,9 @@ public class MemberService {
 	
 	public String getMemberEmail(String memberEmail) {
 		
-		String result = memberDAO.getMemberEmail(memberEmail);
+		memberEmail = memberDAO.getMemberEmail(memberEmail);
 		
-		return result;
-	}
-	public boolean setMemberEmail(String memberEmail){
-		
-		boolean result = memberDAO.setMemberEmail(memberEmail);
-		
-		return result;
+		return memberEmail;
 	}
 	
 	public int memberLogin(String memberEmail,String memberPwd) {
@@ -60,11 +54,38 @@ public class MemberService {
 		return result;
 	}
 	
+	public int addMember (MemberDTO memberDTO) {
+		
+		String memberEmail = memberDTO.getMemberEmail();
+	    String memberPwd = memberDTO.getMemberPwd();
+	    String memberNickname = memberDTO.getMemberNickname();
+	    int memberStatus = memberDTO.getMemberStatus();
+	    String memberImageFileName = memberDTO.getMemberImageFileName();
+
+	    int result = memberDAO.addMember(memberEmail, memberPwd, memberNickname, memberStatus, memberImageFileName);
+		
+		return result;
+	}
+	
 	public int updateMember (String memberEmail, String memberPwd, String memberNickname, String memberImageFileName) {
 			
 		int result = memberDAO.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
 		
 		return result;
+	}
+	
+	public String getMemberNumber(String memberEmail) {
+		
+		String result=memberDAO.getMemberNumber(memberEmail);
+		
+		return result;
+	}
+	
+	public MemberDTO getMember (String memberEmail) {
+		
+		MemberDTO memberDTO = memberDAO.getMember(memberEmail);
+		
+		return memberDTO;
 	}
 	
 }
