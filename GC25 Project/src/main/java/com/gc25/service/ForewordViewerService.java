@@ -21,11 +21,14 @@ public class ForewordViewerService {
 		return forewordViewrDao.getForewordBoard(boardNum);
 	}
 	
+	//게시글 수정
+		public void modifyForewordBoard(ForewordBoardDTO forewordBoardDTO) {
+			forewordViewrDao.modifyForewordBoard (forewordBoardDTO);
+		}
+		
+	
 	//좋아요 수 업데이트 
 	public void setRecommend(int memberNum, int boardNum, int aBoard ) {
-		
-		
-		
 		recommendDao.fbSetRecommend(memberNum, boardNum, aBoard);
 	}
 }

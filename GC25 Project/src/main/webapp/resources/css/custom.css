@@ -40,7 +40,7 @@
 /* 별점 --> score */
 .starBox {
   display: flex;
-  border: 1px solid black;
+ 
 }
 
 .emptyStar {
@@ -154,3 +154,10 @@
 	
 	background-color:white;
 }
+
+
+
+
+/* ---------------- 형주 ---------------- */
+/* ----- forewordviewer ----- */
+
