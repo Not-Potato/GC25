@@ -1,5 +1,7 @@
 package com.gc25.dao;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,6 +13,8 @@ import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
 import com.gc25.dto.AfterwordBoardDTO;
+
+import oracle.net.aso.q;
 
 public class AfterwordBoardDAO {
 	private Connection con; // db 연결을 위한 connection 변수
@@ -183,21 +187,69 @@ public class AfterwordBoardDAO {
 			
 			result = pstmt.executeUpdate();
 			
+			// 글 작성 성공 시 
+			// 회원 등급 (글 작성 시 회원 등급 확인 --> 0이면 1로 변경)
+			// 학원 테이블 평점 업데이트
 			if (result == 1) {
 				System.out.println("업로드 성공!");
-			}
-			
-			// 글 업로드 종료
-			// 회원 등급 확인 시작
-			query = """
+				// 회원 등급
+				query = "";
+				query = """
 						UPDATE GC25_MEMBER
 						SET m_status = 1
 						WHERE m_number = ? AND m_status = 0
 					""";
-			System.out.println(query);
-			pstmt = con.prepareStatement(query);
-			pstmt.setInt(1, dto.getMemberNumber());
-			pstmt.executeUpdate();
+				System.out.println(query);
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, dto.getMemberNumber());
+				pstmt.executeUpdate();
+				
+				// 학원 테이블 평균 점수 업데이트
+				// 서브 쿼리로 한번에 하기 실패..
+//				query = """
+//						UPDATE GC25_ACADEMY a
+//						SET a.a_avgscore = (
+//						  SELECT AVG(ab_totalscore)
+//						  FROM GC25_AFTERWORD_BOARD b
+//						  WHERE b.a_name = ?
+//						  GROUP BY b.a_name
+//						)
+//						WHERE a.a_name = ?
+//					""";
+				
+				// 두 단계로 나눠서 진행!
+				// 1단계 --> 수강 후기 테이블에서 totalScore 칼럼의 평균 값(학원 명 기준) 구해 오기
+				query = "";
+				query = """
+						SELECT AVG(ab_totalscore)
+						  FROM GC25_AFTERWORD_BOARD
+						  WHERE a_name = ?
+						  GROUP BY a_name
+						""";
+				pstmt = con.prepareStatement(query);
+				pstmt.setString(1, dto.getAcademyName());
+				ResultSet rs = pstmt.executeQuery();
+				double avg = 0;
+				if (rs.next()) {
+					BigDecimal deAvg = rs.getBigDecimal(1); // 컬럼 인덱스나 컬럼 이름을 사용하여 값을 가져옵니다.
+					avg = deAvg.setScale(1, RoundingMode.HALF_UP).doubleValue(); // 1자리로 반올림하고 double로 변환합니다.
+				}
+				
+				// 2단계 --> 학원 테이블에서 a_avgscore 칼럼 값 변경하기
+				query = "";
+				query = """
+						UPDATE GC25_ACADEMY 
+							SET a_avgscore = ?
+							WHERE a_name = ?
+						""";
+				pstmt = con.prepareStatement(query);				
+				pstmt.setDouble(1, avg);
+				pstmt.setString(2, dto.getAcademyName());
+				pstmt.executeUpdate();
+			}
+			
+			if(con != null) try {con.close();} catch(Exception ex){}
+			if(pstmt != null) try {pstmt.close();} catch(Exception ex){}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

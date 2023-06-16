@@ -15,8 +15,6 @@ public class CommentDTO {
 	private String nickname; // 닉네임
 	private String imageFileName; // 이미지
 	
-	
-	
 	public CommentDTO() {
 	}
 

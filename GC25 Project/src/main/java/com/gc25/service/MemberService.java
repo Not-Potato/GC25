@@ -88,4 +88,8 @@ public class MemberService {
 		return memberDTO;
 	}
 	
+	public int withdrawal(int memNum) {
+		return memberDAO.withdrawal(memNum);
+	}
+	
 }

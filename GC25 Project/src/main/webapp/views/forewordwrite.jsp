@@ -36,9 +36,8 @@
 							<input type="text" id="academyName" placeholder="학원 이름을 입력해 주세요."
 								class="form-control" autocomplete="off" name="academyName">
 							<input type="hidden" name="academyNum" id="academyNum" class="" value="">
-							<!-- TODO: autoComplete 요소 삭제하고 스크립트(통신) 발생 시에 생성되게끔 스크립트 변경하기 -->
 							<div class="searchList">
-								<div class="autoComplete col-md-12">
+								<div class="d-none col-md-12" id="none">
 									<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
 								</div>
 							</div>
@@ -102,10 +101,10 @@
 		    let check4 = isEmpty(contents);
 	
 		    // 만약 하나라도 true면 --> 입력되지 않은 값이 존재하는 경우
-		    if (check1 || check2 || check3 || check4) {
+			if (check1 || check2 || check3 || check4) {
 		        alert('입력되지 않은 값이 존재합니다!');
 		        return false;
-		    } 
+		    }
 	
 		    //TODO: 학원명 - DB에 없는 데이터 입력할 수 없도록 제한
 		    $.ajax({

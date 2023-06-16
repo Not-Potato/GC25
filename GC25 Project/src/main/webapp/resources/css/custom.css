@@ -12,6 +12,7 @@
 /* 자동 완성 리스트 */
 .searchList {
     position: relative;
+    z-index: 1;
 }
 
 .searchList .autoComplete {
