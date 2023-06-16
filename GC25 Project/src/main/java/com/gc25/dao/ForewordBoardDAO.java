@@ -112,7 +112,6 @@ public class ForewordBoardDAO {
 			con = ds.getConnection();
 
 			String query = "SELECT COUNT(DISTINCT fb_number) AS total_count FROM GC25_FOREWORD_BOARD";
-			System.out.println(query);
 			
 			pstmt = con.prepareStatement(query);
 			
@@ -145,7 +144,7 @@ public class ForewordBoardDAO {
 						INSERT INTO GC25_FOREWORD_BOARD 
 						VALUES(seq_GC25_FOREWORD_BOARD.nextval, ?, ?, ?, ?, SYSDATE, ?, ?, 0, 0, 0)
 					""";
-			System.out.println(query);
+	
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setInt(1, dto.getMemberNumber());
@@ -157,9 +156,7 @@ public class ForewordBoardDAO {
 			
 			result = pstmt.executeUpdate();
 			
-			if (result == 1) {
-				System.out.println("업로드 성공!");
-			}
+
 			
 			// 글 업로드 종료
 			// 회원 등급 확인 시작
@@ -168,7 +165,7 @@ public class ForewordBoardDAO {
 						SET m_status = 1
 						WHERE m_number = ? AND m_status = 0
 					""";
-			System.out.println(query);
+			
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, dto.getMemberNumber());
 			pstmt.executeUpdate();
