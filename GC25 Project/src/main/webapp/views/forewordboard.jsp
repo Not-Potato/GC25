@@ -1,4 +1,4 @@
-<%@page import="java.util.ArrayList"%>
+ <%@page import="java.util.ArrayList"%>
 <%@page import="com.gc25.service.ForewordBoardService"%>
 <%@page import="com.gc25.dto.ForewordBoardDTO"%>
 <%@page import="com.gc25.dao.ForewordBoardDAO"%>

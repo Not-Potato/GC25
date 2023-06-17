@@ -601,6 +601,29 @@ public class MemberController extends HttpServlet {
 					}
 				}//case
 				
+				case "/withdrawal.do" -> {
+					// 세션에 저장된 현재 로그인되어 있는 계정의 회원번호 가져오기
+					int memberNumber = (int) session.getAttribute("memberNumber");
+					// service --> DAO -->  DB 삭제 진행
+					int result = memberService.withdrawal(memberNumber);
+					System.out.println("컨트롤러: " + result);
+					
+					// "회원 탈퇴 처리가 완료되었습니다" 
+					// "그동안 이용해 주셔서 감사합니다"
+					PrintWriter script = response.getWriter();
+					if (result == 1) {
+						script.println("<script>");
+						script.println(		"alert('그동안 이용해 주셔서 감사합니다.')");
+						script.println(		"location.replace('mypage.do')");
+						script.println("</script>");
+					} else {
+						script.println("<script>");
+						script.println(		"alert('오류가 발생했습니다.')");
+						script.println(		"location.replace('mypage.do')");
+						script.println("</script>");
+					}
+				}
+				
 			}//switch
 			
 		
