@@ -172,6 +172,17 @@ public class ForewordBoardDAO {
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, dto.getMemberNumber());
 			pstmt.executeUpdate();
+			
+			// 학원 테이블 a_reviewcount 칼럼 업데이트
+			query = "";
+			query = """
+					UPDATE GC25_ACADEMY 
+					SET a_reviewcount = (a_reviewcount + 1) 
+					WHERE a_name = ?
+					""";
+			pstmt = con.prepareStatement(query);				
+			pstmt.setString(1, dto.getAcademyName());
+			pstmt.executeUpdate();
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

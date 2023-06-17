@@ -190,6 +190,7 @@ public class AfterwordBoardDAO {
 			// 글 작성 성공 시 
 			// 회원 등급 (글 작성 시 회원 등급 확인 --> 0이면 1로 변경)
 			// 학원 테이블 평점 업데이트
+			// 학원 테이블 후기카운팅 칼럼 업데이트
 			if (result == 1) {
 				System.out.println("업로드 성공!");
 				// 회원 등급
@@ -245,6 +246,17 @@ public class AfterwordBoardDAO {
 				pstmt = con.prepareStatement(query);				
 				pstmt.setDouble(1, avg);
 				pstmt.setString(2, dto.getAcademyName());
+				pstmt.executeUpdate();
+				
+				// 학원 테이블 a_reviewcount 칼럼 업데이트
+				query = "";
+				query = """
+						UPDATE GC25_ACADEMY 
+						SET a_reviewcount = (a_reviewcount + 1) 
+						WHERE a_name = ?
+						""";
+				pstmt = con.prepareStatement(query);				
+				pstmt.setString(1, dto.getAcademyName());
 				pstmt.executeUpdate();
 			}
 			
