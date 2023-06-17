@@ -71,7 +71,7 @@
                         <input type="text" name="memberNickname" id="memberNickname" placeholder="닉네임을 입력하세요." >
                     </td>
                     <td>
-                        <button class="nicknameCheckBtn" onclick="nicknameCheck()">중복 확인</button>
+                        <button class="nicknameCheckBtn" onclick="nicknamecheck()">중복 확인</button>
                     </td>
                 </tr>
                   <tr>
@@ -120,7 +120,7 @@
 				type :"post",
 				async : true,
 				//controller 주소 입력
-				url : "/mem/emailCheck",
+				url : "/mem/emailCheck.do",
 				//memberEmail을 가져와서 변수 memberEmail에 할당
 				data : {
 					memberEmail : memberEmail ,
@@ -169,7 +169,7 @@
 		}
 		
 		//닉네임 중복확인 
-		function nicknameCheck() {
+		function nicknamecheck() {
 
 			event.preventDefault();
 			nicknameOverlapCheck = true;
@@ -185,7 +185,7 @@
 				type :"post",
 				async : true,
 				
-				url : "/mem/nicknameCheck",
+				url : "/mem/nickcheck.do",
 				data : {
 					memberNickname : memberNickname ,
 					nicknameOverlapCheck : nicknameOverlapCheck
@@ -225,7 +225,7 @@
 			$.ajax({
 				type :"post",
 				async : true,
-				url : "/mem/emailSend",
+				url : "/mem/emailSend.do",
 				data : {
 					memberEmail : memberEmail
 				},  
@@ -281,7 +281,7 @@
 			$.ajax({
 				type :"post",
 				async : true,
-				url : "/mem/signup",
+				url : "/mem/signup/result.do",
 				data : {
 					memberEmail : memberEmail , 
 					memberPwd : memberPwd,

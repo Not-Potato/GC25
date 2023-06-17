@@ -51,7 +51,7 @@
       <div id="profile">
         <form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
         	<img src="../resources/images/<%= memberImageFileName2 %>" alt="기본이미지" id="profileImg" >
-        	<input type="file" name="profile" id="">
+        	<input type="file" name="profile" >
         	<button class="profileBtn" onclick="profileChange()">수정</button>
         </form>
         <form method="post" enctype="multipart/form-data" name="/mem/proflieImgRemove" action="/mem/proflieImgRemove">
@@ -140,7 +140,7 @@ function passwordCheck(){
 //닉네임 중복확인 
 
 
-function nicknameCheck() {
+function nickcheck() {
 
 	event.preventDefault();
 	nicknameOverlapCheck = true;
@@ -156,7 +156,7 @@ function nicknameCheck() {
 	$.ajax({
 		type :"post",
 		async : true,
-		url : "/mem/nicknameCheck",
+		url : "/mem/nickcheck.do",
 		data : { 
 			memberNickname : memberNickname,
 			nicknameOverlapCheck : nicknameOverlapCheck
@@ -209,12 +209,12 @@ function changeSubmit(userResponse) {
 	$.ajax({
 			type :"post",
 			async : true,
-			url : "/mem/proflieImgChange",
+			url : "/mem/imgchange.do",
 			processData: false,
 			contentType: false,
 			data: form,
 			success : function(result) {
-				console.log(result);
+				console.log("result: "+result);
 				if(userResponse){
 					alert("이미지 전송이 완료되었습니다.");
 					
@@ -249,7 +249,7 @@ function imgRemove(){
 		$.ajax({
 			type :"post",
 			async : true,
-			url : "/mem/proflieImgRemove",
+			url : "/mem/imgdel.do",
 			data : { 
 				userResponse : userResponse
 			},
@@ -289,7 +289,7 @@ function mypageSubmit() {
 		$.ajax({
 			type :"post",
 			async : true,
-			url : "/mem/mypage",
+			url : "/mem/mpsubmit.do",
 			data : {
 				memberPwd : memberPwd,
 				memberPwd2 : memberPwd2,

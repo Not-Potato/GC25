@@ -11,16 +11,29 @@ public class AcademyDTO {
 	String academyUrl; 
 	String academyX; //위치 경도 
 	String academyY; //위치 위도
+	int academyReviewCount; //리뷰 수
 	
+
+	@Override
+	public String toString() {
+		return "AcademyDTO [academyNumber=" + academyNumber + ", academyName=" + academyName + ", academyTel="
+				+ academyTel + ", academyAddress=" + academyAddress + ", academyRodeAddress=" + academyRodeAddress
+				+ ", academyAvgScore=" + academyAvgScore + ", academyUrl=" + academyUrl + ", academyX=" + academyX
+				+ ", academyY=" + academyY + ", academyReviewCount=" + academyReviewCount + "]";
+	}
 
 	public AcademyDTO() {
 		super();
 	}
+	
+	public AcademyDTO(String academyName, int academyAvgScore) {
+		this.academyName = academyName;
+		this.academyAvgScore = academyAvgScore;
+	}
 
 
 	public AcademyDTO(int academyNumber, String academyName, String academyTel, String academyAddress,
-			String academyRodeAddress, double academyAvgScore, String academyUrl, String academyX, String academyY) {
-		super();
+			String academyRodeAddress, double academyAvgScore, String academyUrl, String academyX, String academyY , int academyReviewCount) {
 		this.academyNumber = academyNumber;
 		this.academyName = academyName;
 		this.academyTel = academyTel;
@@ -30,6 +43,7 @@ public class AcademyDTO {
 		this.academyUrl = academyUrl;
 		this.academyX = academyX;
 		this.academyY = academyY;
+		this.academyReviewCount = academyReviewCount;
 	}
 
 
@@ -120,6 +134,14 @@ public class AcademyDTO {
 
 	public void setAcademyY(String academyY) {
 		this.academyY = academyY;
+	}
+
+	public int getAcademyReviewCount() {
+		return academyReviewCount;
+	}
+
+	public void setAcademyReviewCount(int academyReviewCount) {
+		this.academyReviewCount = academyReviewCount;
 	}
 	
 

@@ -32,4 +32,6 @@ public class AcademyService {
 	public int searchJustOne(String academyName) {
 		return academyDAO.searchJustOne(academyName);
 	}
+	
+	
 }
