@@ -2,7 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}" />
 <%
-	String pgName = (String)request.getAttribute("pageName");
+	// 스크립틀릿으로 처리해 본 메뉴 클래스 추가 
+	String pgName = "";
+	pgName = (String)request.getAttribute("pageName");
 	String menu1 = "text-black";
 	String menu2 = "text-black";
 	String menu3 = "text-black";
@@ -17,7 +19,22 @@
 			menu3 = "text-primary";
 			break;
 	}
+	
+	/* 	
+	int memberNumber = 0;
+	memberNumber = session.getAttribute("memberNumber") == null ? 0: (Integer)session.getAttribute("memberNumber");
+	System.out.println("세션에 저장된 회원번호 [" + memberNumber + "]");
+	
+	// 세션에 저장된 회원 번호가 없으면 (= 로그인 정보가 없으면) --> guest = true;
+	// 있으면 --> guest = false;
+	boolean guest = true;
+	guest = (memberNumber == 0) ? true :  false;
+	System.out.println("접속자는 손님(비회원)인가요? [" + guest + "]"); 
+	// JSTL로 해결 완료
+	*/
 %>
+<c:set var="memberNumber" value="${sessionScope.memberNumber}" />
+<c:set var="guest" value="${empty memberNumber}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,14 +42,12 @@
 	<title>header</title>
 	<link href="<c:url value='/resources/css/bootstrap.min.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
-
 </head>
 <body>
 
 	<header class="header">
 		<div class="p-4 bg-light w-100 mb-5">
 			<div class="container d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-			
 				<ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
 				
 					<li>
@@ -50,8 +65,24 @@
 				</form>
 			
 				<div class="text-end">
-					<button type="button" class="btn btn-outline-primary me-2" >Login</button>
-					<button type="button" class="btn btn-primary">Sign-up</button>
+				
+				<!-- 현재 불러온 회원번호(from 세션)와 guest 여부 출력 -->
+				<%-- 		
+					<c:out value="${memberNumber}" />
+					<c:out value="${guest}" /> 
+				--%>
+				
+				<!-- 로그인 정보 없을 때와 있을 때 우측 상단 btn -->
+				<c:choose>
+					<c:when test="${guest}" >
+						<button type="button" class="btn btn-outline-primary me-2" onclick="location.href='${contextPath}/mem/login.do'">Login</button>
+						<button type="button" class="btn btn-primary" onclick="location.href='${contextPath}/mem/signup.do'">Sign-up</button>
+					</c:when>
+					<c:otherwise>
+						<button type="button" class="btn btn-outline-primary me-2" onclick="location.href='${contextPath}/mem/mypage.do'">My Page</button>
+						<button type="button" class="btn btn-primary" onclick="location.href='${contextPath}/mem/logout.do'">Logout</button>
+					</c:otherwise>
+				</c:choose>
 				</div>
 			</div>
 		</div>

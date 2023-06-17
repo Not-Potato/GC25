@@ -429,4 +429,30 @@ public class MemberDAO {
 			return 0;
 		}
 		
+		public int withdrawal(int memNum) {
+			int result = 0;
+			
+			try {
+				con = ds.getConnection();
+				String query = """
+							DELETE FROM GC25_MEMBER
+								WHERE m_number = ?
+						""";
+				pstmt = con.prepareStatement(query);
+				pstmt.setInt(1, memNum);
+				result = pstmt.executeUpdate();
+				System.out.println("DAO: "+result);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}finally {
+				try {
+					if(rs != null) rs.close();
+					if(pstmt != null) pstmt.close();
+				}catch (Exception ex) {
+					ex.printStackTrace();
+				}
+			}
+			return result;
+		}
+		
 }

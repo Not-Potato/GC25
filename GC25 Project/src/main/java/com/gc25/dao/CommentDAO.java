@@ -49,7 +49,6 @@ public class CommentDAO {
 			pstmt.setString(4, commentContents);
 			pstmt.executeUpdate(); 	
 			
-			System.out.println("ABCommentDAO의 댓글DB에 추가하는 쿼리:" + query);
 			
 		}catch (Exception ex) {
 				ex.printStackTrace();

@@ -107,6 +107,7 @@
 	  </div>
 	  <div>
 		   <button id="mypageSubmitBtn" name="mypageSubmitBtn" onclick="mypageSubmit()">적용</button>
+		   <button type="button" class="btn btn-outline-danger" onclick="withdrawal()">회원 탈퇴</button>
 	 </div>
 </div>    
 <%@ include file = "./common/footer.jsp" %>
@@ -336,6 +337,15 @@ function mypageSubmit() {
 			}
 		});
 	
+	}
+	
+	function withdrawal() {
+		if(confirm("정말 탈퇴하시겠습니까?")) {
+			// 사용자: 예
+			location.href = '/mem/withdrawal.do';
+		} else {
+			// 사용자: 아니오
+		}
 	}
 	
 </script>
