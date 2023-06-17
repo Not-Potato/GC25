@@ -6,34 +6,39 @@ import java.text.SimpleDateFormat;
 
 public class ForewordBoardDTO {
 	// 게시글 고유번호
-	int boardNumber;
+	private int boardNumber;
 	// 작성자(회원) 고유번호
-	int memberNumber;
+	private int memberNumber;
 	// 학원 고유번호
-	int academyNumber;
+	private int academyNumber;
 	// 학원 명
-	String academyName;
+	private String academyName;
 	// 과정 구분 (*이전 누락 건)
-	String course;
+	private String course;
 	// 작성일
-	String writeDate;
+	private String writeDate;
 	// 글 제목
-	String title;
+	private String title;
 	// 글 내용
-	String contents;
+	private String contents;
 	// 추천 수
-	int recommend;
+	private int recommend;
 	// 조회 수
-	int views;
+	private int views;
 	// 댓글 수
-	int commentCount;
+	private int commentCount;
+	
+	// 사용자 정보 가져오기 위한 추가 항목
+	private String nickname; // 닉네임
+	private String imageFileName; // 이미지
+	
 	
 	public ForewordBoardDTO() {
 		
 	}
 
 	public ForewordBoardDTO(int boardNumber, int memberNumber, int academyNumber, String academyName,
-			String course, Timestamp d, String title, String contents) {
+			String course, Timestamp d, String title, String contents, String nickname, String imageFileName) {
 		this.boardNumber = boardNumber;
 		this.memberNumber = memberNumber;
 		this.academyNumber = academyNumber;
@@ -45,6 +50,9 @@ public class ForewordBoardDTO {
 		this.recommend = 0;
 		this.views = 0;
 		this.commentCount = 0;
+		this.nickname = nickname;
+		this.imageFileName = imageFileName;
+		
 	}
 
 	public int getBoardNumber() {
@@ -138,6 +146,22 @@ public class ForewordBoardDTO {
 
 	public void setCommentCount(int commentCount) {
 		this.commentCount = commentCount;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getImageFileName() {
+		return imageFileName;
+	}
+
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
 	}
 
 	@Override

@@ -1,8 +1,9 @@
 let $search = document.querySelector("#academyName");
+let $none = document.querySelector("#none");
 let $auto = document.querySelector(".autoComplete");
 
 $search.onkeyup = (event) => {
-	$auto.innerHTML = "";
+	$none.innerHTML = "";
 	// 검색어
 	let keyword = $search.value.trim();
 	/* let json = null; */
@@ -11,6 +12,7 @@ $search.onkeyup = (event) => {
 	
 	// ajax -> 자바 -> DB 값 가져오기
 	if (!keyword == "") {
+		$none.classList.replace('d-none', 'autoComplete');
 		$.ajax({
 			url: "/academy/search",
 			method: "get",
@@ -49,9 +51,12 @@ $search.onkeyup = (event) => {
 			            nowIndex = 0;
 			            break;
 			    }
-				
 			    // 리스트 보여주기
 			    showList(matchDataList, keyword, nowIndex);
+			    
+			    if (data == null) {
+					$none.classList.add("d-none"); // ajax 통해 가져온 데이터가 없을 때 결과 창 숨기기
+				}
 			},
 			
 			error: function(xhr, status, error) {
@@ -60,15 +65,19 @@ $search.onkeyup = (event) => {
 		});
 	}
 };
+
+$search.onblur = () => {
+  $none.classList.add("d-none"); // 포커스를 잃었을 때 검색 결과 창 숨기기
+};
 	
 const showList = (data, keyword, nowIndex) => {
     console.log(keyword);
-    $auto.innerHTML = "";
+    $none.innerHTML = "";
 
     // 정규식으로 변환
     let regex = new RegExp(`(${keyword})`, "g");
     
-    $auto.innerHTML = data
+    $none.innerHTML = data
       .map(
         (label, index) => `
         <div class='${nowIndex === index ? "active" : ""}'>

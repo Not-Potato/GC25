@@ -18,7 +18,6 @@ public class ForewordViewerDAO {
 	private PreparedStatement pstmt;
 	private DataSource ds;
 	
-	
 	public ForewordViewerDAO() {
 		try {
 			Context ctx = new InitialContext(); // 톰캣에 저장되어 있는 context 정보 조회를 위한 설정
@@ -50,11 +49,15 @@ public class ForewordViewerDAO {
 			
 			try {
 				
-				String query = "SELECT * FROM GC25_FOREWORD_BOARD WHERE fb_number = ?";
+				String query = """
+								SELECT f.fb_number, f.M_NUMBER, f.a_number, f.a_name, f.fb_COURSE ,f.fb_DATE, f.fb_TITLE, f.fb_CONTENTS, f.fb_RECOMMEND, f.FB_VIEWS, f.FB_COMMENTCOUNT, m.m_nickname AS nickname, m.m_imagefilename AS image
+								FROM GC25_FOREWORD_BOARD f
+								JOIN GC25_MEMBER m ON f.m_number = m.m_number
+								WHERE f.fb_number = ?
+						""";
 				pstmt = con.prepareStatement(query);
 				pstmt.setInt(1, boardNum);
-				ResultSet rs = pstmt.executeQuery();
-				
+				ResultSet rs = pstmt.executeQuery();			
 				
 				if(rs.next()) {				
 					int fBoardNumber = rs.getInt("fb_number");
@@ -69,6 +72,9 @@ public class ForewordViewerDAO {
 					int fBoardViews = rs.getInt("fb_views");
 					int fBoardCommentCount = rs.getInt("fb_commentcount");
 					
+					String nickname = rs.getString("nickname");
+					String imageFileName = rs.getString("image");
+					
 					b.setBoardNumber(fBoardNumber);
 					b.setMemberNumber(mNumber);
 					b.setAcademyNumber(academyNumber);
@@ -81,15 +87,65 @@ public class ForewordViewerDAO {
 					b.setViews(fBoardViews);
 					b.setCommentCount(fBoardCommentCount);
 					
+					b.setNickname(nickname);
+					b.setImageFileName(imageFileName);
+					
+
 				}
 				
 				con.close();
 				pstmt.close();
 				rs.close();
+				
 			} catch (SQLException ex) {
 				ex.printStackTrace();
 			}
 			
+			System.out.println("forewordViewDAO test입니다.null이 아님을 확인하는 용도입니다:"+ b);
 			return b;
 	}
+	
+	
+	
+	
+	//게시글 수정
+	
+	public void modifyForewordBoard(ForewordBoardDTO forewordBoardDTO) {
+
+		
+		try {
+			
+			String updateQuery = """
+								UPDATE GC25_FOREWORD_BOARD
+								SET 
+								a_number = ?,
+								a_name = ?,
+								fb_course = ?,
+								fb_title = ?,
+								fb_contents = ?,
+								WHERE fb_number = ?; 	
+				
+						""";
+			
+	
+			pstmt = con.prepareStatement(updateQuery);
+			pstmt.setInt(1, forewordBoardDTO.getAcademyNumber());
+			pstmt.setString(2, forewordBoardDTO.getAcademyName());
+			pstmt.setString(3, forewordBoardDTO.getCourse());
+			pstmt.setString(4, forewordBoardDTO.getTitle());
+			pstmt.setString(5, forewordBoardDTO.getContents());
+			pstmt.setInt(6, forewordBoardDTO.getBoardNumber());
+			
+			pstmt.executeUpdate();			
+			
+			
+			con.close();
+			pstmt.close();
+		
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+	}
+	
 }// end of class ForewordViewerDAO	
