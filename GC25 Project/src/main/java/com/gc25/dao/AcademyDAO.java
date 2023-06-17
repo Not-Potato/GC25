@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 import org.apache.catalina.connector.Response;
 
 import com.gc25.dto.AcademyDTO;
+import com.gc25.dto.AfterwordBoardDTO;
 
 public class AcademyDAO {
 	private Connection con; // db 연결을 위한 connection 변수
@@ -54,8 +55,6 @@ public class AcademyDAO {
 			pstmt.setString(3,"%" +searchValue+"%");
 			
 			System.out.println(query);
-			
-		
 			
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -220,6 +219,91 @@ public class AcademyDAO {
 		}
 		return result;
 	}
+	
+	public ArrayList<AcademyDTO> getAvg() {
+		ArrayList<AcademyDTO> academyAvg = new ArrayList<>();
+		try {
+			con = ds.getConnection();
+			
+			
+			String query = """
+						SELECT a_name, a_avgscore
+						FROM GC25_ACADEMY
+						ORDER BY A_AVGSCORE DESC
+						FETCH FIRST 3 ROWS ONLY
+					""";
+			System.out.println(query);
+			pstmt = con.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				
+				AcademyDTO academy = new AcademyDTO();
+				String academyName = rs.getString("A_NAME");
+				double academyAvgScore =rs.getDouble("A_AVGSCORE");
+				
+	            academy.setAcademyName(academyName);
+				academy.setAcademyAvgScore(academyAvgScore);
+				
+	            academyAvg.add(academy);
+	            System.out.println("academy dao avg:"+academyAvg);
+			}
+			
+			if(con!=null)try{con.close();} catch(Exception ex){}
+			if(pstmt!=null) try{pstmt.close();} catch(Exception ex){}
+			if(rs!=null)try{rs.close();} catch(Exception ex){}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	
+		return academyAvg;
+	}
+	
+	
+	public ArrayList<AcademyDTO> getRev() {
+		ArrayList<AcademyDTO> academyRev = new ArrayList<>();
+		try {
+			con = ds.getConnection();
+			
+			
+			String query = """
+						SELECT a_name, a_reviewcount
+						FROM GC25_ACADEMY
+						ORDER BY a_reviewcount DESC
+						FETCH FIRST 3 ROWS ONLY
+					""";
+			System.out.println(query);
+			pstmt = con.prepareStatement(query);
+			ResultSet rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				
+				AcademyDTO academyR = new AcademyDTO();
+				String academyName = rs.getString("A_NAME");
+				int academyReviewCount =rs.getInt("A_REVIEWCOUNT");
+				
+	            academyR.setAcademyName(academyName);
+				academyR.setAcademyReviewCount(academyReviewCount);
+				
+				academyRev.add(academyR);
+				System.out.println("academy dao rev:"+academyRev);
+	            
+			}
+			if(con!=null)try{con.close();} catch(Exception ex){}
+			if(pstmt!=null) try{pstmt.close();} catch(Exception ex){}
+			if(rs!=null)try{rs.close();} catch(Exception ex){}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	
+		return academyRev;
+	}
+	
+	
+	
+	
 	
 	
 }//end of academyDAO

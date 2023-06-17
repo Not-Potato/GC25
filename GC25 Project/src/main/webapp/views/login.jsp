@@ -4,6 +4,9 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.sql.ResultSet"%>
 <%@ page import="javax.naming.*" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <%
 	request.setAttribute("pageName", "login");
 %>
@@ -23,89 +26,57 @@
 <body>
 <%@ include file = "./common/header.jsp" %>
 	<h1 class="signup_h1">로그인</h1>
-    <form method="post" action="/mem/login">
+    <form method="post" action="/mem/login/result.do" onsubmit="return memberLogin();" name="memberlogin">
         <table>
             <tr>
                 <td>이메일</td>
                 <td>
-                    <input type="text" id="memberEmail">
+                    <input type="text" id="memberEmail" name="memberEmail">
                 </td>           
             </tr>
             <tr>
                 <td>비밀번호</td>
                 <td>
-                    <input type="password" id="memberPwd">
+                    <input type="password" id="memberPwd" name="memberPwd">
                 </td>
             </tr>
         </table>
-        <button class="loginBtn" onclick="memberLogin();">로그인</button>
+        <input type="submit" value="로그인">
+        <!-- <button class="loginBtn" onclick="memberLogin();" id="memberLogin">로그인</button> -->
     </form>
  <%@ include file = "./common/footer.jsp" %>
  
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
 
+ var contextPath = "${contextPath}";
+
 		//로그인
-		function memberLogin(){
+	function memberLogin(){
 		
-			event.preventDefault();
+		event.preventDefault();
 			
-			 let memberEmail = $("#memberEmail").val();
-             let memberPwd = $("#memberPwd").val();
+		let memberEmail = $("#memberEmail").val();
+        let memberPwd = $("#memberPwd").val();
 			
-			 console.log(memberEmail);
+		console.log("[" + memberEmail + "]");
 			
-			if(memberEmail=="") {
-				alert("이메일을 입력하세요.");
-				return;
-				}
-			if(memberPwd=="") {
+		if(memberEmail=="" || memberEmail == null || memberEmail == undefined || memberPwd==""){
+			if (memberEmail=="" && memberPwd=="") {
+				alert('입력하지 않은 항목이 존재합니다.');
+				return false;			 		
+			} else if (memberEmail=="") {
+				alert("아이디를 입력하세요.");
+				return false;
+			} else if(memberPwd=="") {
 				alert("비밀번호를 입력하세요.");
-				return;
-				}
-			
-			$.ajax({
-				type :"post",
-				async : true,
-				//controller 주소 입력
-				url : "/mem/login",
-				dataType : "text",
-				//memberEmail을 가져와서 변수 memberEmail에 할당
-				   data: {
-					   memberEmail : memberEmail,
-					   memberPwd : memberPwd
-                    },
-                    success: function(result) {
-                        if (result == 1) {
-                            // 로그인 성공
-                            alert("로그인 성공!");
-                            console.log(result);
-                            location.href = "/index.jsp";
-                            
-                        } else if (result == 0){
-                            // 로그인 실패
-                            alert("비밀번호를 다시 입력 해 주세요.");
-                            console.log(result);
-                        } else if (result == -1){
-                            // 로그인 실패
-                            alert("잘못된 아이디입니다.");
-                            console.log(result);
-                        } else if (result == 0){
-                            // 로그인 실패
-                            alert("오류가 발생했습니다.");
-                            console.log(result);
-                        }
-                    },
-				
-				error : function(result)  {
-					alert("오류가 발생했습니다.");
-				},
-				complete : function(result) {
-					
-				}
-			});
+				return false;
+			}
+			return false;
+		} else {
+			document.memberlogin.submit();
 		}
-		
+	} 
     </script>
 </body>
 

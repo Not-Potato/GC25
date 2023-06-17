@@ -7,19 +7,33 @@ public class AcademyDTO {
 	String academyTel; //학원 전화번호
 	String academyAddress; //학원 주소
 	String academyRodeAddress; //학원 도로주소
-	int academyAvgScore; //학원 만족도
+	double academyAvgScore; //학원 만족도
 	String academyUrl; 
 	String academyX; //위치 경도 
 	String academyY; //위치 위도
+	int academyReviewCount; //리뷰 수
 	
+
+	@Override
+	public String toString() {
+		return "AcademyDTO [academyNumber=" + academyNumber + ", academyName=" + academyName + ", academyTel="
+				+ academyTel + ", academyAddress=" + academyAddress + ", academyRodeAddress=" + academyRodeAddress
+				+ ", academyAvgScore=" + academyAvgScore + ", academyUrl=" + academyUrl + ", academyX=" + academyX
+				+ ", academyY=" + academyY + ", academyReviewCount=" + academyReviewCount + "]";
+	}
 
 	public AcademyDTO() {
 		super();
 	}
+	
+	public AcademyDTO(String academyName, int academyAvgScore) {
+		this.academyName = academyName;
+		this.academyAvgScore = academyAvgScore;
+	}
 
 
 	public AcademyDTO(int academyNumber, String academyName, String academyTel, String academyAddress,
-			String academyRodeAddress, int academyAvgScore, String academyUrl, String academyX, String academyY) {
+			String academyRodeAddress, double academyAvgScore, String academyUrl, String academyX, String academyY , int academyReviewCount) {
 		super();
 		this.academyNumber = academyNumber;
 		this.academyName = academyName;
@@ -30,6 +44,7 @@ public class AcademyDTO {
 		this.academyUrl = academyUrl;
 		this.academyX = academyX;
 		this.academyY = academyY;
+		this.academyReviewCount = academyReviewCount;
 	}
 
 
@@ -83,12 +98,12 @@ public class AcademyDTO {
 	}
 
 
-	public int getAcademyAvgScore() {
+	public double getAcademyAvgScore() {
 		return academyAvgScore;
 	}
 
 
-	public void setAcademyAvgScore(int academyAvgScore) {
+	public void setAcademyAvgScore(double academyAvgScore) {
 		this.academyAvgScore = academyAvgScore;
 	}
 
@@ -120,6 +135,14 @@ public class AcademyDTO {
 
 	public void setAcademyY(String academyY) {
 		this.academyY = academyY;
+	}
+
+	public int getAcademyReviewCount() {
+		return academyReviewCount;
+	}
+
+	public void setAcademyReviewCount(int academyReviewCount) {
+		this.academyReviewCount = academyReviewCount;
 	}
 	
 

@@ -1,6 +1,8 @@
-<%@page import="com.gc25.dao.AfterwordBoardDAO"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="com.gc25.dao.AfterwordBoardDAO"%>
 <%@page import="com.gc25.dto.AfterwordBoardDTO"%>
+<%@page import="com.gc25.dao.ForewordBoardDAO"%>
+<%@page import="com.gc25.dto.ForewordBoardDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}" />
@@ -53,34 +55,27 @@
                                 </div>
                             </div>
                             <!-- 강의 소개 종료 -->
-                            <!-- 강의 평가 -->
-                            <div class="card-body border-bottom">
-                                <h5 class="card-title">
-                                    게시글 제목<br><small>작성자</small>
-                                </h5>
-                                <p class="card-text">
-                                	글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 </p>
-                            </div>
-                            <!-- 강의 평가 종료 -->
-                            <!-- 강의 평가 -->
-                            <div class="card-body border-bottom">
-                                <h5 class="card-title">
-                                    게시글 제목<br><small>작성자</small>
-                                </h5>
-                                <p class="card-text">글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 </p>
-                            </div>
-                            <!-- 강의 평가 종료 -->
-                            <!-- 강의 평가 -->
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    게시글 제목<br><small>작성자</small>
-                                </h5>
-                                <p class="card-text">글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 </p>
-                            </div>
-                            <!-- 강의 평가 종료 -->
+                            
+							<c:forEach var="fb" items="${ fList }" varStatus="vs" begin="0" end="4" step="1">
+	                            <div class="card-body border-bottom">
+	                            	<div class="row">
+									<div class="col-10">
+										${ fList[vs.index].views }
+										${ fList[vs.index].writeDate }
+									</div>
+									<div class="col-2">
+										${ fList[vs.index].recommend }
+										${ fList[vs.index].commentCount }
+									</div>
+									</div>
+									<div>
+										<h4>${ fList[vs.index].title }</h4>
+											${ fList[vs.index].contents }
+									</div>
+	                            </div>
+                            </c:forEach>
                         </div>
                         <!-- 강의 카드 종료 -->
-
                     </div>
 
                     <div class="w-50 ps-3">
@@ -94,32 +89,24 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- 강의 소개 종료 -->
-                            <!-- 강의 평가 -->
-                            <div class="card-body border-bottom">
-                                <h5 class="card-title">
-                                    게시글 제목<br><small>작성자</small>
-                                </h5>
-                                <p class="card-text">글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 </p>
-                            </div>
-                            <!-- 강의 평가 종료 -->
-                            <!-- 강의 평가 -->
-                            <div class="card-body border-bottom">
-                                <h5 class="card-title">
-                                    게시글 제목<br><small>작성자</small>
-                                </h5>
-                                <p class="card-text">글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 </p>
-                            </div>
-                            <!-- 강의 평가 종료 -->
-                            <!-- 강의 평가 -->
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    게시글 제목<br><small>작성자</small>
-                                </h5>
-                                <p class="card-text">글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 글 내용 미리보기 </p>
-                            </div>
-                            <!-- 강의 평가 종료 -->
-                        </div>
+                            <c:forEach var="fb" items="${ aList }" varStatus="vs" begin="0" end="4" step="1">
+	                            <div class="card-body border-bottom">
+	                            	<div class="row">
+									<div class="col-10">
+										${ aList[vs.index].views }
+										${ aList[vs.index].writeDate }
+									</div>
+									<div class="col-2">
+										${ aList[vs.index].recommend }
+										${ aList[vs.index].commentCount }
+									</div>
+									</div>
+									<div>
+										<h4>${ aList[vs.index].title }</h4>
+											${ aList[vs.index].contents }
+									</div>
+	                            </div>
+                            </c:forEach>
                         <!-- 강의 카드 종료 -->
 
                     </div>
@@ -134,19 +121,25 @@
                     리뷰 많은 순
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">학원1</li>
-                    <li class="list-group-item">학원2</li>
-                    <li class="list-group-item">학원3</li>
+                     <c:forEach var="ac" items="${ revList }" varStatus="vs" >
+                        <li class="list-group-item">
+							${ revList[vs.index].academyName }
+							${ revList[vs.index].academyReviewCount }
+						</li>
+                   </c:forEach>
                 </ul>
             </div>
             <div class="card mt-4" style="width: 150px;">
                 <div class="card-header">
-                    리뷰 많은 순
+                    평점 좋은 순
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">학원1</li>
-                    <li class="list-group-item">학원2</li>
-                    <li class="list-group-item">학원3</li>
+                    <c:forEach var="ac" items="${ avgList }" varStatus="vs" >
+                        <li class="list-group-item">
+							${ avgList[vs.index].academyName }
+							${ avgList[vs.index].academyAvgScore }
+						</li>
+                   </c:forEach>
                 </ul>
             </div>
         </aside>
