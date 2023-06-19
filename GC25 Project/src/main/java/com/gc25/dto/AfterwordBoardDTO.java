@@ -52,6 +52,10 @@ public class AfterwordBoardDTO {
 	// 댓글 수
 	int commentCount;
 	
+	// 사용자 정보 가져오기 위한 추가 항목
+	private String nickname; // 닉네임
+	private String imageFileName; // 이미지
+	
 	public AfterwordBoardDTO() {
 		
 	}
@@ -59,7 +63,7 @@ public class AfterwordBoardDTO {
 	public AfterwordBoardDTO(int boardNumber, int memberNumber, int academyNumber, String academyName,
 			String course,  Timestamp date, String teacherName, int totalScore, String openDate, String endDate,
 			String major, String cost, int teacherScore, int facilityScore, int curriculumScore, String title,
-			String contents) {
+			String contents, int commentCount, String nickname, String imageFileName) {
 		super();
 		this.boardNumber = boardNumber;
 		this.memberNumber = memberNumber;
@@ -249,6 +253,23 @@ public class AfterwordBoardDTO {
 		this.commentCount = commentCount;
 	}
 	
+	
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getImageFileName() {
+		return imageFileName;
+	}
+
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+
 	@Override
 	public String toString() {
 		return "AfterwordBoardDTO [글 번호: " + boardNumber + ", 작성자 번호: " + memberNumber + ", 학원 번호: "
