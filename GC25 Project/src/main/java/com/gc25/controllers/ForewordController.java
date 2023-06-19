@@ -119,7 +119,7 @@ public class ForewordController extends HttpServlet {
 				dto.setTitle(request.getParameter("title"));
 				dto.setContents(request.getParameter("contents"));
 
-				forewordViewerService.modifyForewordBoard(dto);
+				service.upload(dto);
 
 				PrintWriter out = response.getWriter();
 				// forward 시 주소가 그대로 유지됨(upload.do)

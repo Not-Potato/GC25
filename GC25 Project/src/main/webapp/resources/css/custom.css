@@ -3,38 +3,41 @@
 	width: 1400px;
 }
 
-.w-800 {
-	width: 800px;
+.d-none {
+	display: none;
 }
 
 /* ---------------- 자연 ---------------- */
 
 /* 자동 완성 리스트 */
-.searchList {
+.search-list {
     position: relative;
     z-index: 1;
 }
 
-.searchList .autoComplete {
+.search-list .auto-complete {
 	background: white;
     position: absolute;
     top: 0; left: 0;
     border: 1px solid #ced4da;
-    border-radius: 0.25rem;
+    border-radius: 0.4rem;
+    width: 200%;
+    font-size: 20px;
+	line-height: 30px;
 }
 
 /* 자동 완성 리스트 in 현재 선택된 검색어 */
-.autoComplete > div.active {
+.auto-complete > li.active {
 	background: #e0e5f6;
 	color: #000;
 }
 
 /* 자동 완성 리스트 in 현재 선택된 검색어 */
-.autoComplete > div {
+.auto-complete > li {
     padding: 5px 0 5px 15px;
 }
 
-.autoComplete > div:not(:last-child) {
+.auto-complete > li:not(:last-child) {
 	border-bottom: 1px solid #ededed;
 }
 
@@ -187,7 +190,8 @@
 }
 .inner { margin: auto; padding: 100px 0; }
 button {cursor: pointer;}
-input {outline: none; text-indent: 10px;}
+input {outline: none; text-indent: 15px;}
+textarea {outline: none; }
 
 .swiper {
     width: 100%;
@@ -257,6 +261,7 @@ input {outline: none; text-indent: 10px;}
 	font-size: 18px;
 	border: 1px solid #00D4EA;
     background: #FFF;
+    padding-left: 10px;
 }
 #header .search button {
 	width: 50px;
@@ -284,7 +289,7 @@ input {outline: none; text-indent: 10px;}
 	width: 100px;
 	height: 40px;
 	background: #FFF;
-	border-radius: 15px;
+	border-radius: 0.4rem;
 	text-align: center;
 	border: 1px solid #00D4EA;
 }
@@ -598,58 +603,162 @@ aside .rank li:last-child {
 	font-size: 20px;
 	color: #FFF;
 }
-
 .map-page .search-of-map #static-map {
-	height: 350px;
+	height: 400px;
+    margin-top: 50px;
+    border: 1px solid #007CFF;
 }
-
-
-
-/* 글 정렬 최신순, 댓글순 등등 */
-.board-page .top-menu .dropdown{
-	position : relative;
-  	display : inline-block;
-} 
-
-.board-page .top-menu .dropdown .dropdown-content{
-  display : none;
-  position : absolute;
-  z-index : 1; /* 다른 요소들보다 앞에 배치 */
-  font-weight: 400;
-  background-color: #f9f9f9;
-  min-width : 200px;
+.map-page .search-of-map form {
+    width: 600px;
+    height: 50px;
+    border-radius: 15px 0 0 15px;
+    display: flex;
+    margin: auto;
+    margin-top: 50px;
+    font-size: 18px;
 }
-
-.board-page .top-menu .dropdown .dropbtn{
-  border : 1px solid rgb(37, 37, 37);
-  border-radius : 4px;
-  background-color: #f5f5f5;
-  font-weight: 400;
-  color : rgb(37, 37, 37);
-  padding : 12px;
-  width :200px;
-  text-align: left;
-  cursor : pointer;
-  font-size : 12px;
+.map-page .search-of-map form #searchValue {
+    width: 600px;
+    height: 50px;
+    border-radius: 15px 0 0 15px;
+    border: 1px solid #007CFF;
+    border-right: none;
+    font-size: 18px;
+    padding-left: 10px;
 }
-
-
-.board-page .top-menu .dropdown .dropdown-content a{
-  display : block;
-  text-decoration : none;
-  color : rgb(37, 37, 37);
-  font-size: 12px;
-  padding : 12px 20px;
+.map-page .search-of-map form .search-btn {
+    width: 100px;
+    height: 50px;
+    padding-right: 10px;
+    border-radius: 0 15px 15px 0;
+    border: 1px solid #007CFF;
+    color: #007CFF;
+    font-size: 18px;
 }
-
-.board-page .dropdown-content a:hovor{
- background-color : #ececec
+.map-page .search-of-map form .search-btn:hover {
+    color: #fff;
+    background-color: #007CFF;
 }
-
-.board-page .top-menu .dropdown a:hover .dropdown-content {
-  display: block;
-} 
+.map-page .not-found {
+	margin: auto;
+	text-align: center;
+	margin: 100px;
+	font-size: 20px;
+}
+.map-page .academy-found div {
+	margin: auto;
+	margin-top: 70px;
+	width: 800px;
+}
+.map-page .academy-found div h4 {
+	font-size: 32px;
+	font-weight: 700;
+	border-bottom: 1px solid #007CFF;
+	color: #007CFF;
+}
+.map-page .academy-found div p {
+	font-size: 23px;
+	font-weight: 400;
+	margin: 10px 0;
+}
+.map-page nav ul {
+	display: flex;
+	justify-content: center;
+	margin: auto;
+	margin-top: 100px;
+}
+.map-page nav ul li {
+	width: 50px;
+	text-align: center;
+}
+.map-page nav ul li a {
+	font-size: 20px;
+	color: #5f5f5f;
+}
+.map-page nav ul li .active {
+	font-size: 20px;
+	color: #007CFF;
+}
+.map-page nav ul li:hover a {
+	color: #007CFF;
+}
 
 /* ********** 학원 찾기 ********** */
+.write-page form {
+    width: 900px;
+    margin: auto;
+    margin-top: 100px;
+}
+.write-page form .box {
+	height: 50px;
+}
+.write-page form .first-line, 
+.write-page form .second-line,
+.write-page form .third-line {
+	display: flex;
+	width: 900px;
+	margin-bottom: 30px;
+}
+.write-page form .first-line div {
+	width: 50%;
+	margin-right: 10px;
+}
+.write-page form .first-line select {
+	margin-left: 10px;
+	width: 50%;
+	height: 50px;
+	padding: 0 10px;
+	color: #333;
+}
+.write-page form .first-line div #academy-name {
+	width: 100%;
+	height: 50px;
+}
+.write-page form .second-line .input-title,
+.write-page form .third-line .input-contents {
+	width: 100%;
+}
+.write-page input,
+.write-page select,
+.write-page textarea {
+	font-size: 20px;
+	line-height: 30px;
+	border-radius: 0.4rem;
+}
+.write-page textarea {
+	padding: 15px;
+	resize: none;
+}
+.write-page .btn-group {
+	margin: auto;
+	text-align: center;
+}
+.write-page .btn-group button {
+	width: 100px;
+	margin: 0 10px;
+	font-size: 20px;
+	border-radius: 0.4rem;
+}
+.write-page .btn-group button:last-child {
+    border: 1px solid #007CFF;
+    color: #007CFF;
+}
+.write-page .btn-group button:first-child {
+    border: 1px solid red;
+    color: red;
+}
+.write-page .btn-group button:first-child:hover {
+    border: 1px solid red;
+    background-color: red;
+    color: #fff;
+}
+.write-page .btn-group button:hover {
+    border: 1px solid #007CFF;
+    background-color: #007CFF;
+    color: #fff;
+}
+
+
+/* ********** 글 쓰기 ********** */
 
 
