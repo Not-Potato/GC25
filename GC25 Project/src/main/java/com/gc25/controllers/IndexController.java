@@ -86,6 +86,9 @@ public class IndexController extends HttpServlet {
 					request.setAttribute("avgList", academyAvg);
 					request.setAttribute("revList", academyRev);
 					
+					//test
+					session.setAttribute("memberNumber", 10000);
+					
 					nextPage = "/index.jsp";
 				}
 				// 디폴트 페이지 = main

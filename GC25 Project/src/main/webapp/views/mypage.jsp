@@ -40,9 +40,11 @@
 		script.println("</script>");
 		script.close(); //오류생기면 이 jsp 페이지 종료
 	}
+	String fileName = (String)session.getAttribute("fileName");
+	String memberImageFileName = (String)session.getAttribute("memberImageFileName");
+	System.out.println("jsp memberImageFileName : " + memberImageFileName);
 	
-	String memberImageFileName2 = (String)session.getAttribute("memberImageFileName");
-	System.out.println("jsp memberImageFileName2 : " + memberImageFileName2);
+	
 %>
 
 <div class="container"> 
@@ -50,12 +52,12 @@
 	 <div class="bodyContainer"> 
       <div id="profile">
         <form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
-        	<img src="../resources/images/<%= memberImageFileName2 %>" alt="기본이미지" id="profileImg" >
+        	<img src="../resources/images/<%= memberImageFileName %>" alt="기본이미지" id="profileImg" >
         	<input type="file" name="profile" >
         	<button class="profileBtn" onclick="profileChange()">수정</button>
         </form>
         <form method="post" enctype="multipart/form-data" name="/mem/proflieImgRemove" action="/mem/proflieImgRemove">
-        <button id="removeBtn" name="imgRemoveBtn" onclick="imgRemove();"> 삭제 </button>
+        <button id="removeBtn" name="imgRemoveBtn" onclick="imgdel();"> 삭제 </button>
         </form>
       </div>
       <div id="inputBox">
@@ -90,7 +92,7 @@
                       <input type="text" name="memberNickname" id="memberNickname" placeholder="${memberNickname}">
                  </td>  
                  <td>
-                      <button class="nicknameCheckBtn" onclick="nicknameCheck()">중복 확인</button>
+                      <button class="nicknameCheckBtn" onclick="nickcheck()">중복 확인</button>
                  </td> 
                		 <td>
                         <div id="nicknameCheckMessage"></div>
@@ -228,7 +230,7 @@ function changeSubmit(userResponse) {
 			}
 		});
 }
-function imgRemove(){
+function imgdel(){
 
 	event.preventDefault();
 	
@@ -322,7 +324,7 @@ function mypageSubmit() {
 					  alert("비밀번호는 반드시 영문자,숫자,특수문자를 포함하여 8~12자여야 합니다.");
 					  console.log();
 				}else {
-					alert("가입에 실패했습니다. 잠시후 다시 시도해 주세요.");
+					alert("수정에 실패했습니다. 잠시후 다시 시도해 주세요.");
 					console.log();
 					location.reload();
 				}
