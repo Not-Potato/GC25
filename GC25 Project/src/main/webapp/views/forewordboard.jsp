@@ -35,6 +35,7 @@
 	        
 				<div class="top-menu">
 					<button type="button" onclick="location.href='${contextPath}/foreword/write.do'" class="">Write</button>
+					
 					<div>
 						<button type="button" class="" data-bs-toggle="dropdown" aria-expanded="false">
 							${ searchType }
@@ -46,7 +47,8 @@
 							<li><a class="" href="${contextPath}/foreword/board?searchType=조회순">조회순</a></li>
 						</ul>
 					</div>
-				</div>
+				</div> 
+	
 						
 <!-- 비어 있는지 여부 검사하여 출력-->
 <c:choose>

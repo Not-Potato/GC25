@@ -9,45 +9,53 @@
 %>
 
 <%@ page import="com.gc25.dto.AfterwordBoardDTO" %>
+
+<!-- 회원등급에 따른 상세페이지 접근 구분 -->
+<%
+    // 회원 상태 확인
+    int memberStatus = (Integer) session.getAttribute("memberStatus");
+    if (memberStatus == 0) {
+        // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시  
+        out.println("<script>alert('현재페이지는 우수회원 만 접근가능합니다.'); window.location.href='${contextPath}/afterword/board.do'; </script>");
+    } else {
+     	// 아래 코드 부분 구현
+%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 	<title>GC25 | 수강후기 상세보기</title>
-	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
+	<!-- 커스텀.css / reset.css / 파비콘 / x-icon / date range picker -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="/resources/images/mini_logo.png">
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 	
-	<!-- 좋아요 아이콘 -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-	<style>
-	.material-symbols-outlined {
-	  font-variation-settings:
-							  'FILL' 0,
-							  'wght' 300,
-							  'GRAD' 200,
-							  'opsz' 48
-	}
-	</style>
+
+
+
 </head>
 <body>
-	<div id="wrap" class="w-100">
+
 		<jsp:include page="./common/header.jsp"></jsp:include>
 		<!-- header include 영역 -->
 
-		 <section id="" class="mt-5">
-		 	<!-- 전체 리스트 보기 버튼 -->
- 		 	 <div class="inner m-auto">
-                <h2 class="text-center p-4 bg-light border rounded-pill mb-4 m-auto text-primary w-800">수강 후기</h2>
-             </div>
+
+<!--  css 적용 필요한 부분 -->	
+
+        <p>게시판 타이틀: 수강 후기</p>
+      
+ 		<!-- (전체 게시글보기는 단순 뒤로가기 기능으로 꼭 구현 안해도됨! -->
+ 		<p>전체 게시글보기: 뒤로가기버튼 
+ 		<a href="${contextPath}/afterword/board.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" class="BtnType SizeS btn_gray btn_back_list" onmousedown="DETAILPAGE.Detail.gaEvent('qst_detail', 'resume_total')"><button type="button" class="btn btn-outline-primary"> &lt; 전체 게시글</button></a>
+ 		</p>
+ 		
              
-          	<!-- 삭제 & 수정 버튼 -->
-			<div class="inner m-auto w-800 mb-3">
-				<div class="text-end mt-3">
-				
+    <!-- 삭제 & 수정 버튼은 글쓴이와 현재 접속한 사람이 일치할때만 화면에 보여짐 -->
+      
 				<%-- 현재 사용자 ID 세션에서 가져오기 --%>
 				<%
 				int memberNumber = (Integer) session.getAttribute("memberNumber");
@@ -55,14 +63,13 @@
 
 				<%-- 글 작성자 ID 가져오기 --%>
 				<%
-				AfterwordBoardDTO afterwordBoardDTO = (AfterwordBoardDTO)session.getAttribute("forewordBoardDTO");
+				AfterwordBoardDTO afterwordBoardDTO = (AfterwordBoardDTO)session.getAttribute("afterwordBoardDTO");
 				int authorId = afterwordBoardDTO.getMemberNumber();
 				%>
 		
 				<%-- 현재 사용자와 글 작성자가 일치할 경우에만 버튼 보여주기 --%>
 				<% if (memberNumber == authorId) { %>
-				  <div class="inner m-auto w-800 mb-3">
-				    <div class="text-end mt-3">
+				
 				      <form class="btn btn-outline-primary me-2" action="${contextPath}/afterword/modify.do?boardNum=${afterwordBoardDTO.getBoardNumber()}"  method="post">
 				      	<button type="submit" class="btn btn-outline-primary me-2">글 수정</button>
 				      </form>
@@ -71,243 +78,145 @@
 				      	<button type="submit" class="btn btn-outline-primary me-2">글 삭제</button>
 				      </form>
 				 
-				    </div>
-				  </div>
 				<% } %>
-			</div>
-		</div> 	
- 		 </section>
+		
 	
-		  <main id="container" class="main">
-		  		<section id="content">
-		  			  
-		  			<div class="inner m-auto w-800 mb-3">
- 				 		<a href="${contextPath}/afterword/board.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" class="BtnType SizeS btn_gray btn_back_list" onmousedown="DETAILPAGE.Detail.gaEvent('qst_detail', 'resume_total')"><button type="button" class="btn btn-outline-primary"> &lt; 전체 게시글</button></a>
- 					</div>
-		  			  
-		  			 <!-- 게시글 제목 -->
-		  			<div class="inner m-auto border border-2 rounded-2 w-800">
-	 				 		<div class="container">	
-	 				 			<div class= "row"> 
-	 								<h2 class="col mt-5 mb-5" >${afterwordBoardDTO.getTitle()}</h2>
-	 							</div>
-	 				</div>	
+	
+		<!-- 게시글 내용 -->		
+	
+	  
+		 <p> 게시글 제목 : ${afterwordBoardDTO.getTitle()}</p>
+	 	 <p> 글쓴이 이미지: <img src="../resources/images/${afterwordBoardDTO.getImageFileName()}" alt="${afterwordBoardDTO.getImageFileName()}" style="width:30px; heigh:30px; border-radius:50%; object-fit:cover;"></p>
+		 <p> 글쓴이 닉네임: ${afterwordBoardDTO.getNickname()}</p>
+		 <p> 작성일: <div id="writeDateValue" style="display: none;">${afterwordBoardDTO.getWriteDate()}</div></p>
+		 		"writeDateValue"id가 아래 스크립트에서 사용됩니다.
+		 		<p>	작성일 기준 현재 시간에서 빼는 script 실행 결과 출력부: <div id=writeDate></div></p>
+		 <p>조회수: ${afterwordBoardDTO.getViews()}</p>
+		 <p>댓글수: ${afterwordBoardDTO.getCommentCount()}</p>
+		 <p>글 내용:  ${afterwordBoardDTO.getContents()}</p>			
+	 			
+	
 	 				
-	 				
-					<!-- 게시글 정보 -->
-					<div class="container mt-2 ml-1 mr-1">
-						<div class="row">
-							<div class="col-8"> 
-								<img src="../resources/images/${afterwordBoardDTO.getImageFileName()}" alt="${afterwordBoardDTO.getImageFileName()}" style="width:30px; heigh:30px; border-radius:50%; object-fit:cover;">
-								<span>${afterwordBoardDTO.getNickname()}</span>
-								
-							</div>
-							<div class="col-4 d-flex justify-content-between">
-								<div class= "align-self-center d-flex">
-									<span class="material-symbols-outlined">edit</span>
-									<div id=writeDate></div>
-									<div id="writeDateValue" style="display: none;">${afterwordBoardDTO.getWriteDate()}</div>
-								</div>	
-								<div class= "align-self-center d-flex">
-									<span class="material-symbols-outlined me-2">visibility</span>
-									<span>${afterwordBoardDTO.getViews()}</span>
-								</div>
-								<div class= "align-self-center d-flex">
-									<span class="material-symbols-outlined me-2">chat_bubble</span>
-									<span>${afterwordBoardDTO.getCommentCount()}</span>
-								</div>
-							</div>
-						</div>	
-					</div>
-	 							
-	 							
-					<!--게시글 내용-->
-					<div class= "row"> 
-							<div>
-								<div class="col-12 mt-3 mb-3 p-3">${afterwordBoardDTO.getContents()}</div>
-						</div>
-					</div>				
-	 				  
-	 				  
-	 				  
-	 				
-	 				
-	 				<!-- 학원 정보 -->	
-	 				<div class="container mt-3 p-3">
-		 					<div class="row">
-		 							<div class="col-8 text-center">
-								  		<h3>${afterwordBoardDTO.getAcademyName()}</h3>
-								  	</div>
-								  	
+		<p>학원이름: ${afterwordBoardDTO.getAcademyName()}</p>
+		<p>학원 별점: ${afterwordBoardDTO.getTotalScore()} </p>
 								  	<div class="col-4"> 
 								  		<div class="starBox">
-								  			 <span class="emptyStar" id="score1">
-	       									 	 ★★★★★
-	      									 	<span class="fillStar"></span>
-	        								 	<input type="hidden" value="${afterwordBoardDTO.getTotalScore()}" id="totalScore" name="totalScore">
+								  			 <span class="emptyStar" id="score5">
+	       									 	★★★★★
+	      									 	<span class="fillStar">★★★★★</span>
+	        								 	<input type="range" value="${afterwordBoardDTO.getTotalScore()}" step="1" min="0" max="10" 
+	        								 		id="totalScore" name="totalScore">
 	    									 </span>
 								  		</div> <!-- end of starBox  -->
 									</div>
-		 					</div>
-	 				</div>  
+		 	
 	 				  
 	 			<!-- 수강 후기 정보 -->		  
-	 			<div class="container mt-3 mb-5">
-					  <div class="row">
-					    <div class="col text-center" style="font-weight: bolder;"> 과정구분 : </div> 
-					    <div class="col text-center">${afterwordBoardDTO.getCourse()}</div>
-					    
-					    <div class="col text-center" style="font-weight: bolder;"> 강사명 : </div>
-					    <div class="col text-center">${afterwordBoardDTO.getTeacherName()}</div>
-					    
-					    <div class="col text-center" style="font-weight: bolder;"> 개강일 : </div> 
-					    <div class="col text-center">${afterwordBoardDTO.getOpenDate()}</div>
-					    
-					    <div class="col text-center" style="font-weight: bolder;"> 종강일 : </div> 
-					    <div class="col text-center">${afterwordBoardDTO.getEndDate()}</div>
-					    
-					    <div class="col text-center" style="font-weight: bolder;"> 전공여부 : </div> 
-					    <div class="col text-center">${afterwordBoardDTO.getMajor()}</div>
-					    
-					    <div class="col text-center" style="font-weight: bolder;"> 유/무상여부 : </div> 
-					    <div class="col text-center">${afterwordBoardDTO.getCost()}</div>
-					    
-					    <div class="col text-center" style="font-weight: bolder;"> 전체 만족도 : </div> 
-					    <div class="col text-center">${afterwordBoardDTO.getTotalScore()}</div>
-					    
-					    <div class="col text-center" style="font-weight: bolder;"> 강사 만족도 : </div> 
-					    <div class="col text-center">${afterwordBoardDTO.getTeacherScore()}</div>
-					    
-					    <div class="col text-center" style="font-weight: bolder;"> 학원시설 만족도 : </div> 
-					    <div class="col text-center">${afterwordBoardDTO.getFacilityScore()}</div>
-					    
-					    <div class="col text-center" style="font-weight: bolder;"> 커리큘럼 만족도 : </div> 
-					    <div class="col text-center">${afterwordBoardDTO.getCurriculumScore()}</div>
-					  </div>
-				</div>	  
+					    <p> 과정구분 :  ${afterwordBoardDTO.getCourse()} </p> 
+					    <p> 강사명: ${afterwordBoardDTO.getTeacherName()}</p>
+					    <p> 개강일 : ${afterwordBoardDTO.getOpenDate()} </p>
+					    <p> 종강일 : ${afterwordBoardDTO.getEndDate()}</p>
+					    <p> 전공여부 : ${afterwordBoardDTO.getMajor()}</p>
+					    <p> 유/무상여부 : ${afterwordBoardDTO.getCost()}</p>				    
+					    <p> 전체 만족도 : ${afterwordBoardDTO.getTotalScore()}</p>
+					    <p> 강사 만족도 : ${afterwordBoardDTO.getTeacherScore()}</p>
+					    <p> 학원시설 만족도 : ${afterwordBoardDTO.getFacilityScore()}</p>
+					    <p> 커리큘럼 만족도 :${afterwordBoardDTO.getCurriculumScore()}</p>
+			
 	 				  
-	 			<!-- 좋아요 아이콘 보여주기 -->
-				<div class="row w-800  mt-3 p-3">
-						<div class="text-end">	
-							<a href="${contextPath}/afterword/recommend.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" onclick="likeForm.submit(); return false;">
-								<span class="material-symbols-outlined me-2">thumb_up</span> 
+	 					<p>좋아요 아이콘 클릭 시 controller로 이동하면서 좋아요 숫자 +1 함 
+							<a href="${contextPath}/afterword/recommend.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" onclick="likeForm.submit(); return false;">	
 							</a>
-							<span class="icon-font">${afterwordBoardDTO.getRecommend()}</span>
+						</p>
+							
+						<p>추천수 : ${afterwordBoardDTO.getRecommend()} </p>
 							<form id="likeForm" style="display: none;" action="${contextPath}/afterword/recommend.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" method="post">
 								<input type="hidden" name="postId" value="123">
 							</form>
-						</div>
-				</div>
-	 		</div> <!-- end of 메인쪽 inner m-auto  -->	
-	 			
-	
-	     <hr>
-	    		
-	    		<!-- 좋아요 아이콘 보여주기 -->
-	    		<div class="recommend"> 
-	    			<button type="submit" form ="likeForm">
-	    				<span class="material-symbols-outlined">
-	    					sentiment_very_satisfied
-	    				</span>
-	    			</button>
-	    			<div id=likeCount>좋아요 : ${afterwordBoardDTO.getRecommend()}</div>
-	    			
-	    			<form id="likeForm" action="${contextPath}/afterword/recommend.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" method="post">
-   						<input type="hidden" name="postId" value="123">
-					</form>
-	    		
-	    		</div>
-	   
-	    <hr>
-	    
 
-			<!-- 댓글창 -->
-		    <div class="col-12">
-		    	<!--  내용 -->
+	 	
+	 	
+	    
+			<!-- 댓글입력창 -->
 		    	<form id= "commetForm" action="${contextPath}/comment/abCommentRegister.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" method="post"> 
-                       	 		<textarea class="form-control" id= "commentContents"  name="commentContents" rows="5" placeholder="댓글을 입력해주세요" maxlength="999" oninput="limitMaxLength(this);" name="contents" style="overflow-y: auto;"></textarea>
-                    		
-                    		 	 <!-- 버튼 -->
-                    			<div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                    				<button type="submit" class="btn btn-secondary btn-sm mt-2">등록</button>                       	
-                    			</div>
-                    		</form>	
-			</div> <!--  댓글창 끝 -->
+                <textarea class="form-control" id= "commentContents"  name="commentContents" rows="5" placeholder="댓글을 입력해주세요" maxlength="999" oninput="limitMaxLength(this);" name="contents" style="overflow-y: auto;"></textarea>
+            <!-- 버튼 -->
+                 <button type="submit" class="btn btn-secondary btn-sm mt-2">등록</button>                       	
+                  </form>	
+		
+			
+			
+			
 			
 			<!-- 댓글목록-->
-			<div class="inner m-auto w-800 mt-3 border"> 
-						<c:forEach var="c" items="${commentList}" varStatus="afterNum" >
-							 <div class="container mb-3 border">	  
-								  <div class="row">
-								    <div class="col-sm-3">
-								      <span>
-								      		<img src="../resources/images/${commentList[afterNum.index].getImageFileName()}" alt= "${commentList[afterNum.index].getImageFileName()}" id=" ${commentList[afterNum.index].getImageFileName()}" style="width:30px; heigh:30px; border-radius:50%; object-fit:cover;">
-								     </span>
-								      <span>${commentList[afterNum.index].getNickname()}</span>
-								    </div>
-								    <div class="col-sm-9">
-								      <div class="row">
-								        <div class="col">
-								          ${commentList[afterNum.index].getCommentContents()}
-								        </div>
-								      </div>
-								    </div>
-								  </div>	
-								</div>
-						</c:forEach>
-			</div> <!-- 댓글목록 끝 -->
-		
-		<div class="inner m-auto w-800">
-			  <div class="row">
-			    <div class="col-6 col-md-4">
-			    	<p>사용자 프로필</p>
-			    </div>
-			    <div class=".col-md-8">
-			     	 <form id= "commetForm" action="${contextPath}/comment/abCommentRegister.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" method="post">  
-				    	<input type="text" id= "commentContents"  name="commentContents" style="width: 1000px; height: 200px; overflow-y: auto;">
-				   		<button type="submit" id="commentbtn" >등록</button>
-			    	</form>
-			    </div>
-	 		 </div>
-	
-	
-	
-	 	 	<!-- 댓글 목록-->
-	 	 		<div class="card" style="width: 18rem;">
-		 			 <c:forEach var="c" items="${commentList}" varStatus="afterNum" >
-						  <ul class="list-group list-group-flush">
-						  	<li class="list-group-item">${commentList[afterNum.index].getNickname()}</li> 
-						    <li class="list-group-item">${commentList[afterNum.index].getImageFileName()}</li> 
-						    <li class="list-group-item">${commentList[afterNum.index].getCommentContents()}</li> 
-					  	 </ul>
-					</c:forEach>   
-		   		</div>
-			</div>
+			
+			<c:forEach var="c" items="${commentList}" varStatus="afterNum" >
+				<p> 댓글 작성자 이미지: <img src="../resources/images/${commentList[afterNum.index].getImageFileName()}" alt= "${commentList[afterNum.index].getImageFileName()}" id=" ${commentList[afterNum.index].getImageFileName()}" style="width:30px; heigh:30px; border-radius:50%; object-fit:cover;"></p>
+				<p> 댓글 작성자 닉네임:  ${commentList[afterNum.index].getNickname()}</p>
+				<p> 댓글 리스트:  ${commentList[afterNum.index].getCommentContents()} </p>	   
+			</c:forEach>
 
-		</section>
-		</main>
-		<!-- main -->
 		
 		<!-- footer include 영역 -->
 		<jsp:include page="./common/footer.jsp"></jsp:include>
 
-	  </div><!-- end of wrap -->
+<% } %>
 		
-	<script src="<c:url value='./js/bootstrap.min.js' />"></script>
-	<script src="<c:url value='./js/bootstrap.bundle.min.js' />"></script>
-	<script src="<c:url value='./js/jquery.js' />"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-	<script src="<c:url value='./js/custom.js' />"></script>
-	<script src="<c:url value='./js/jquery.js' />"></script> 
+		
+		
+ 	<!-- <script src="../resources/js/bootstrap.min.js"></script>-->
+	<!-- <script src="../resources/js/popper.js"></script> -->
+	<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+	<script src="../resources/js/academynameinput.js"></script>
+	<script src="../resources/js/custom.js"></script>
 	<script>
 	
-	  	var likeForm = document.getElementById("likeForm");
-	    var likeButton = document.getElementById("likeButton");
 
-	    likeButton.addEventListener("click", function() {
-	        likeForm.submit();
-	    });
+	    /* 게시글 시간 계산 (몇시간 전) */
+	    var writeDateValueElement = document.querySelector("#writeDateValue");
+		var writeDateElement = document.querySelector("#writeDate");
+		
+		if (writeDateValueElement && writeDateElement) {
+		  var serverTimestamp = new Date(writeDateValueElement.textContent).getTime();
+		
+		  var now = new Date();
+		  var currentTimestamp = now.getTime(); // 현재 타임스탬프
+		
+		  // 시간 차이 계산 (밀리초 단위)
+		  var timeDiff = currentTimestamp - serverTimestamp;
+		
+		  // 시간 차이를 "n시간 전", "n일 전" 등으로 변환하여 표시
+		  var hours = Math.floor(timeDiff / (1000 * 60 * 60)); // 시간 단위로 변환
+		  var days = Math.floor(hours / 24); // 일 단위로 변환
+		
+		  // 화면에 표시
+		  var displayText;
+		  if (hours < 1) {
+		    displayText = "방금 전";
+		  }else if (hours < 2) {
+			    displayText = "1 시간 전";
+		  }else if (hours < 3) {
+			    displayText = "2 시간 전";
+		  }else if (hours < 5) {
+			    displayText = "5 시간 전";
+		  }else if (hours < 24) {
+		    displayText = hours + "시간 전";
+		  } else {
+		    displayText = days + "일 전";
+		  }
+		
+		  writeDateElement.textContent = displayText;
+		 	console.log(displayText);
+		} else {
+		  console.error("writeDateValueElement or writeDateElement is null");
+		}
+  		
+		  
 	</script>
+
 
 </body>
 </html>

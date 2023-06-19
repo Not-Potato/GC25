@@ -17,86 +17,81 @@
 	<link rel="shortcut icon" type="image/x-icon" href="/resources/images/mini_logo.png">
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
+
+
 <body>
-	<div id="wrap" class="w-100">
+	
     	<jsp:include page="./common/header.jsp"></jsp:include>
         <!-- header include 영역 -->
 
-        <section id="" class="mt-5">
-            <div class="inner m-auto">
-                <h2 class="text-center p-4 bg-light border rounded-pill mb-4 m-auto text-primary w-800">상담 후기 작성(수정 중)</h2>
-            </div>
-        </section>
+       
+        <p>상담 후기 작성 (수정)</p>
+     
+         <!-- onsubmit enter로 submit 되는 것 방지하는 옵션 -->
+          <form class="row g-3 m-auto w-800" name="postingForm" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/modifyupload.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
 
-        <main id="container" class="main">
-            <section id="content">
-                <div class="inner m-auto">
-                	<!-- onsubmit enter로 submit 되는 것 방지하는 옵션 -->
-                    <form class="row g-3 m-auto w-800" name="postingForm" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/modifyupload.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
+		<!-- 학원 이름 입력 창 -->
+		<input type="text" id="academyName" placeholder="학원 이름을 입력해 주세요." value="${forewordBoardDTO.getAcademyName()}"
+			class="form-control" autocomplete="off" name="academyName">
+		<input type="hidden" name="academyNum" id="academyNum" class="" value="">
+		<!-- TODO: autoComplete 요소 삭제하고 스크립트(통신) 발생 시에 생성되게끔 스크립트 변경하기 -->
+		<div class="searchList">
+			<div class="autoComplete col-md-12">
+				<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
+			</div>
+		</div>
+	
 
-						<!-- 학원 이름 입력 창 -->
-                        <div class="col-md-6">
-							<input type="text" id="academyName" placeholder="학원 이름을 입력해 주세요." value="${forewordBoardDTO.getAcademyName()}"
-								class="form-control" autocomplete="off" name="academyName">
-							<input type="hidden" name="academyNum" id="academyNum" class="" value="">
-							<!-- TODO: autoComplete 요소 삭제하고 스크립트(통신) 발생 시에 생성되게끔 스크립트 변경하기 -->
-							<div class="searchList">
-								<div class="autoComplete col-md-12">
-									<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
-								</div>
-							</div>
-						</div>
-
-                        <!-- 과정 구분 -->
-				<div class="col-md-6">
-				    <select class="form-select" id="course" name="course">
-				        <option disabled value="">----- 과정 구분 -----</option>
-				        <c:choose>
-				            <c:when test="${forewordBoardDTO.getCourse() == '프론트엔드'}">
-				                <option value="프론트엔드" selected>프론트엔드</option>
-				                <option value="백엔드">백엔드</option>
-				                <option value="풀스택">풀스택</option>
-				            </c:when>
-				            <c:when test="${forewordBoardDTO.getCourse() == '백엔드'}">
-				                <option value="프론트엔드">프론트엔드</option>
-				                <option value="백엔드" selected>백엔드</option>
-				                <option value="풀스택">풀스택</option>
-				            </c:when>
-				            <c:when test="${forewordBoardDTO.getCourse() == '풀스택'}">
-				                <option value="프론트엔드">프론트엔드</option>
-				                <option value="백엔드">백엔드</option>
-				                <option value="풀스택" selected>풀스택</option>
-				            </c:when>
-				            <c:otherwise>
-				                <option value="프론트엔드">프론트엔드</option>
-				                <option value="백엔드">백엔드</option>
-				                <option value="풀스택">풀스택</option>
-				            </c:otherwise>
-				        </c:choose>
-				    </select>
-				</div>
+       <!-- 과정 구분 -->
+		<div class="col-md-6">
+		    <select class="form-select" id="course" name="course">
+		        <option disabled value="">----- 과정 구분 -----</option>
+		        <c:choose>
+		            <c:when test="${forewordBoardDTO.getCourse() == '프론트엔드'}">
+		                <option value="프론트엔드" selected>프론트엔드</option>
+		                <option value="백엔드">백엔드</option>
+		                <option value="풀스택">풀스택</option>
+		            </c:when>
+		            <c:when test="${forewordBoardDTO.getCourse() == '백엔드'}">
+		                <option value="프론트엔드">프론트엔드</option>
+		                <option value="백엔드" selected>백엔드</option>
+		                <option value="풀스택">풀스택</option>
+		            </c:when>
+		            <c:when test="${forewordBoardDTO.getCourse() == '풀스택'}">
+		                <option value="프론트엔드">프론트엔드</option>
+		                <option value="백엔드">백엔드</option>
+		                <option value="풀스택" selected>풀스택</option>
+		            </c:when>
+		            <c:otherwise>
+		                <option value="프론트엔드">프론트엔드</option>
+		                <option value="백엔드">백엔드</option>
+		                <option value="풀스택">풀스택</option>
+		            </c:otherwise>
+		        </c:choose>
+		    </select>
+		</div>
  
 
- 
-                        <!-- 제목 -->
-                        <div class="col-12">
-                            <input type="text" class="form-control" id="title" placeholder="제목" 
-                            maxlength="30" oninput="limitMaxLength(this);" name="title" value="${forewordBoardDTO.getTitle()}">
-                        
-                        </div>
 
-                        <!-- 내용 -->
-                        <div class="col-12">
-                            <textarea class="form-control" id="contents" rows="15" placeholder="내용" 
-                            maxlength="1500" oninput="limitMaxLength(this);" name="contents"> ${forewordBoardDTO.getContents()}</textarea>
-                        </div>
+             <!-- 제목 -->
+             <div class="col-12">
+                 <input type="text" class="form-control" id="title" placeholder="제목" 
+                 maxlength="30" oninput="limitMaxLength(this);" name="title" value="${forewordBoardDTO.getTitle()}">
+             
+             </div>
 
-                        <!-- 버튼 -->
-                        <div class="d-flex justify-content-center">
-                            <button type="reset" class="btn btn-outline-primary me-2">취소</button>
-                            <button type="submit" class="btn btn-primary ms-2">수정</button>
-                        </div>
-                        
+             <!-- 내용 -->
+             <div class="col-12">
+                 <textarea class="form-control" id="contents" rows="15" placeholder="내용" 
+                 maxlength="1500" oninput="limitMaxLength(this);" name="contents"> ${forewordBoardDTO.getContents()}</textarea>
+             </div>
+
+             <!-- 버튼 -->
+             <div class="d-flex justify-content-center">
+                 <button type="reset" class="btn btn-outline-primary me-2">취소</button>
+                 <button type="submit" class="btn btn-primary ms-2">수정</button>
+             </div>
+             
                  
                     </form>
                 </div>

@@ -16,19 +16,17 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
-	<div id="wrap" class="w-100">
+	
     	<jsp:include page="./common/header.jsp"></jsp:include>
         <!-- header include 영역 -->
 
-        <section id="" class="mt-5">
-            <div class="inner m-auto">
-                <h2 class="text-center p-4 bg-light border rounded-pill mb-4 m-auto text-primary w-800">수강 후기 작성</h2>
-            </div>
-        </section>
+      
+        <h2>수강 후기 작성</h2>
+         
+     
 
-        <main id="container" class="main">
-            <section id="content">
-                <div class="inner m-auto">
+       
+          
                 	<!-- onsubmit enter로 submit 되는 것 방지하는 옵션 -->
                     <form class="row g-3 m-auto w-800" name="postingForm" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/upload.do">
 
@@ -55,6 +53,7 @@
                             </select>
                         </div>
                         
+                        
                         <!-- 강사 명 -->
                         <div class="col-md-4">
                             <input type="text" class="form-control" id="teacher" placeholder="강사 명" 
@@ -66,6 +65,7 @@
 							<input class="col-md-12 form-control" type="text" id="openToEnd" name="openToEnd" value="" />
 						</div>
 						
+						
                         <!-- 전공/비전공 여부 -->
                         <div class="col-md-2 mt-4 pt-2">
 							<div class="form-check form-switch">
@@ -76,6 +76,7 @@
 							</div>
 						</div>
 
+
                         <!-- 유/무상 여부 -->
                         <div class="col-md-2 mt-4 pt-2">
 							<div class="form-check form-switch">
@@ -83,6 +84,7 @@
 								<label class="form-check-label" id="costLabel" for="cost">무상</label>
 							</div>
 						</div>
+						
 						
 						<!-- 전체 만족도 -->
 						<div class="starBox col-3">
@@ -117,6 +119,7 @@
 							</span>
 						</div>
 
+
 						<!-- 커리큘럼 만족도 -->
 						<div class="starBox col-3">
 							<label>커리큘럼</label>
@@ -127,6 +130,8 @@
 								id="curriScore" name="curriScore">
 							</span>
 						</div>
+
+
 
                         <!-- 제목 -->
                         <div class="col-12">
@@ -154,6 +159,10 @@
 		<!-- footer include 영역 -->
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
+   
+   
+   
+   
     <script src="../resources/js/bootstrap.min.js"></script>
 	<!-- <script src="../resources/js/popper.js"></script> -->
 	<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->

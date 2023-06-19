@@ -88,6 +88,8 @@ public class IndexController extends HttpServlet {
 					
 					//test
 					session.setAttribute("memberNumber", 10000);
+					session.setAttribute("memberStatus", 1);
+					
 					
 					nextPage = "/index.jsp";
 				}
