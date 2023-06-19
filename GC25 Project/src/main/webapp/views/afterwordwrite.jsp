@@ -33,7 +33,7 @@
             <section id="content">
                 <div class="inner m-auto">
                 	<!-- onsubmit enter로 submit 되는 것 방지하는 옵션 -->
-                    <form class="row g-3 m-auto w-800" name="postingForm" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/upload.do">
+                    <form class="row g-3 m-auto w-800" name="posting-form" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/upload.do">
 
 						<!-- 학원 이름 입력 창 -->
                         <div class="col-md-6">

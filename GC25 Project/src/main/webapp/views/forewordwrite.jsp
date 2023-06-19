@@ -18,82 +18,69 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <body>
-	<div id="wrap" class="w-100">
+	<div id="wrap">
     	<jsp:include page="./common/header.jsp"></jsp:include>
         <!-- header include 영역 -->
 
-        <section id="" class="mt-5">
-            <div class="inner m-auto">
-                <h2 class="text-center p-4 bg-light border rounded-pill mb-4 m-auto text-primary w-800">상담 후기 작성</h2>
-            </div>
-        </section>
-
-        <main id="container" class="main">
-            <section id="content">
-                <div class="inner m-auto">
-                	<!-- onsubmit enter로 submit 되는 것 방지하는 옵션 -->
-                    <form class="row g-3 m-auto w-800" name="postingForm" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/upload.do">
-
-						<!-- 학원 이름 입력 창 -->
-                        <div class="col-md-6">
-							<input type="text" id="academyName" placeholder="학원 이름을 입력해 주세요."
-								class="form-control" autocomplete="off" name="academyName">
-							<input type="hidden" name="academyNum" id="academyNum" class="" value="">
-							<div class="searchList">
-								<div class="d-none col-md-12" id="none">
+		<div class="board-page foreword-page write-page foreword-write-page">
+			<div class="inner">
+				<div class="title">
+					<h2>상담 후기 작성</h2>
+					<p>설명설명설명</p>
+				</div>
+				
+				<form class="foreword-form" name="posting-form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/upload.do">
+					<div class="first-line">
+						<div>
+							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName">
+							<input type="hidden" name="academyNum" id="academyNum" value="">
+							<div class="search-list">
+								<ul class="d-none" id="none">
 									<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
-								</div>
+								</ul>
 							</div>
 						</div>
-
-                        <!-- 과정 구분 -->
-                        <div class="col-md-6">
-                            <select class="form-select" id="course" name="course">
-                            	<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
-                                <option disabled selected value="">----- 과정 구분 -----</option>
-                                <option value="프론트엔드">프론트엔드</option>
-                                <option value="백엔드">백엔드</option>
-                                <option value="풀스택">풀스택</option>
-                            </select>
-                        </div>
-
-                        <!-- 제목 -->
-                        <div class="col-12">
-                            <input type="text" class="form-control" id="title" placeholder="제목" 
-                            maxlength="30" oninput="limitMaxLength(this);" name="title">
-                        </div>
-
-                        <!-- 내용 -->
-                        <div class="col-12">
-                            <textarea class="form-control" id="contents" rows="15" placeholder="내용" 
-                            maxlength="1500" oninput="limitMaxLength(this);" name="contents"></textarea>
-                        </div>
-
-                        <!-- 버튼 -->
-                        <div class="d-flex justify-content-center">
-                            <button type="reset" class="btn btn-outline-primary me-2">취소</button>
-                            <button type="submit" class="btn btn-primary ms-2">작성</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-        </main>
-        <!-- main -->
+						<select class="box form-select" id="course" name="course">
+							<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
+							<option disabled selected value="">----- 과정 구분 -----</option>
+							<option value="프론트엔드">프론트엔드</option>
+							<option value="백엔드">백엔드</option>
+							<option value="풀스택">풀스택</option>
+						</select>
+					</div>
+					
+					<!-- 제목 -->
+					<div class="second-line">
+						<input type="text" class="input-title box" id="title" placeholder="제목" 
+						maxlength="30" oninput="limitMaxLength(this);" name="title">
+					</div>
+					
+					<!-- 내용 -->
+					<div class="third-line">
+						<textarea id="contents" class="input-contents" rows="15" placeholder="내용" 
+						maxlength="1500" oninput="limitMaxLength(this);" name="contents"></textarea>
+					</div>
+					
+					<!-- 버튼 -->
+					<div class="btn-group">
+						<button type="reset" class="box">취소</button>
+						<button type="submit" class="box">작성</button>
+					</div>
+				</form>
+			</div>
+		</div>
 
 		<!-- footer include 영역 -->
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
-    <script src="../resources/js/bootstrap.min.js"></script>
-	<script src="../resources/js/popper.js"></script>
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script src="../resources/js/academynameinput.js"></script>
-	<script src="../resources/js/custom.js"></script>
 	<script>
 		let num = document.getElementById("academyNum");
 	
 		function posting() {	
 		    // 사용자 입력 값 받아오기
-		    let academyName = $("#academyName").val();
+		    let academyName = $("#academy-name").val();
 		    let course = $("#course").val();
 		    let title = $("#title").val();
 		    let contents = $("#contents").val();
@@ -126,7 +113,7 @@
 		            } else {
 		                console.log('글 작성 진행');
 		                num.value = result;
-		                document.postingForm.submit();
+		                document.posting-form.submit();
 		            }
 		        },
 	
@@ -147,11 +134,17 @@
 		    }
 		};
 		
-		document.postingForm.addEventListener("keydown", evt => {
-			if (evt.code === "Enter") evt.preventDefault();
+ 		document.posting-form.addEventListener("keydown", evt => {
+			if (evt.code === "Enter" || evt.keyCode === 13) evt.preventDefault();
 		});
 		
-        
+ 		// 글자수 제한 함수
+ 		function limitMaxLength(e) {
+ 			if (e.value.length > e.maxLength) {
+ 				e.value = e.value.slice(0, e.maxLength);
+ 				alert('입력 가능한 범위를 초과했습니다!');
+ 			}
+ 		}
 	</script>
 </body>
 </html>

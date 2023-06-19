@@ -46,30 +46,39 @@
  					
  					<form id="searchForm" action="${contextPath}/academy/map.do?searchValue=${searchValue}">
 						<input id="searchValue"  name="searchValue" type="text" onclick ='searchmap()' placeholder="검색어를 입력하세요  ex)안양 컴퓨터학원" > 
-						<input type="submit" value="검색">
+						<input class="search-btn" type="submit" value="검색">
 					</form>
 					
 <c:choose>
 	<c:when test="${empty academyList}">
 					<div class="not-found">
-						<p>검색 결과가 존재하지 않습니다.</p>
+						<p>학원 정보를 조회해 보세요!</p>
 					</div>
 	</c:when> 
 						
 	<c:otherwise>
 					<div class="academy-found"> 
 						<div>
-							<h4>학원 명</h4>
+							<h4>
+								<i class="xi-school"></i>
+								학원 명
+							</h4>
 							<p id="academyName">${academyList[pageNum-1].academyName}</p>
 						</div>
 						<div>
-							<h4>학원 주소</h4>
+							<h4>
+								<i class="xi-maker"></i>
+								학원 주소
+							</h4>
 							<p>도로명주소: ${academyList[pageNum-1].academyRodeAddress}</p>
 							<p>일반 주소: ${academyList[pageNum-1].academyAddress}</p>
 						</div>
 						  
 						<div>
-							<h3> 학원 평점</h3>
+							<h4>
+								<i class="xi-trophy"></i>
+								학원 평점
+							</h4>
 							<p id="academyAvgScore">${academyList[pageNum-1].academyAvgScore}</p> 
 						</div>
 					</div>
@@ -78,17 +87,17 @@
 						<ul class="pagination justify-content-center">
 							
 	 	<c:if test="${pageNum == 1 && pageNum < -1 }">
-							<li class="page-item disabled"><a class="page-link">Previous</a></li>	    
+							<li class="page-item disabled"><a class="page-link">◀</a></li>	    
 		</c:if >	 
 										
 		<c:if test="${pageNum != 1}">
-							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum-1}&searchValue=${searchValue}">Previous</a></li>
+							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum-1}&searchValue=${searchValue}">◀</a></li>
 		</c:if>  
 
 		<c:forEach var="page" begin="${startPage}" end="${endPage}" step="1">	
 			<c:choose> 
 				<c:when test="${ page == pageNum }"> 
-							<li class="page-item active"><a class="page-link" href="#">${page}</a></li>
+							<li class="page-item"><a class="page-link active" href="#">${page}</a></li>
 				</c:when>
 				<c:otherwise>   
 							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${page}&searchValue=${searchValue}">${page}</a></li>
@@ -98,10 +107,10 @@
 										   
 								    	 
 		<c:if test="${pageNum == endPage && pageNum > endPage}">   
-							<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+							<li class="page-item"><a class="page-link disabled" href="#">▶</a></li>
 		</c:if >
 		<c:if test="${ pageNum != endPage}">
-							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum+ 1}&searchValue=${searchValue}">Next</a></li>
+							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum+ 1}&searchValue=${searchValue}">▶</a></li>
 		</c:if>	     
 						</ul>
 					</nav>
