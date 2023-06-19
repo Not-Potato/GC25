@@ -595,10 +595,20 @@ aside .rank li:last-child {
 	font-size: 20px;
 	color: #FFF;
 }
-
 .map-page .search-of-map #static-map {
 	height: 350px;
 }
+.map-page .search-of-map #searchForm {
+    width: 600px;
+    height: 50px;
+    border-radius: 15px 0 0 15px;
+}
+.map-page .search-of-map #searchForm #searchValue {
+    width: 600px;
+    height: 50px;
+    border-radius: 15px 0 0 15px;
+}
+
 
 /* ********** 학원 찾기 ********** */
 

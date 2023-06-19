@@ -45,7 +45,7 @@
  					<div id="static-map"></div>	
  					
  					<form id="searchForm" action="${contextPath}/academy/map.do?searchValue=${searchValue}">
-						<input id="searchValue"  name="searchValue" type="text" onclick ='searchmap()' style="width: 600px" style="width: 600px" placeholder="검색어를 입력하세요  ex)안양 컴퓨터학원" > 
+						<input id="searchValue"  name="searchValue" type="text" onclick ='searchmap()' placeholder="검색어를 입력하세요  ex)안양 컴퓨터학원" > 
 						<input type="submit" value="검색">
 					</form>
 					
