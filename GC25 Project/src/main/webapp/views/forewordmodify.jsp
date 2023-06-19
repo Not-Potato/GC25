@@ -93,6 +93,8 @@
                             <button type="reset" class="btn btn-outline-primary me-2">취소</button>
                             <button type="submit" class="btn btn-primary ms-2">수정</button>
                         </div>
+                        
+                 
                     </form>
                 </div>
             </section>
