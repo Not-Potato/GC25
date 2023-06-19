@@ -148,7 +148,7 @@
 								ForewordBoardDTO forewordBoardDTO = (ForewordBoardDTO)session.getAttribute("forewordBoardDTO");
 								int authorId = forewordBoardDTO.getMemberNumber();
 								%>
-
+						
 								<%-- 현재 사용자와 글 작성자가 일치할 경우에만 버튼 보여주기 --%>
 								<% if (memberNumber == authorId) { %>
 								  <div class="inner m-auto w-800 mb-3">
@@ -157,8 +157,8 @@
 								      	<button type="submit" class="btn btn-outline-primary me-2">글 수정</button>
 								      </form>
 								      
-								      <form class=""btn btn-primary" action=""  method="post">
-								      	<button type="button" class="btn btn-outline-primary me-2">글 삭제</button>
+								      <form class="btn btn-primary me-2" action="${contextPath}/foreword/delete.do?boardNum=${forewordBoardDTO.getBoardNumber()}" method="post">
+								      	<button type="submit" class="btn btn-outline-primary me-2">글 삭제</button>
 								      </form>
 								 
 								    </div>

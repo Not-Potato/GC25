@@ -67,7 +67,6 @@ public class CommentDAO {
 			pstmt = con.prepareStatement(updateCommentCountQuery); 
 			pstmt.setInt(1, aBoardNum);
 			pstmt.executeUpdate(); 	
-			System.out.println("abCommentDAO의 수강후기게시글에 댓글수 + 1 하는 쿼리:" + updateCommentCountQuery);
 			
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -98,7 +97,6 @@ public class CommentDAO {
 			pstmt.setString(4, commentContents);
 			pstmt.executeUpdate(); 	
 			
-			System.out.println("fbCommentDAO의 댓글DB에 추가하는 쿼리:" + query);
 			
 		}catch (Exception ex) {
 				ex.printStackTrace();
@@ -117,7 +115,6 @@ public class CommentDAO {
 			pstmt = con.prepareStatement(updateCommentCountQuery); 
 			pstmt.setInt(1, bBoardNum);
 			pstmt.executeUpdate(); 	
-			System.out.println("FBCommentDAO의 수강후기게시글에 댓글수 + 1 하는 쿼리:" + updateCommentCountQuery);
 			
 		}catch (Exception ex) {
 			ex.printStackTrace();
@@ -147,6 +144,7 @@ public class CommentDAO {
 		ResultSet rs = pstmt.executeQuery();
 		
 		while (rs.next()) {
+			
 			int commentNumber = rs.getInt("c_number");
 			int aBoardNumber = rs.getInt("ab_number");
 			int fBoardNumber = rs.getInt("fb_number");
@@ -242,5 +240,25 @@ public class CommentDAO {
 		return commentList; 
 	}
 	
+	//게시글 삭제 시 댓글도 함께 삭제되어야함
+	//상담후기 게시판 댓글 삭제
+		public void deleteFbComment(int bBoardNum) {
+			
+			//댓글 DB에 추가	
+			String query = "DELETE GC25_GC25_COMMENT WHERE fb_number  = ?";
+					
+
+			try {
+				con = ds.getConnection(); 
+				pstmt = con.prepareStatement(query); 
+				
+				pstmt.setInt(1, bBoardNum);
+			
+				pstmt.executeUpdate(); 					
+								
+			}catch (Exception ex) {
+					ex.printStackTrace();
+			}
+		}	
 	
 }//end of CommentDAO

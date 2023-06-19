@@ -30,4 +30,9 @@ public class CommentService {
 		System.out.println("commnet서비스 확인용 출력입니다.");
 		commentDAO.fbAddComment(aBoardNum, fBoardNum, memberNum, commentContents);
 	}
-}
+	
+	public void deleteFbComment(int fBoardNum) {
+		commentDAO.deleteFbComment(fBoardNum);
+
+	}
+}	
