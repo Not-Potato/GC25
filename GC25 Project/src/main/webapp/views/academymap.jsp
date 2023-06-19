@@ -29,178 +29,137 @@
 
 </head>
 <body>
-	<div id="wrap" class="w-100">
+	<div id="wrap">
  		<jsp:include page="../views/common/header.jsp"></jsp:include>
    		<!-- header include 영역 -->
- 
-		
-		<section id="" class="mt-5">
-			<div class="inner m-auto">
-				<h2 class="text-center p-4 bg-light border rounded-pill mb-4 m-auto text-primary w-800">학원 위치 보기</h2>
-			</div>
-		</section> 
-		
-		<main id="container" class="main">
-			<section id="content">
-			
-				<!-- 지도 출력 -->
-				<div class="inner m-auto">
-					<div class="position-relative">
-						<div class="col-12">
-							<div style="display:flex; justify-content:center;">
-								<div id="staticMap" style="width:70%; height:350px;"></div>							
-							</div>
-							
-							<br>
-							<br>
-							
-							<div style="display:flex; justify-content:center;">
-							
-								<!-- <form id="searchForm" action="/academymap/listAcademy.do"> -->
-								<form id="searchForm" action="${contextPath}/academy/map.do?searchValue=${searchValue}">
-									<input id="searchValue"  name="searchValue" type="text" onclick ='searchmap()' style="width: 600px" style="width: 600px" placeholder="검색어를 입력하세요  ex)안양 컴퓨터학원" > 
+ 		
+ 		<div class="map-page">
+ 			<div class="inner">
+ 				<div class="title">
+				    <h2>학원 찾기</h2>
+				    <p>설명설명설명</p>
+				</div>
+ 			
+ 			
+ 				<div class="search-of-map">
+ 					<div id="static-map"></div>	
+ 					
+ 					<form id="searchForm" action="${contextPath}/academy/map.do?searchValue=${searchValue}">
+						<input id="searchValue"  name="searchValue" type="text" onclick ='searchmap()' style="width: 600px" style="width: 600px" placeholder="검색어를 입력하세요  ex)안양 컴퓨터학원" > 
+						<input type="submit" value="검색">
+					</form>
 					
-									<input type="submit" value="검색">
-								</form>
-								
-							</div>
-							<br>
-							<br>
+<c:choose>
+	<c:when test="${empty academyList}">
+					<div class="not-found">
+						<p>검색 결과가 존재하지 않습니다.</p>
+					</div>
+	</c:when> 
+						
+	<c:otherwise>
+					<div class="academy-found"> 
+						<div>
+							<h4>학원 명</h4>
+							<p id="academyName">${academyList[pageNum-1].academyName}</p>
+						</div>
+						<div>
+							<h4>학원 주소</h4>
+							<p>도로명주소: ${academyList[pageNum-1].academyRodeAddress}</p>
+							<p>일반 주소: ${academyList[pageNum-1].academyAddress}</p>
+						</div>
+						  
+						<div>
+							<h3> 학원 평점</h3>
+							<p id="academyAvgScore">${academyList[pageNum-1].academyAvgScore}</p> 
 						</div>
 					</div>
-				</div>	
-				
-	
-		
-				<!-- 설명 출력 -->
-				<div class="container text-center">
-					<c:choose>
-						<c:when test="${empty academyList}">
-			            			<p id="searchResult">검색어를 입력해주세요.</p>
-						</c:when> 
-						
-					 	<c:otherwise>
-					  			<div class="row"> 
-					   	 			<h3 class="col-6 col-md-4">학원 명</h3>
-					   				<div class="col-md-8">
-		            					<p id="academyName">${academyList[pageNum-1].academyName}</p>
-					    			</div>
-					  			</div>
-					 			<br>
-					 			<br>
 					
-					
-					  			<div class="row">
-					    			<h3 class="col-6 col-md-4">학원 주소</h3>
-					    			<div class="col-md-8">
-		            					<p>도로명주소: ${academyList[pageNum-1].academyRodeAddress}</p>
-		            					<p>일반 주소: ${academyList[pageNum-1].academyAddress}</p>
-					    			</div>
-					 			</div>
-					   			<br>
-					  			<br>
-					  
-					    		<div class="row">
-					    			<h3 class="col-6 col-md-4"> 학원 평점</h3>
-					    			<div class="col-md-8">	
-					    				<p id="academyAvgScore">${academyList[pageNum-1].academyAvgScore}</p> 
-					    			</div>
-					 	 		</div>
-					 	 	
-					 	 		
-								<hr>
-					 		
-					
-							<nav aria-label="...">
-								<ul class="pagination justify-content-center">
+					<nav aria-label="...">
+						<ul class="pagination justify-content-center">
 							
- 										<c:if test="${pageNum == 1 && pageNum < -1 }">	
-											    <li class="page-item disabled"><a class="page-link">Previous</a></li>	    
-										</c:if >	 
+	 	<c:if test="${pageNum == 1 && pageNum < -1 }">
+							<li class="page-item disabled"><a class="page-link">Previous</a></li>	    
+		</c:if >	 
 										
-										<c:if test="${pageNum != 1}">
-											<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum-1}&searchValue=${searchValue}">Previous</a></li>
-										</c:if>  
-									 
-								
-									<c:forEach var="page" begin="${startPage}" end="${endPage}" step="1">	
-										<c:choose> 
-											<c:when test="${ page == pageNum }"> 
-											    <li class="page-item active"><a class="page-link" href="#">${page}</a></li>
-											</c:when>
-											<c:otherwise>   
-											    <li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${page}&searchValue=${searchValue}">${page}</a></li>
-										   </c:otherwise>
-										</c:choose>	    
-									</c:forEach>	
+		<c:if test="${pageNum != 1}">
+							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum-1}&searchValue=${searchValue}">Previous</a></li>
+		</c:if>  
+
+		<c:forEach var="page" begin="${startPage}" end="${endPage}" step="1">	
+			<c:choose> 
+				<c:when test="${ page == pageNum }"> 
+							<li class="page-item active"><a class="page-link" href="#">${page}</a></li>
+				</c:when>
+				<c:otherwise>   
+							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${page}&searchValue=${searchValue}">${page}</a></li>
+				</c:otherwise>
+			</c:choose>	    
+		</c:forEach>	
 										   
 								    	 
-										<c:if test="${pageNum == endPage && pageNum > endPage}">   
-											<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-										</c:if >
-										<c:if test="${ pageNum != endPage}">
-											<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum+ 1}&searchValue=${searchValue}">Next</a></li>
-										</c:if>	     
-							  </ul>
-							</nav>
-					 	</c:otherwise> 
-					</c:choose>
-				</div><!-- 설명 출력 끝 -->
+		<c:if test="${pageNum == endPage && pageNum > endPage}">   
+							<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+		</c:if >
+		<c:if test="${ pageNum != endPage}">
+							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum+ 1}&searchValue=${searchValue}">Next</a></li>
+		</c:if>	     
+						</ul>
+					</nav>
+	</c:otherwise> 
+</c:choose>
+				</div>
+			</div>  <!-- end of inner -->
+		</div>  <!-- end of map-page -->
 					
-			</section>
-	 </main>
- 
-     	<jsp:include page="../views/common/footer.jsp"></jsp:include>  
-	</div><!-- end of wrap -->	  
+	</div>  <!-- end of wrap -->
+					
+	<jsp:include page="../views/common/footer.jsp"></jsp:include>  
     
     
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f9658f5229a3c587b3729aa940473f7"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>	
-
-<script>
-
-
-	var academyNameElement = document.getElementById("academyName");
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=3f9658f5229a3c587b3729aa940473f7"></script>
+	<script>
 	
-	var academyName = academyNameElement ? academyNameElement.textContent : "";
-	var academyY = "${academyList[pageNum-1].academyY}";
-	var academyX = "${academyList[pageNum-1].academyX}";
 	
-	var marker;
-	
-	if (academyName !== ""){
-	
-	// 이미지 지도에 표시할 마커입니다
-		marker = {
-	    		position: new kakao.maps.LatLng(academyY, academyX), 
-	   			 text: academyName // text 옵션을 설정하면 마커 위에 텍스트를 함께 표시할 수 있습니다
-		};
-	
+		var academyNameElement = document.getElementById("academyName");
 		
-	var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
+		var academyName = academyNameElement ? academyNameElement.textContent : "";
+		var academyY = "${academyList[pageNum-1].academyY}";
+		var academyX = "${academyList[pageNum-1].academyX}";
+		
+		var marker;
+		
+		if (academyName !== ""){
+		
+		// 이미지 지도에 표시할 마커입니다
+			marker = {
+		    		position: new kakao.maps.LatLng(academyY, academyX), 
+		   			 text: academyName // text 옵션을 설정하면 마커 위에 텍스트를 함께 표시할 수 있습니다
+			};
+		
+			
+		var staticMapContainer  = document.getElementById('static-map'), // 이미지 지도를 표시할 div
+		    staticMapOption = { 
+		        center: new kakao.maps.LatLng(academyY, academyX), // 이미지 지도의 중심좌표
+		        level: 3, // 이미지 지도의 확대 레벨
+		        marker: marker // 이미지 지도에 표시할 마커
+		    };
+		
+		}else {
+			marker = {
+		           	//position: new kakao.maps.LatLng(37.39876608892914, 126.9209608170776),
+		            //text: ""
+		        };
+		var staticMapContainer  = document.getElementById('static-map'), // 이미지 지도를 표시할 div
 	    staticMapOption = { 
-	        center: new kakao.maps.LatLng(academyY, academyX), // 이미지 지도의 중심좌표
+	        center: new kakao.maps.LatLng(37.39876608892914, 126.9209608170776), // 이미지 지도의 중심좌표
 	        level: 3, // 이미지 지도의 확대 레벨
 	        marker: marker // 이미지 지도에 표시할 마커
-	    };
+		    };	
+		}
 	
-	}else {
-		marker = {
-	           	//position: new kakao.maps.LatLng(37.39876608892914, 126.9209608170776),
-	            //text: ""
-	        };
-	var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
-    staticMapOption = { 
-        center: new kakao.maps.LatLng(37.39876608892914, 126.9209608170776), // 이미지 지도의 중심좌표
-        level: 3, // 이미지 지도의 확대 레벨
-        marker: marker // 이미지 지도에 표시할 마커
-	    };	
-	}
-
-	// 이미지 지도를 생성합니다
-	var staticMap = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
-
-</script>
-	</body>
-	</html>
+		// 이미지 지도를 생성합니다
+		var static_map = new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+	
+	</script>
+</body>
+</html>

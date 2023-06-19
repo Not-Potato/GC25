@@ -577,4 +577,29 @@ aside .rank li:last-child {
 .board-page nav ul li:hover a {
 	color: #007CFF;
 }
-/* ********** 수강 후기 ********** */
+/* ********** 게시판 ********** */
+
+.map-page .title {
+    width: 1400px;
+    height: 150px;
+    padding-left: 50px;
+    background-image: url("../images/sub-title-map.png");
+}
+.map-page .title h2 {
+	font-size: 30px;
+	font-weight: 700;
+	padding-top: 40px;
+	color: #FFF;
+}
+.map-page .title p {
+	font-size: 20px;
+	color: #FFF;
+}
+
+.map-page .search-of-map #static-map {
+	height: 350px;
+}
+
+/* ********** 학원 찾기 ********** */
+
+
