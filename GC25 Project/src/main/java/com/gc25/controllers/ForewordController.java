@@ -155,7 +155,7 @@ public class ForewordController extends HttpServlet {
 				int memberNumber = 10000;
 				session.setAttribute("memberNumber", memberNumber);
 				session.setAttribute("forewordBoardDTO", forewordBoardDTO);
-				// request.setAttribte 하면 안됨.... 왜인지 모르겠음
+				
 
 				nextPage = views + "/forewordviewer.jsp";
 			}
