@@ -40,7 +40,7 @@ public class MemberService {
 		return result;
 	}
 	
-	public String getMemberImageFileName(String memberImageFileName, String memberEmail) {
+	public String getMemberImageFileName(String memberEmail) {
 		
 		String result = memberDAO.getMemberImageFileName(memberEmail);
 		
@@ -50,6 +50,13 @@ public class MemberService {
 	public String setMemberImageFileName(String memberImageFileName, String memberEmail) {
 		
 		String result = memberDAO.setMemberImageFileName(memberImageFileName, memberEmail);
+		
+		return result;
+	}
+	
+	public String delMemberImageFileName(String memberEmail) {
+		
+		String result = memberDAO.delMemberImageFileName(memberEmail);
 		
 		return result;
 	}

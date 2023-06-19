@@ -34,6 +34,7 @@ public class AcademyDTO {
 
 	public AcademyDTO(int academyNumber, String academyName, String academyTel, String academyAddress,
 			String academyRodeAddress, double academyAvgScore, String academyUrl, String academyX, String academyY , int academyReviewCount) {
+		
 		this.academyNumber = academyNumber;
 		this.academyName = academyName;
 		this.academyTel = academyTel;

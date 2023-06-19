@@ -157,7 +157,10 @@
 	background-color:white;
 }
 
-
+/*로그인*/
+.logincontainer{
+	width:600px;
+}
 
 
 /* ---------------- 형주 ---------------- */

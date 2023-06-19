@@ -27,7 +27,6 @@
 	<div class="body_container">
        	<form>
         <h1>회원가입</h1>
-        <div class="table_container">
             <table>
                 <tr>
                     <td>이메일</td>
@@ -40,7 +39,6 @@
                     <td>
                         <button class="emailHashCheckBtn" onclick="emailSend()">이메일 인증</button>
                     </td>
-            
                 </tr>
                 <tr>
                 	 <td>

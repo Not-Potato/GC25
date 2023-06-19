@@ -107,7 +107,7 @@ public class ForewordController extends HttpServlet {
 
 				// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 				dto.setMemberNumber((Integer) (session.getAttribute("memberNumber")));
-//					dto.setMemberNumber(10020);
+				//dto.setMemberNumber(10020);
 
 				// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 				// 학원번호, 학원이름, 과정구분, 제목, 내용
@@ -148,7 +148,6 @@ public class ForewordController extends HttpServlet {
 
 				// 댓글 리스트 가져오기
 				ArrayList<CommentDTO> commentList = commentService.getForewordComment(boardNum);
-				System.out.println("forewordController commentList 확인용:" + commentList);
 				request.setAttribute("commentList", commentList);
 
 				// 사용자 아이디 심어주기 (TEST)
@@ -168,12 +167,12 @@ public class ForewordController extends HttpServlet {
 
 				// 사용자 아이디 가져오기
 				// test용
-				// int memberNum= (Integer) session.getAttribute("memberNumber");
-				int memberNumber = 10000;
+				int memberNum= (Integer) session.getAttribute("memberNumber");
+				//int memberNumber = 10000;
 				int aBoard = 0;
 
 				// 게시글 좋아요 수 +1 (DB에 업데이트)
-				forewordViewerService.setRecommend(memberNumber, boardNum, aBoard);
+				forewordViewerService.setRecommend(memberNum, boardNum, aBoard);
 
 				// 다음페이지 이동
 				nextPage = "/foreword/viewer.do";
@@ -233,13 +232,13 @@ public class ForewordController extends HttpServlet {
 				// 사용자 아이디 가져오기
 				// test용
 				// int memberNum= (Integer) session.getAttribute("memberNumber");
-				int memberNumber = 10000;
+				//int memberNumber = 10000;
 				int aBoard = 0;
 
 				ForewordBoardDTO forewordBoardDTO = (ForewordBoardDTO) session.getAttribute("forewordBoardDTO");
 				// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 				forewordBoardDTO.setMemberNumber((Integer)(session.getAttribute("memberNumber")));
-//		
+		
 				// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 				// 학원번호, 학원이름, 과정구분, 제목, 내용
 				forewordBoardDTO.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
@@ -248,7 +247,7 @@ public class ForewordController extends HttpServlet {
 				forewordBoardDTO.setTitle(request.getParameter("title"));
 				forewordBoardDTO.setContents(request.getParameter("contents"));
 
-				service.upload(dto);
+				forewordViewerService.modifyForewordBoard(forewordBoardDTO);
 
 				PrintWriter out = response.getWriter();
 				// forward 시 주소가 그대로 유지됨(upload.do)
@@ -256,15 +255,26 @@ public class ForewordController extends HttpServlet {
 				// 얼럿 창 띄우면서 확인 누르면 기본 페이지로 이동하게끔 처리
 				out.print("""
 						<script>
-							alert("게시글 작성 성공!");
+							alert("게시글 수정 성공!");
 							document.location.href = "%s/foreword";
 						</script>
 						""".formatted(request.getContextPath()));
 
+			}case "/delete.do" -> {
+
+				// 해당 게시글의 게시글 번호 가져오기
+				String boardNumStr = request.getParameter("boardNum");
+				int boardNum = Integer.parseInt(boardNumStr);
 
 			
+				//본문 삭제
+				forewordViewerService.deleteForewordBoard(boardNum);
+				//댓글 삭제
+				commentService.deleteFbComment(boardNum);
+				
+
 				// 다음페이지 이동
-				nextPage = views + "/forewordviewer.jsp";
+				nextPage = "/foreword/board.do";
 			}
 
 			// 디폴트 페이지 = 게시판 (글 목록)

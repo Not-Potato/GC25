@@ -101,7 +101,6 @@ public class ForewordViewerDAO {
 				ex.printStackTrace();
 			}
 			
-			System.out.println("forewordViewDAO test입니다.null이 아님을 확인하는 용도입니다:"+ b);
 			return b;
 	}
 	
@@ -122,12 +121,12 @@ public class ForewordViewerDAO {
 								a_name = ?,
 								fb_course = ?,
 								fb_title = ?,
-								fb_contents = ?,
-								WHERE fb_number = ?; 	
+								fb_contents = ?
+								WHERE fb_number = ?
 				
 						""";
 			
-	
+			con = ds.getConnection();	
 			pstmt = con.prepareStatement(updateQuery);
 			pstmt.setInt(1, forewordBoardDTO.getAcademyNumber());
 			pstmt.setString(2, forewordBoardDTO.getAcademyName());
@@ -147,5 +146,27 @@ public class ForewordViewerDAO {
 		}
 		
 	}
+	
+	//게시글 삭제 
+	public void deleteForewordBoard(int boardNum) {
+		
+		String deleteQuery = "DELETE GC25_FOREWORD_BOARD WHERE fb_number  = ?";
+	
+		try {
+			
+			con = ds.getConnection();	
+			pstmt = con.prepareStatement(deleteQuery);
+			pstmt.setInt(1,boardNum);
+			pstmt.executeUpdate();
+			
+			con.close();
+			pstmt.close();
+
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+}
+
 	
 }// end of class ForewordViewerDAO	
