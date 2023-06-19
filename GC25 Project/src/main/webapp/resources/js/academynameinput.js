@@ -1,18 +1,16 @@
-let $search = document.querySelector("#academyName");
+let $search = document.querySelector("#academy-name");
 let $none = document.querySelector("#none");
-let $auto = document.querySelector(".autoComplete");
+let $auto = document.querySelector(".auto-complete");
 
 $search.onkeyup = (event) => {
 	$none.innerHTML = "";
 	// 검색어
 	let keyword = $search.value.trim();
-	/* let json = null; */
 	console.log("키워드: " + keyword);
 	let matchDataList = null;
 	
 	// ajax -> 자바 -> DB 값 가져오기
 	if (!keyword == "") {
-		$none.classList.replace('d-none', 'autoComplete');
 		$.ajax({
 			url: "/academy/search",
 			method: "get",
@@ -23,39 +21,42 @@ $search.onkeyup = (event) => {
 				matchDataList = data.list;
 
 				console.log(data);
+				console.log(data.list);
 				console.log("[검색 결과] 가져온 배열의 길이: " + matchDataList.length);
 						
-				switch (event.keyCode) {
-					// UP KEY
-					case 38:
-			            nowIndex = Math.max(nowIndex - 1, 0);
-			            break;
-		
-			        // DOWN KEY
-			        case 40:
-			            nowIndex = Math.min(nowIndex + 1, matchDataList.length - 1);
-			            break;
-				
-			        // ENTER KEY
-			        case 13:
-			            let select = matchDataList[nowIndex].academyName;
-			            $search.value = select;
-			            console.log(select);
-			            // 초기화
-			            nowIndex = 0;
-			            matchDataList.length = 0;
-			            break;
-				
-			        // 그외 다시 초기화
-			        default:
-			            nowIndex = 0;
-			            break;
-			    }
-			    // 리스트 보여주기
-			    showList(matchDataList, keyword, nowIndex);
-			    
-			    if (data == null) {
-					$none.classList.add("d-none"); // ajax 통해 가져온 데이터가 없을 때 결과 창 숨기기
+				if (matchDataList.length > 0) {
+					$none.classList.replace('d-none', 'auto-complete');
+					
+					switch (event.keyCode) {
+						// UP KEY
+						case 38:
+				            nowIndex = Math.max(nowIndex - 1, 0);
+				            break;
+			
+				        // DOWN KEY
+				        case 40:
+				            nowIndex = Math.min(nowIndex + 1, matchDataList.length - 1);
+				            break;
+					
+				        // ENTER KEY
+				        case 13:
+				            let select = matchDataList[nowIndex].academyName;
+				            $search.value = select;
+				            console.log(select);
+				            // 초기화
+				            nowIndex = 0;
+				            matchDataList.length = 0;
+				            break;
+					
+				        // 그외 다시 초기화
+				        default:
+				            nowIndex = 0;
+				            break;
+				    }
+				    // 리스트 보여주기
+				    showList(matchDataList, keyword, nowIndex);
+				} else {
+					$none.classList.replace('auto-complete', 'd-none');
 				}
 			},
 			
@@ -67,7 +68,7 @@ $search.onkeyup = (event) => {
 };
 
 $search.onblur = () => {
-  $none.classList.add("d-none"); // 포커스를 잃었을 때 검색 결과 창 숨기기
+  $none.classList.replace('auto-complete', 'd-none'); // 포커스를 잃었을 때 검색 결과 창 숨기기
 };
 	
 const showList = (data, keyword, nowIndex) => {
@@ -80,9 +81,9 @@ const showList = (data, keyword, nowIndex) => {
     $none.innerHTML = data
       .map(
         (label, index) => `
-        <div class='${nowIndex === index ? "active" : ""}'>
+        <li class='${nowIndex === index ? "active" : ""}'>
           ${(label.academyName).replace(regex, '<mark>$1</mark>')}
-        </div>
+        </li>
       `
       )
       .join("");

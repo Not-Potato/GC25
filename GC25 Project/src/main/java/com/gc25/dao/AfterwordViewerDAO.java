@@ -33,6 +33,7 @@ public class AfterwordViewerDAO {
 		//게시글 상세 보기로 게시글 클릭 시 views 수 증가와 동시에 게시글 불러와야함
 		// views수 1 증가 쿼리 update
 		String updateQuery = "UPDATE GC25_AFTERWORD_BOARD SET ab_views = ab_views + 1 WHERE ab_number = ?";
+	
 		
 		try {
 			con = ds.getConnection();	
@@ -111,10 +112,9 @@ public class AfterwordViewerDAO {
 			} catch(Exception ex) {
 			ex.printStackTrace();
 			}
-			
+	
 			return a;
 	}
-	
 	
 	
 }// end of class AfterwordViewerDAO	

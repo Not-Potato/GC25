@@ -75,8 +75,6 @@ public class AfterwordController extends HttpServlet {
 					int startPage = endPage - (pagePerScreen - 1);
 					if (endPage > totalPage) endPage = totalPage;
 					
-					System.out.println("현재 정렬 기준: " + searchType);
-					System.out.println("현재 페이지 번호: " + pageNum);
 					
 					// 리스트 불러오기
 					list = service.getList(searchType, pageNum);
@@ -173,8 +171,11 @@ public class AfterwordController extends HttpServlet {
 					int memberNum = 10000;
 					//session.setAttribute("memberEmail", memberNum); 
 //					memberNum = (Integer)session.getAttribute("memberNumber");
+					session.setAttribute("memberNumber", memberNum);
+					session.setAttribute("afterwordBoardDTO", afterwordBoardDTO);
 				 	
-				 	//다음페이지 이동
+					
+					//다음페이지 이동
 					nextPage = views + "/afterwordviewer.jsp";
 				}
 				

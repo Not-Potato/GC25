@@ -119,7 +119,7 @@ public class ForewordController extends HttpServlet {
 				dto.setTitle(request.getParameter("title"));
 				dto.setContents(request.getParameter("contents"));
 
-				forewordViewerService.modifyForewordBoard(dto);
+				service.upload(dto);
 
 				PrintWriter out = response.getWriter();
 				// forward 시 주소가 그대로 유지됨(upload.do)
@@ -155,7 +155,7 @@ public class ForewordController extends HttpServlet {
 				int memberNumber = 10000;
 				session.setAttribute("memberNumber", memberNumber);
 				session.setAttribute("forewordBoardDTO", forewordBoardDTO);
-				// request.setAttribte 하면 안됨.... 왜인지 모르겠음
+				
 
 				nextPage = views + "/forewordviewer.jsp";
 			}

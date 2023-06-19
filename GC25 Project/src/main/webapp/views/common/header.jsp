@@ -21,19 +21,7 @@
 			menu3 = "on";
 			break;
 	}
-	
-	/* 	
-	int memberNumber = 0;
-	memberNumber = session.getAttribute("memberNumber") == null ? 0: (Integer)session.getAttribute("memberNumber");
-	System.out.println("세션에 저장된 회원번호 [" + memberNumber + "]");
-	
-	// 세션에 저장된 회원 번호가 없으면 (= 로그인 정보가 없으면) --> guest = true;
-	// 있으면 --> guest = false;
-	boolean guest = true;
-	guest = (memberNumber == 0) ? true :  false;
-	System.out.println("접속자는 손님(비회원)인가요? [" + guest + "]"); 
-	// JSTL로 해결 완료
-	*/
+
 %>
 <c:set var="memberNumber" value="${ sessionScope.memberNumber }" />
 <!DOCTYPE html>
@@ -77,8 +65,10 @@
 			</nav>
 				
 			<div class="search">
-				<input type="text" placeholder="검색어를 입력하세요">
-				<button><i class="xi-search"></i></button>
+				<form id="searchForm">
+					<input type="text" placeholder="검색어를 입력하세요" name="googleSearch">
+					<button><i class="xi-search"></i></button>
+				</form>
 			</div>
 
 			<ul class="top-menu">
@@ -105,8 +95,18 @@
 	</header>
   
 	<script src="<c:url value='/resources/js/jquery.js' />"></script>
-	<script>
-		
-	</script>
+
+ 	<script>
+	  	document.getElementById("searchForm").addEventListener("submit", function(event) {
+	    event.preventDefault(); // 폼 제출 이벤트 막기
+
+	    var searchInput = document.getElementsByName("googleSearch")[0].value; // 검색어 가져오기
+	    var encodedSearchInput = encodeURIComponent(searchInput); // 검색어 인코딩
+	    var googleSearchURL = "https://www.google.com/search?q=site:gc25.com " + encodedSearchInput; // 구글 검색 URL 생성
+
+	    window.location.href = googleSearchURL; // 구글 검색 페이지로 리다이렉트
+	  });
+	</script> 
+
 </body>
 </html>

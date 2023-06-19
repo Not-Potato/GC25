@@ -46,7 +46,7 @@ a {
     color:#333;	
 	font-family:'Roboto', 'Pretendard-Regular', sans-serif;
 }
-button, input {font-family:'Roboto', 'Pretendard-Regular', sans-serif;}
+button, input, textarea, select {font-family:'Roboto', 'Pretendard-Regular', sans-serif;}
 
 ol, ul, li {
 	list-style: none;
