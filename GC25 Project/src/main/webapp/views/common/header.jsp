@@ -35,8 +35,7 @@
 	// JSTL로 해결 완료
 	*/
 %>
-<c:set var="memberNumber" value="${sessionScope.memberNumber}" />
-<c:set var="guest" value="${empty memberNumber}" />
+<c:set var="memberNumber" value="${ sessionScope.memberNumber }" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -67,7 +66,7 @@
 
 			<ul class="top-menu">
 <c:choose>
-	<c:when test="${guest}" >
+	<c:when test="${ empty memberNumber }" >
 					<li>
 						<a href="${contextPath}/mem/login.do">Login</a>
 					</li>
