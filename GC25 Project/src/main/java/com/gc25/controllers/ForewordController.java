@@ -138,7 +138,7 @@ public class ForewordController extends HttpServlet {
 				// 해당 게시글의 게시글 번호 가져오기
 				String boardNumStr = request.getParameter("boardNum");
 				int boardNum = Integer.parseInt(boardNumStr);
-
+				
 				// 상담후기 게시글이니 수강후기게시글은 기본 0으로 셋팅??이게 필요한가???
 				int aBoardNum = 0;
 

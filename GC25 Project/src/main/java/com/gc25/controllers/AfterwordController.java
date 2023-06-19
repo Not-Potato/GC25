@@ -156,6 +156,7 @@ public class AfterwordController extends HttpServlet {
 					String boardNumStr = request.getParameter("boardNum");
 					int boardNum = Integer.parseInt(boardNumStr);
 					
+					
 					//수강후기 게시글이니 상담후기게시글은 기본 0으로 셋팅
 					int fBoardNum = 0;
 					
@@ -171,7 +172,7 @@ public class AfterwordController extends HttpServlet {
 					//사용자 아이디 심어주기 (TEST)
 					int memberNum = 10000;
 					//session.setAttribute("memberEmail", memberNum); 
-					memberNum = (Integer)session.getAttribute("memberNumber");
+//					memberNum = (Integer)session.getAttribute("memberNumber");
 				 	
 				 	//다음페이지 이동
 					nextPage = views + "/afterwordviewer.jsp";
