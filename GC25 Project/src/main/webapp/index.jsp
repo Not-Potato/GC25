@@ -14,143 +14,155 @@
 <head>
 	<meta charset="UTF-8">
 	<title>GC25 | Main Page</title>
-	<link href="<c:url value='/resources/css/bootstrap.min.css' />" rel="stylesheet">
+	<!-- 커스텀.css / reset.css / 파비콘 / x-icon / 비주얼 스와이프 플러긘 -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
+	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="/resources/images/mini_logo.png">
-	
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
 </head>
 <body>
-	<div id="wrap" class="w-100">
+	<div id="wrap">
 		<jsp:include page="./views/common/header.jsp"></jsp:include>
         <!-- header include 영역 -->
 
-        <section id="visual" class="">
-            <div class="inner m-auto">
+        <section id="visual">
+            <div class="inner">
                 <!-- 배너 영역 -->
-                <!-- <img src=""> -->
-                <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
-                    <div class="col-md-6 px-0">
-                        <h1 class="display-4 fst-italic">배너 들어갈 자리</h1>
-                        <p class="lead my-3">
-                        	배너 들어갈 자리,,.. 배너 들어갈 자리,,..,,, 배너 들어갈 자리,...,,
-                        	<a href="${contextPath}/afterword/board" class="nav-link px-2">수강 후기</a>
-                        </p>
-                        <p class="lead mb-0"><a href="#" class="text-white fw-bold">ㅂㅐ너자리.</a></p>
-                    </div>
-                </div>
-            </div>
+				<div class="big-banner swiper mySwiper">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide"><img src="./resources/images/main-banner-2.png"></img></div>
+						<div class="swiper-slide"><img src="./resources/images/main-banner-3.png"></img></div>
+						<div class="swiper-slide"><img src="./resources/images/main-banner-1.png"></img></div>
+					</div>
+					<div class="swiper-button-next"></div>
+					<div class="swiper-button-prev"></div>
+					<div class="swiper-pagination"></div>
+				</div>
+			</div>
         </section>
         <!-- visual -->
 
         <main id="container" class="main">
             <section id="content">
-                <div class="inner m-auto d-flex">
-                    <div class="w-50 pe-3">
-                        <!-- 강의 카드 -->
-                        <div class="card bg-light mt-3">
-                            <!-- 강의 소개 -->
-                            <div class="card-header bg-light">
-                                <div class="row">
-                                    <div class="text-center" style="height: 100px;">
-                                    	<h2 style="line-height: 100px">상담 후기 게시판</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- 강의 소개 종료 -->
-                            
-							<c:forEach var="fb" items="${ fList }" varStatus="vs" begin="0" end="4" step="1">
-	                            <div class="card-body border-bottom">
-	                            	<div class="row">
-									<div class="col-10">
-										${ fList[vs.index].views }
-										${ fList[vs.index].writeDate }
-									</div>
-									<div class="col-2">
-										${ fList[vs.index].recommend }
-										${ fList[vs.index].commentCount }
-									</div>
-									</div>
-									<div>
-										<h4>${ fList[vs.index].title }</h4>
-											${ fList[vs.index].contents }
-									</div>
-	                            </div>
-                            </c:forEach>
-                        </div>
-                        <!-- 강의 카드 종료 -->
-                    </div>
-
-                    <div class="w-50 ps-3">
-                        <!-- 강의 카드 -->
-                        <div class="card bg-light mt-3">
-                            <!-- 강의 소개 -->
-                            <div class="card-header bg-light">
-                                <div class="row">
-                                    <div class="text-center" style="height: 100px;">
-                                    	<h2 style="line-height: 100px">수강 후기 게시판</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <c:forEach var="fb" items="${ aList }" varStatus="vs" begin="0" end="4" step="1">
-	                            <div class="card-body border-bottom">
-	                            	<div class="row">
-									<div class="col-10">
-										${ aList[vs.index].views }
-										${ aList[vs.index].writeDate }
-									</div>
-									<div class="col-2">
-										${ aList[vs.index].recommend }
-										${ aList[vs.index].commentCount }
-									</div>
-									</div>
-									<div>
-										<h4>${ aList[vs.index].title }</h4>
-											${ aList[vs.index].contents }
-									</div>
-	                            </div>
-                            </c:forEach>
-                        <!-- 강의 카드 종료 -->
-
-                    </div>
+                <div class="inner">
+                	
+                	<!-- 상담 후기 게시판 최신 글 다섯 개 -->
+                    <div class="board foreword">
+                    	<div class="board-title">
+                    		<h3>상담 후기</h3>
+                    	</div>
+                        
+						<ul>
+<c:forEach var="fb" items="${ fList }" varStatus="vs" begin="0" end="4" step="1">
+							<li>
+								<div>
+									<em>${ fList[vs.index].writeDate }</em>
+									<strong>${ fList[vs.index].title }</strong>
+									<p>${ fList[vs.index].contents }</p>
+								</div>
+								<div class="post-stats">
+									<ul>
+										<li>
+											<i class="xi-eye"></i>
+											${ fList[vs.index].views }
+										</li>
+										<li>
+											<i class="xi-thumbs-up"></i>
+											${ fList[vs.index].recommend }
+										</li>
+										<li>
+											<i class="xi-comment"></i>
+											${ fList[vs.index].commentCount }
+										</li>
+									</ul>
+								</div>
+							</li>
+</c:forEach>
+						</ul>
+                    </div> <!-- end of .board .foreword -->
+                    
+                	<!-- 수강 후기 게시판 최신 글 다섯 개 -->
+                    <div class="board afterword">
+                    	<div class="board-title">
+                    		<h3>수강 후기</h3>
+                    	</div>
+                        
+						<ul>
+<c:forEach var="ab" items="${ aList }" varStatus="vs" begin="0" end="4" step="1">
+							<li>
+								<div>
+									<em>${ aList[vs.index].writeDate }</em>
+									<strong>${ aList[vs.index].title }</strong>
+									<p>${ aList[vs.index].contents }</p>
+								</div>
+								<div class="post-stats">
+									<ul>
+										<li>
+											<i class="xi-eye"></i>
+											${ aList[vs.index].views }
+										</li>
+										<li>
+											<i class="xi-thumbs-up"></i>
+											${ aList[vs.index].recommend }
+										</li>
+										<li>
+											<i class="xi-comment"></i>
+											${ aList[vs.index].commentCount }
+										</li>
+									</ul>
+								</div>
+							</li>
+</c:forEach>
+						</ul>
+                    </div> <!-- end of .board .afterword -->
                 </div>
             </section>
         </main>
         <!-- main -->
 
-        <aside class="position-absolute end-0 top-50 me-5">
-            <div class="card" style="width: 150px;">
-                <div class="card-header">
-                    리뷰 많은 순
-                </div>
-                <ul class="list-group list-group-flush">
-                     <c:forEach var="ac" items="${ revList }" varStatus="vs" >
-                        <li class="list-group-item">
-							${ revList[vs.index].academyName }
-							${ revList[vs.index].academyReviewCount }
-						</li>
-                   </c:forEach>
-                </ul>
-            </div>
-            <div class="card mt-4" style="width: 150px;">
-                <div class="card-header">
-                    평점 좋은 순
-                </div>
-                <ul class="list-group list-group-flush">
-                    <c:forEach var="ac" items="${ avgList }" varStatus="vs" >
-                        <li class="list-group-item">
-							${ avgList[vs.index].academyName }
-							${ avgList[vs.index].academyAvgScore }
-						</li>
-                   </c:forEach>
-                </ul>
-            </div>
+        <aside>
+			<ul class="rank review-ranking">
+             	<li>리뷰 TOP</li>
+<c:forEach var="ac" items="${ revList }" varStatus="vs" >
+             	<li>
+             		<strong>
+						${ revList[vs.index].academyName }
+					</strong>
+					${ revList[vs.index].academyReviewCount }
+				</li>
+</c:forEach>
+             </ul>
+         
+             <ul class="rank score-ranking">
+              <li>평점 TOP</li>
+<c:forEach var="ac" items="${ avgList }" varStatus="vs" >
+                 <li>
+                 	<strong>
+						${ avgList[vs.index].academyName }
+					</strong>
+					${ avgList[vs.index].academyAvgScore }
+				</li>
+</c:forEach>
+			</ul>
         </aside>
 
         <!-- footer include 영역 -->
         <jsp:include page="./views/common/footer.jsp"></jsp:include>
     </div>
-    <script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
 	<script src="<c:url value='/resources/js/jquery.js' />"></script>
-	<script src="<c:url value='/resources/js/popper.js' />"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+	<script>
+		var swiper = new Swiper(".mySwiper", {
+			pagination: {
+				el: ".swiper-pagination",
+				type: "progressbar",
+			},
+			navigation: {
+				nextEl: ".swiper-button-next",
+				prevEl: ".swiper-button-prev",
+			},
+		});
+	</script>
 </body>
 </html>
