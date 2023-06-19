@@ -3,6 +3,8 @@ package com.gc25.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -256,8 +258,18 @@ public class MemberController extends HttpServlet {
 					
 				}
 				case "/logout.do" -> {
+					
+					session.invalidate();
+					
+					PrintWriter script = response.getWriter();
+					script.println("<script>");
+					script.println("alert('로그아웃 되었습니다.')");
+					script.println("location.replace('/views/login.jsp')");
+					script.println("</script>");
+					
+					//nextPage = views + "/login.jsp";
 					System.out.println("로그아웃");
-					nextPage = views + "/logout.jsp";
+					
 					
 				}
 				case "/signup.do" -> {
@@ -301,10 +313,11 @@ public class MemberController extends HttpServlet {
 							System.out.println("들어오나보자");
 							System.out.println("contextPath : " + request.getContextPath());
 							// nextPage="/index.jsp";
-							
-							script.println("<script>");
-							script.println("alert('로그인 성공!')");
-							script.println("</script>");
+							PrintWriter out = response.getWriter();
+							out.println("<script>");
+							out.println("alert('로그인 성공!')");
+							script.println("location.replace('/main')");
+							out.println("</script>");
 
 							//세션 설정
 							session = request.getSession(); // 세션 가져오기
@@ -317,10 +330,13 @@ public class MemberController extends HttpServlet {
 							
 							memberNickname = member.getMemberNickname();
 							memberStatus = member.getMemberStatus();
-							memberImageFileName = memberService.getMemberImageFileName(memberImageFileName, memberEmail);
+							memberImageFileName = memberService.getMemberImageFileName(memberEmail);
 							
 							//세션에 저장
 							session.setAttribute("memberEmail",memberEmail);
+//							session.setAttribute("memberNumber", memberNumber);
+							//test
+							session.setAttribute("memberNumber", 10000);
 							session.setAttribute("memberNumber", memberNumber);
 							session.setAttribute("memberNickname", memberNickname);
 							session.setAttribute("memberStatus", memberStatus);
@@ -332,8 +348,8 @@ public class MemberController extends HttpServlet {
 							System.out.println("이미지 파일 : "+memberImageFileName);
 							System.out.println("등급 : "+memberStatus);
 							
-							nextPage = "/index.jsp";
-						
+							nextPage = "/main";
+							
 						// DB에 저장된 아이디가 아닌 경우
 						} else if (loginSuccess == -1) { 
 							script.println("<script>");
@@ -470,6 +486,7 @@ public class MemberController extends HttpServlet {
 								return;
 							}
 						}
+					nextPage="/main";
 					
 					} catch (Exception ex) {
 						ex.printStackTrace();
@@ -564,7 +581,7 @@ public class MemberController extends HttpServlet {
 				}
 				
 				memberImageFileName = memberService.setMemberImageFileName(memberImageFileName, memberEmail);
-				
+				System.out.println("삭제후 이미지"+memberImageFileName);
 				 //비밀번호 받아서 세팅
 			    if(request.getParameter("memberPwd")!=null){
 					memberPwd=request.getParameter("memberPwd");
@@ -625,9 +642,22 @@ public class MemberController extends HttpServlet {
 								//idx는 " \ " 포함되어 있으므로 전체 경로에서 idx + 1 해주면 파일명만 저장 
 								String fileName = fullpath.substring(idx+1);
 								File uploadFile = new File(curPath+"\\"+fileName);
-								fileItem.write(uploadFile);
-								System.out.println("파일 이름 : " + fileName);
-								session.setAttribute("fileName", fileName);
+								
+								//업로드 확장자 제한
+								String fileExtension="";
+								List<String> allowedExtensions = new ArrayList<>(Arrays.asList("jpg", "png", "gif", "svg"));
+								if (fileName != null && !fileName.isEmpty()) {
+									fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+								}
+								
+								if (!allowedExtensions.contains(fileExtension.toLowerCase())) {
+									PrintWriter out = response.getWriter();
+									out.println("허용되지 않는 파일 확장자입니다.");
+								} else {
+									fileItem.write(uploadFile);
+									System.out.println("파일 이름 : " + fileName);
+									session.setAttribute("fileName", fileName);
+								}
 								
 								}
 							}//if	
@@ -641,22 +671,32 @@ public class MemberController extends HttpServlet {
 				}//case
 				case "/imgdel.do" -> {
 					
-					String memberEmail = request.getParameter("memberEmail");
-					String memberImageFileName = memberDTO.getMemberImageFileName();
-
+					//로그인 한 이메일 세션에서 가져오기
+					String memberEmail = (String)session.getAttribute("memberEmail");
+					System.out.println("컨트롤러에서 이메일:"+memberEmail);
+					//이메일로 이미지파일 이름 받아 오기
+					String memberImageFileName = memberService.getMemberImageFileName(memberEmail);
+					
 					String userResponseParam = request.getParameter("userResponse");
 					boolean userResponse = Boolean.parseBoolean(userResponseParam);
 					
 					if(userResponse) {
-						memberImageFileName = memberService.getMemberImageFileName(memberImageFileName, memberEmail);
-						 String filePath = "C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\"+memberImageFileName;
-					     File file = new File(filePath);
+						memberImageFileName = memberService.getMemberImageFileName(memberEmail);
+						 String filePath = "C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\";
+					     File file = new File(filePath+memberImageFileName);
 					      
-					     if (file.delete()) {
-					        System.out.println("이미지가 삭제되었습니다.");
-					        
-					     } else {
-					        System.out.println("이미지 삭제를 실패했습니다.");
+					     if (!memberImageFileName.equals("profile.jpg")) {
+						     if (file.delete()) {
+						        System.out.println("이미지가 삭제되었습니다.");
+						        memberService.delMemberImageFileName(memberEmail);
+						        file=new File(filePath+memberService.getMemberImageFileName(memberEmail));
+						        session.setAttribute("fileName", "profile.jpg");
+						        // memberImageFileName=memberService.setMemberImageFileName(memberImageFileName,memberEmail);
+						        //session.setAttribute("fileName", file);
+						        
+						     } else {
+						        System.out.println("이미지 삭제를 실패했습니다.");
+						     }
 					     }
 					}
 				}//case
