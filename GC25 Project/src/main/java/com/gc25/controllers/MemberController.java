@@ -336,7 +336,7 @@ public class MemberController extends HttpServlet {
 							session.setAttribute("memberEmail",memberEmail);
 //							session.setAttribute("memberNumber", memberNumber);
 							//test
-							session.setAttribute("memberNumber", 10000);
+//							session.setAttribute("memberNumber", 10000);
 							session.setAttribute("memberNumber", memberNumber);
 							session.setAttribute("memberNickname", memberNickname);
 							session.setAttribute("memberStatus", memberStatus);
