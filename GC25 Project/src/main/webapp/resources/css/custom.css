@@ -163,6 +163,8 @@
 }
 
 
+
+
 /* ---------------- 형주 ---------------- */
 /* ----- forewordviewer ----- */
 
@@ -218,6 +220,36 @@ input {outline: none; text-indent: 10px;}
 	width: 100%;
 	border-bottom: 1px solid #00D4EA;
 	background: #FFF;
+}
+#header .h-banner {
+	width:100%;
+	text-align:center;
+	background-color:#007cff;
+	color:white;
+}
+#header .h-banner p {
+	display: inline-block;
+  	text-align: left; 
+  	font-size:20px;
+  	padding:10px;
+/*   	text-shadow:2px 2px 2px #ccc; */
+}
+#header .h-banner p span {
+  	font-size:23px;
+/*   	text-shadow:1px 1px 1px #000; */
+}
+#header .h-banner p small {
+  font-size: 17px;
+}
+#header .h-banner a {
+  	color: #fff;
+  	font-size:20px;
+  	font-weight: 700;
+}
+#header .h-banner a:hover {
+	text-shadow:  2px 2px 1px #000;
+	font-size:20px;
+	font-weight: 700;
 }
 #header .inner {
 	width: 1400px;
@@ -383,11 +415,23 @@ input {outline: none; text-indent: 10px;}
     font-size: 22px;
     margin: 10px 0;
     margin-top: 20px;
+    white-space: nowrap;
+  	overflow: hidden;
+ 	text-overflow: ellipsis;
+ 	width:400px;
+ 	
+ 	 
 }
 #content .inner .board > ul li p {
     font-size: 18px;
     margin: 0;
     margin-bottom: 10px;
+    
+    white-space: nowrap;
+  	overflow: hidden;
+ 	text-overflow: ellipsis;
+ 	width:450px;
+  
 }
 #content .inner .board ul li .post-stats {
 	color: #7f9fc4;
@@ -409,7 +453,11 @@ input {outline: none; text-indent: 10px;}
 }
 /* 메인 콘텐츠 영역 */
 
-
+@media screen and (max-width: 1900px) {
+  aside {
+    display: none;
+  }
+}
 
 aside .rank {
 	width: 220px;
@@ -524,6 +572,22 @@ aside .rank li:last-child {
 	font-size: 20px;
 	line-height: 50px;
 }
+
+.board-page .top-menu .dropcontent {
+	 display : none;
+  	 position : absolute;
+  	 z-index : 1; /*다른 요소들보다 앞에 배치*/
+}
+
+.board-page .top-menu .dropcontent li{
+	display : block;
+	text-decoration : none;
+}
+
+.board-page .top-menu:hover .dropcontent {
+	display: block;
+}
+
 /* top-menu */
 
 .board-page .board-list {
