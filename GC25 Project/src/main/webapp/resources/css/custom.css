@@ -71,6 +71,7 @@
   pointer-events: none;
 }
 
+
 /* ---------------- 수현 ---------------- */
 
 /* my page */
@@ -156,9 +157,452 @@
 	background-color:white;
 }
 
-
+/*로그인*/
+.logincontainer{
+	width:600px;
+}
 
 
 /* ---------------- 형주 ---------------- */
 /* ----- forewordviewer ----- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* 현아 */
+#wrap {
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+	color: #373737;
+}
+.inner { margin: auto; padding: 100px 0; }
+button {cursor: pointer;}
+input {outline: none; text-indent: 10px;}
+
+.swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* 스와이퍼 */
+/* 전체 공통 */
+
+
+
+#header {
+	width: 100%;
+	border-bottom: 1px solid #00D4EA;
+	background: #FFF;
+}
+#header .inner {
+	width: 1400px;
+	height: 100px;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+}
+#header .gnb {
+	width: 350px;
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#header .gnb li a {
+	font-size: 25px;
+    font-weight: 100;
+    color: #818181;
+    font-family: 'Pretendard-Thin';
+    letter-spacing: -2px;
+}
+#header .gnb li a.on {
+	color: #00D4EA;
+}
+#header .gnb li a:hover {
+	color: #00D4EA;
+}
+#header .search {
+	width: 500px;
+	display: flex;
+    justify-content: space-between;
+}
+#header .search input {
+	width: 450px;
+	height: 50px;
+	font-size: 18px;
+	border: 1px solid #00D4EA;
+    background: #FFF;
+}
+#header .search button {
+	width: 50px;
+	height: 50px;
+	background: #FFF;
+	border: 1px solid #00D4EA;
+	border-left: none;
+}
+#header .search button i {
+	color: #00D4EA;
+	font-size: 25px;
+}
+#header .search button:hover {
+	background: #00D4EA;
+}
+#header .search button:hover i {
+	color: #FFF;
+}
+#header .top-menu {
+	width: 220px;
+	display: flex;
+    justify-content: space-between;
+}
+#header .top-menu li {
+	width: 100px;
+	height: 40px;
+	background: #FFF;
+	border-radius: 15px;
+	text-align: center;
+	border: 1px solid #00D4EA;
+}
+#header .top-menu li:hover {
+	background: #00D4EA;
+}
+#header .top-menu li:hover a {
+	color: #FFF;
+}
+#header .top-menu li a {
+	font-size: 20px;
+	font-weight: 700;
+	line-height: 40px;
+	color: #00D4EA;
+}
+
+/* ********** 헤더 영역 ********** */
+
+
+
+#footer {
+	width: 100%;
+    height: 200px;
+	background: #00D4EA;
+}
+#footer p {
+	color: #FFF;
+	font-weight: 700;
+	font-size: 25px;
+	text-align: center;
+	line-height: 200px;
+}
+/* ********** 푸터 영역 ********** */
+
+
+
+#visual .inner {
+	padding-bottom: 0;
+}
+/* 비주얼 영역 */
+
+#content .inner {
+    width: 1400px;
+    display: flex;
+    justify-content: space-around;
+}
+#content .inner .foreword .board-title {
+	background-image: url("../images/main-title-1.png");
+}
+#content .inner .afterword .board-title {
+	background-image: url("../images/main-title-2.png");
+}
+#content .inner .board {
+    width: 620px;
+}
+
+#content .inner .board .board-title {
+	height: 120px;
+    background-repeat: no-repeat;
+    padding-top: 45px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    color: #FFF;
+}
+#content .inner .board .board-title h3 {
+	width: 132px;
+	font-size: 30px;
+	font-weight: 700;
+    text-indent: 20px;
+	cursor: pointer;
+}
+#content .inner .board .board-title h3:hover {
+    color: #FFF;
+    text-shadow: 2px 1px 3px #00D4EA;
+	/* text-shadow: -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF; */
+
+}
+#content .inner .board > ul li {
+    font-size: 15px;
+    border-bottom: 1px solid #7f9fc4;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 30px;
+    padding-bottom: 20px;
+    box-sizing: border-box;
+    margin: 20px 0;
+}
+#content .inner .board > ul li em {
+    color: #989898;
+}
+#content .inner .board > ul li strong {
+    display: block;
+    color: #007CFF;
+    font-weight: 700;
+    font-size: 22px;
+    margin: 10px 0;
+    margin-top: 20px;
+}
+#content .inner .board > ul li p {
+    font-size: 18px;
+    margin: 0;
+    margin-bottom: 10px;
+}
+#content .inner .board ul li .post-stats {
+	color: #7f9fc4;
+}
+#content .inner .board ul li .post-stats ul {
+	width: 60px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+#content .inner .board ul li .post-stats ul li {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+#content .inner .board ul li .post-stats ul li i {
+	margin-right: 10px;
+}
+/* 메인 콘텐츠 영역 */
+
+
+
+aside .rank {
+	width: 220px;
+	position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 25px;
+    border: 1px solid #007CFF;
+}
+aside .review-ranking {
+	left: 1.2%;
+}
+aside .score-ranking {
+	right: 1.2%;
+}
+aside .rank li {
+	width: 220px;
+	padding: 15px 20px;
+	box-sizing: border-box;
+	border-bottom: 1px solid #007CFF;
+	display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    color: #007CFF;
+    font-weight: 700;
+}
+aside .rank li strong {
+	width: 140px;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	color: #373737;
+}
+aside .rank li:first-child {
+	font-size: 22px;
+	font-weight: 700;
+	padding: 20px 20px;
+    background: #007CFF;
+    color: #FFF;
+    border-radius: 25px 25px 0 0;
+    justify-content: center;
+}
+aside .rank li:last-child {
+    border: none;
+}
+/* 어사이드 */
+/* ********** 메인 영역 ********** */
+
+
+
+.board-page .title {
+    width: 1400px;
+    height: 150px;
+    padding-left: 50px;
+}
+.afterword-page .title {
+	background-image: url("../images/sub-title-afterword.png");
+}
+.foreword-page .title {
+	background-image: url("../images/sub-title-foreword.png");
+}
+.board-page .title h2 {
+	font-size: 30px;
+	font-weight: 700;
+	padding-top: 40px;
+	color: #FFF;
+}
+.board-page .title p {
+	font-size: 20px;
+	color: #FFF;
+}
+.board-page .top-menu {
+	display: flex;
+    justify-content: space-between;
+    margin-top: 50px;
+}
+.board-page .top-menu button {
+	width: 150px;
+    height: 50px;
+    background: #FFF;
+    border-radius: 15px;
+	border: 1px solid #007CFF;
+    padding: 0 20px;
+    box-sizing: border-box;
+    font-size: 20px;
+    line-height: 50px;
+    font-weight: 700;
+    color: #007CFF;
+}
+.board-page .top-menu button:hover {
+	background: #007CFF;
+	color: #FFF;
+}
+.board-page .top-menu div {
+	border-radius: 15px;
+    border: 1px solid #007CFF;
+    overflow: hidden;
+}
+.board-page .top-menu ul li {
+    width: 150px;
+    height: 50px;
+    border-top: 1px solid #007CFF;
+    text-align: center;
+}
+.board-page .top-menu ul li:hover {
+	background: #007CFF;
+}
+.board-page .top-menu ul li:first-child {
+    border: none;
+}
+.board-page .top-menu ul li a {
+	font-size: 20px;
+	line-height: 50px;
+}
+/* top-menu */
+
+.board-page .board-list {
+	margin: 70px 0;
+}
+.board-page .board-list > li {
+	width: 100%;
+    border-bottom: 1px solid #007CFF;
+    margin-bottom: 50px;
+    padding: 30px 50px;
+    padding-bottom: 60px;
+}
+.board-page .board-list > li div {
+	font-size: 28px;
+}
+.board-page .board-list > li h3 {
+	font-size: 35px;
+	font-weight: 700;
+	margin: 30px 0;
+	color: #007CFF;
+}
+.board-page .board-list > li ul {
+	width: 500px;
+	display: flex;
+	justify-content: space-between;
+}
+.board-page .board-list > li ul li {
+	color: #999;
+	font-size: 20px;
+}
+.board-page nav ul {
+	display: flex;
+	justify-content: center;
+	margin: auto;
+}
+.board-page nav ul li {
+	width: 50px;
+	text-align: center;
+}
+.board-page nav ul li a {
+	font-size: 20px;
+	color: #5f5f5f;
+}
+.board-page nav ul li .active {
+	font-size: 20px;
+	color: #007CFF;
+}
+.board-page nav ul li .disable {
+	color: gray;
+}
+.board-page nav ul li .usable {
+	color: #00D4EA;
+}
+.board-page nav ul li:hover a {
+	color: #007CFF;
+}
+/* ********** 게시판 ********** */
+
+.map-page .title {
+    width: 1400px;
+    height: 150px;
+    padding-left: 50px;
+    background-image: url("../images/sub-title-map.png");
+}
+.map-page .title h2 {
+	font-size: 30px;
+	font-weight: 700;
+	padding-top: 40px;
+	color: #FFF;
+}
+.map-page .title p {
+	font-size: 20px;
+	color: #FFF;
+}
+
+.map-page .search-of-map #static-map {
+	height: 350px;
+}
+
+/* ********** 학원 찾기 ********** */
+
 

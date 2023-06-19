@@ -175,7 +175,7 @@ public class MemberDAO {
 			System.out.println(query);
 			
 			pstmt.setString(1, memberEmail);
-			System.out.println("dao memberemail : "+memberEmail);
+			System.out.println("dao memberemail 삭제삭제: "+memberEmail);
 			rs = pstmt.executeQuery();
 			
 			//같은 이름의 email 찾아서 반환
@@ -207,6 +207,11 @@ public class MemberDAO {
 		try {
 			con = ds.getConnection();
 			
+			if(memberImageFileName==null || memberImageFileName.equals("")) {
+				return "profile.jpg";
+			}
+			
+			
 			String query = """
 				UPDATE GC25_MEMBER SET m_imagefilename = ? WHERE m_email = ?
 				""";
@@ -237,9 +242,40 @@ public class MemberDAO {
 				ex.printStackTrace();
 			}
 		}
-		return null; //오류발생시 
+		return "profile.jpg"; //오류발생시 
 	}
 		
+	
+	public String delMemberImageFileName(String memberEmail) {
+		try {
+			con = ds.getConnection();
+			
+			String query = """
+				UPDATE GC25_MEMBER SET m_imagefilename = 'profile.jpg' WHERE m_email = ?
+				""";
+			pstmt = con.prepareStatement(query);
+			//콘솔창 쿼리 확인
+			System.out.println(query);
+			
+			pstmt.setString(1, memberEmail);
+			System.out.println("delete email:"+memberEmail);
+			
+			pstmt.executeUpdate();
+
+			System.out.println("이미지 삭제 완료");
+			
+		}catch(Exception ex) {
+			ex.printStackTrace();
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(pstmt != null) pstmt.close();
+			}catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return null; //오류발생시 
+	}
 		
 	//회원 정보 저장
 	//MemberDTO import

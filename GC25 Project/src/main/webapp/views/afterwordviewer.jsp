@@ -14,8 +14,11 @@
 <head>
 <meta charset="UTF-8">
 	<title>GC25 | 수강후기 상세보기</title>
-	<link href="<c:url value='../css/bootstrap.min.css' />" rel="stylesheet">
-	<link href="<c:url value='../css/custom.css' />" rel="stylesheet">
+	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
+	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
+	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/resources/images/mini_logo.png">
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	
 	<!-- 좋아요 아이콘 -->
