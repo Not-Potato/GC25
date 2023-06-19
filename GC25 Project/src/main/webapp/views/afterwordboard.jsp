@@ -32,15 +32,15 @@
 				    <h2>수강 후기</h2>
 				    <p>설명설명설명</p>
 				</div>
-	        
+				
 				<div class="top-menu">
 					<button type="button" onclick="location.href='${contextPath}/afterword/write.do'" class="">Write</button>
 				
-					<div>
-						<button type="button" class="" data-bs-toggle="dropdown" aria-expanded="false">
+					<div class="dropdown">
+						<button class="dropbtn">
 							${ searchType }
 						</button>
-						<ul>
+						<ul class="dropcontent">
 							<li><a class="" href="${contextPath}/afterword/board?searchType=최신순">최신순</a></li>
 							<li><a class="" href="${contextPath}/afterword/board?searchType=추천순">추천순</a></li>
 							<li><a class="" href="${contextPath}/afterword/board?searchType=댓글순">댓글순</a></li>

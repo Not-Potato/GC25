@@ -35,6 +35,23 @@
 <body>
 
 	<header id="header">
+		<div class="h-banner">
+			<c:set var="memberNickname" value="${ sessionScope.memberNickname }" />
+			<c:set var="memberStatus" value="${ sessionScope.memberStatus }" />
+			<c:choose>
+				<c:when test="${ memberStatus == 0 }" >
+					<p><span>${ memberNickname }</span>&nbsp님 환영합니다! 아직 작성 된 글이 없네요. ------<small>Click</small>-----> 
+					<a href="${contextPath}/foreword/write.do">&nbsp작성 하러 가기</a></p>
+				</c:when>
+				<c:when test="${ memberNickname ==null  }" >
+		
+				</c:when>
+				<c:otherwise>
+					<p><span>${ memberNickname }</span>님 환영합니다!</p>
+				</c:otherwise>
+				
+			</c:choose>
+		</div>
 		<div class="inner">
 			<h1>
 				<a href="${contextPath}/main"><img src="<c:url value='/resources/images/logo.svg' />" alt="GC25 Logo image" width="100"></a>
