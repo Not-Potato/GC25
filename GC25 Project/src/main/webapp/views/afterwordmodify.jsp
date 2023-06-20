@@ -4,7 +4,24 @@
 <!-- 현재 페이지 정보 -->
 <c:set var="contextPath"  value="${pageContext.request.contextPath}" />
 <%
-	request.setAttribute("pageName", "afterword");
+request.setAttribute("pageName", "afterword");
+%>
+<!-- 회원등급에 따른 상세페이지 접근 구분 -->
+<%    
+    Object memberNumberObj = session.getAttribute("memberNumber");
+	//로그인 여부 확인
+	if (memberNumberObj == null) {
+		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
+        out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");
+	}else {
+		// 로그인 되어 있는 경우, 회원 상태 확인
+		int memberNumber = (Integer) memberNumberObj;
+        int memberStatus = (Integer) session.getAttribute("memberStatus");
+
+        if (memberStatus == 0) { 
+      // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
+          out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/afterword/board.do'; </script>");
+        } else { 
 %>
 <!DOCTYPE html>
 <html>
@@ -161,6 +178,10 @@
     </div>
    
    
+<% } %>
+		
+<% } %>	
+		
    
    
     <script src="../resources/js/bootstrap.min.js"></script>
@@ -304,7 +325,7 @@
                 console.log(openDate);
                 console.log(endDate);
             });
-        });
+        });		
 	</script>
 </body>
 </html>

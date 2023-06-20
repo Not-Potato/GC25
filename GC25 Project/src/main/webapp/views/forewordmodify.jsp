@@ -6,11 +6,31 @@
 <%
 	request.setAttribute("pageName", "foreword");
 %>
+<!-- 회원등급에 따른 상세페이지 접근 구분 -->
+<%
+     // 로그인 여부 확인
+    Object memberNumberObj = session.getAttribute("memberNumber");
+	
+	if (memberNumberObj == null) {
+		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
+        out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");  
+	}else {
+		// 로그인 되어 있는 경우, 회원 상태 확인
+		int memberNumber = (Integer) memberNumberObj;
+        int memberStatus = (Integer) session.getAttribute("memberStatus");
+
+        if (memberStatus == 0) { %>
+<%   	// 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
+            out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/forerword/board.do'; </script>");
+        } else { 
+%>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | Foreword Write Page</title>
+	<title>GC25 | Foreword Modify Page</title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -20,90 +40,87 @@
 
 
 <body>
-	
+	<div id="wrap">
     	<jsp:include page="./common/header.jsp"></jsp:include>
         <!-- header include 영역 -->
 
+		<div class="board-page foreword-page write-page foreword-write-page">
+			<div class="inner">
+				<div class="title">
+					<h2>상담 후기 수정</h2>
+					<p>설명설명설명</p>
+				</div>
        
-        <p>상담 후기 작성 (수정)</p>
-     
-         <!-- onsubmit enter로 submit 되는 것 방지하는 옵션 -->
-          <form class="row g-3 m-auto w-800" name="postingForm" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/modifyupload.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
+				<form class="foreword-form" name="posting-form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/modifyupload.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
+					<div class="first-line">
+						<div>
+							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName" value="${forewordBoardDTO.getAcademyName()}">
+							<!-- <input type="hidden" name="academyNum" id="academyNum" value=""> -->
+							<div class="search-list">
+								<ul class="d-none" id="none">
+									<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
+								</ul>
+							</div>
+						</div>
+						<select class="box form-select" id="course" name="course">
+							 <option disabled value="">----- 과정 구분 -----</option>
+		       				 <c:choose>
+					            <c:when test="${forewordBoardDTO.getCourse() == '프론트엔드'}">
+					                <option value="프론트엔드" selected>프론트엔드</option>
+					                <option value="백엔드">백엔드</option>
+					                <option value="풀스택">풀스택</option>
+					            </c:when>
+					            <c:when test="${forewordBoardDTO.getCourse() == '백엔드'}">
+					                <option value="프론트엔드">프론트엔드</option>
+					                <option value="백엔드" selected>백엔드</option>
+					                <option value="풀스택">풀스택</option>
+					            </c:when>
+					            <c:when test="${forewordBoardDTO.getCourse() == '풀스택'}">
+					                <option value="프론트엔드">프론트엔드</option>
+					                <option value="백엔드">백엔드</option>
+					                <option value="풀스택" selected>풀스택</option>
+					            </c:when>
+					            <c:otherwise>
+					            	<!-- <option disabled selected value="">----- 과정 구분 -----</option> -->
+					                <option value="프론트엔드">프론트엔드</option>
+					                <option value="백엔드">백엔드</option>
+					                <option value="풀스택">풀스택</option>
+					            </c:otherwise>
+		       				 </c:choose>
+						</select>
+					</div>
 
-		<!-- 학원 이름 입력 창 -->
-		<input type="text" id="academyName" placeholder="학원 이름을 입력해 주세요." value="${forewordBoardDTO.getAcademyName()}"
-			class="form-control" autocomplete="off" name="academyName">
-		<input type="hidden" name="academyNum" id="academyNum" class="" value="">
-		<!-- TODO: autoComplete 요소 삭제하고 스크립트(통신) 발생 시에 생성되게끔 스크립트 변경하기 -->
-		<div class="searchList">
-			<div class="autoComplete col-md-12">
-				<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
+		            <!-- 제목 -->
+	             	<div class="second-line">
+							<input type="text" class="input-title box" id="title" placeholder="제목" 
+							maxlength="30" oninput="limitMaxLength(this);" name="title" value="${forewordBoardDTO.getTitle()}">
+					</div>
+		             
+		     
+		             <!-- 내용 -->
+		             <div class="third-line">
+		                 <textarea id="contents" class="input-contents" rows="15" placeholder="내용" 
+		                 maxlength="1500" oninput="limitMaxLength(this);" name="contents"> ${forewordBoardDTO.getContents()}</textarea>
+		             </div>
+		
+		             <!-- 버튼 -->
+		             <div class="btn-group">
+		                 <button type="reset" class="box">취소</button>
+		                 <button type="submit" class="box">수정</button>
+		             </div>
+	             </form>
 			</div>
 		</div>
-	
-
-       <!-- 과정 구분 -->
-		<div class="col-md-6">
-		    <select class="form-select" id="course" name="course">
-		        <option disabled value="">----- 과정 구분 -----</option>
-		        <c:choose>
-		            <c:when test="${forewordBoardDTO.getCourse() == '프론트엔드'}">
-		                <option value="프론트엔드" selected>프론트엔드</option>
-		                <option value="백엔드">백엔드</option>
-		                <option value="풀스택">풀스택</option>
-		            </c:when>
-		            <c:when test="${forewordBoardDTO.getCourse() == '백엔드'}">
-		                <option value="프론트엔드">프론트엔드</option>
-		                <option value="백엔드" selected>백엔드</option>
-		                <option value="풀스택">풀스택</option>
-		            </c:when>
-		            <c:when test="${forewordBoardDTO.getCourse() == '풀스택'}">
-		                <option value="프론트엔드">프론트엔드</option>
-		                <option value="백엔드">백엔드</option>
-		                <option value="풀스택" selected>풀스택</option>
-		            </c:when>
-		            <c:otherwise>
-		                <option value="프론트엔드">프론트엔드</option>
-		                <option value="백엔드">백엔드</option>
-		                <option value="풀스택">풀스택</option>
-		            </c:otherwise>
-		        </c:choose>
-		    </select>
-		</div>
- 
-
-
-             <!-- 제목 -->
-             <div class="col-12">
-                 <input type="text" class="form-control" id="title" placeholder="제목" 
-                 maxlength="30" oninput="limitMaxLength(this);" name="title" value="${forewordBoardDTO.getTitle()}">
-             
-             </div>
-
-             <!-- 내용 -->
-             <div class="col-12">
-                 <textarea class="form-control" id="contents" rows="15" placeholder="내용" 
-                 maxlength="1500" oninput="limitMaxLength(this);" name="contents"> ${forewordBoardDTO.getContents()}</textarea>
-             </div>
-
-             <!-- 버튼 -->
-             <div class="d-flex justify-content-center">
-                 <button type="reset" class="btn btn-outline-primary me-2">취소</button>
-                 <button type="submit" class="btn btn-primary ms-2">수정</button>
-             </div>
-             
                  
-                    </form>
-                </div>
-            </section>
-        </main>
-        <!-- main -->
-
 		<!-- footer include 영역 -->
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
-    <script src="../resources/js/bootstrap.min.js"></script>
-	<script src="../resources/js/popper.js"></script>
+    
+    
+<% } %>
+<% } %>  
+
+
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script src="../resources/js/academynameinput.js"></script>
 	<script src="../resources/js/custom.js"></script>
@@ -112,7 +129,7 @@
 	
 		function posting() {	
 		    // 사용자 입력 값 받아오기
-		    let academyName = $("#academyName").val();
+		    let academyName = $("#academy-name").val();
 		    let course = $("#course").val();
 		    let title = $("#title").val();
 		    let contents = $("#contents").val();
@@ -158,19 +175,25 @@
 		
 		// 값이 비어 있는지 체크하는 함수
 	    // 비어 있으면 --> true
-		let isEmpty = function(value){
+	 		let isEmpty = function(value){
 		    if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
 		        return true;
 		    }else{
 		        return false;
 		    }
-		};
+		}; 
 		
 		document.postingForm.addEventListener("keydown", evt => {
 			if (evt.code === "Enter") evt.preventDefault();
 		});
 		
-        
+		// 글자수 제한 함수
+ 		function limitMaxLength(e) {
+ 			if (e.value.length > e.maxLength) {
+ 				e.value = e.value.slice(0, e.maxLength);
+ 				alert('입력 가능한 범위를 초과했습니다!');
+ 			}
+ 		}    
 	</script>
 </body>
 </html>

@@ -8,19 +8,28 @@
 	request.setAttribute("pageName", "afterword");
 %>
 
+<c:set var="totalScore"  value="${afterwordBoardDTO.getTotalScore()}" />
+
 <%@ page import="com.gc25.dto.AfterwordBoardDTO" %>
 
 <!-- 회원등급에 따른 상세페이지 접근 구분 -->
 <%
-    // 회원 상태 확인
-    int memberStatus = (Integer) session.getAttribute("memberStatus");
-    if (memberStatus == 0) {
-        // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시  
-        out.println("<script>alert('현재페이지는 우수회원 만 접근가능합니다.'); window.location.href='${contextPath}/afterword/board.do'; </script>");
-    } else {
-     	// 아래 코드 부분 구현
+     // 로그인 여부 확인
+    Object memberNumberObj = session.getAttribute("memberNumber");
+	
+	if (memberNumberObj == null) {
+		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
+        out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");   
+	}else {
+		// 로그인 되어 있는 경우, 회원 상태 확인
+		int memberNumber = (Integer) memberNumberObj;
+        int memberStatus = (Integer) session.getAttribute("memberStatus");
+        
+        if (memberStatus == 0) { %>
+<%      // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
+           out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/afterword/board.do'; </script>");
+        } else { 
 %>
-
 
 <!DOCTYPE html>
 <html>
@@ -35,8 +44,6 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 	
 
-
-
 </head>
 <body>
 
@@ -49,25 +56,17 @@
         <p>게시판 타이틀: 수강 후기</p>
       
  		<!-- (전체 게시글보기는 단순 뒤로가기 기능으로 꼭 구현 안해도됨! -->
- 		<p>전체 게시글보기: 뒤로가기버튼 
+ 		<p>전체 게시글보기: 뒤로가기버튼 >
  		<a href="${contextPath}/afterword/board.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" class="BtnType SizeS btn_gray btn_back_list" onmousedown="DETAILPAGE.Detail.gaEvent('qst_detail', 'resume_total')"><button type="button" class="btn btn-outline-primary"> &lt; 전체 게시글</button></a>
  		</p>
  		
              
     <!-- 삭제 & 수정 버튼은 글쓴이와 현재 접속한 사람이 일치할때만 화면에 보여짐 -->
-      
-				<%-- 현재 사용자 ID 세션에서 가져오기 --%>
-				<%
-				int memberNumber = (Integer) session.getAttribute("memberNumber");
-				%>
-
-				<%-- 글 작성자 ID 가져오기 --%>
 				<%
 				AfterwordBoardDTO afterwordBoardDTO = (AfterwordBoardDTO)session.getAttribute("afterwordBoardDTO");
 				int authorId = afterwordBoardDTO.getMemberNumber();
 				%>
 		
-				<%-- 현재 사용자와 글 작성자가 일치할 경우에만 버튼 보여주기 --%>
 				<% if (memberNumber == authorId) { %>
 				
 				      <form class="btn btn-outline-primary me-2" action="${contextPath}/afterword/modify.do?boardNum=${afterwordBoardDTO.getBoardNumber()}"  method="post">
@@ -80,37 +79,24 @@
 				 
 				<% } %>
 		
-	
-	
 		<!-- 게시글 내용 -->		
 	
 	  
 		 <p> 게시글 제목 : ${afterwordBoardDTO.getTitle()}</p>
 	 	 <p> 글쓴이 이미지: <img src="../resources/images/${afterwordBoardDTO.getImageFileName()}" alt="${afterwordBoardDTO.getImageFileName()}" style="width:30px; heigh:30px; border-radius:50%; object-fit:cover;"></p>
 		 <p> 글쓴이 닉네임: ${afterwordBoardDTO.getNickname()}</p>
-		 <p> 작성일: <div id="writeDateValue" style="display: none;">${afterwordBoardDTO.getWriteDate()}</div></p>
+		 <p> 작성일: <i class="xi-pencil-point"></i> <div id="writeDateValue" style="display: none;">${afterwordBoardDTO.getWriteDate()}</div></p>
 		 		"writeDateValue"id가 아래 스크립트에서 사용됩니다.
 		 		<p>	작성일 기준 현재 시간에서 빼는 script 실행 결과 출력부: <div id=writeDate></div></p>
-		 <p>조회수: ${afterwordBoardDTO.getViews()}</p>
-		 <p>댓글수: ${afterwordBoardDTO.getCommentCount()}</p>
+		 <p>조회수: <i class="xi-eye"></i> ${afterwordBoardDTO.getViews()}</p>
+		 <p>댓글수: <i class="xi-comment"></i> ${afterwordBoardDTO.getCommentCount()}</p>
 		 <p>글 내용:  ${afterwordBoardDTO.getContents()}</p>			
 	 			
 	
 	 				
 		<p>학원이름: ${afterwordBoardDTO.getAcademyName()}</p>
 		<p>학원 별점: ${afterwordBoardDTO.getTotalScore()} </p>
-								  	<div class="col-4"> 
-								  		<div class="starBox">
-								  			 <span class="emptyStar" id="score5">
-	       									 	★★★★★
-	      									 	<span class="fillStar" style="width:${afterwordBoardDTO.getTotalScore()*10}%">★★★★★</span>
-	        								 	<%-- <input type="range" value="${afterwordBoardDTO.getTotalScore()}" step="1" min="0" max="10" 
-	        								 		id="totalScore" name="totalScore">--%>
-	    									 </span>
-								  		</div> <!-- end of starBox  -->
-									</div>
-		 	
-	 				  
+
 	 			<!-- 수강 후기 정보 -->		  
 					    <p> 과정구분 :  ${afterwordBoardDTO.getCourse()} </p> 
 					    <p> 강사명: ${afterwordBoardDTO.getTeacherName()}</p>
@@ -118,25 +104,36 @@
 					    <p> 종강일 : ${afterwordBoardDTO.getEndDate()}</p>
 					    <p> 전공여부 : ${afterwordBoardDTO.getMajor()}</p>
 					    <p> 유/무상여부 : ${afterwordBoardDTO.getCost()}</p>				    
-					    <p> 전체 만족도 : ${afterwordBoardDTO.getTotalScore()}</p>
+					    <p> 전체 만족도 : </p>
+					    
+					    	<div class="starBox col-3">
+								<span class="emptyStar" id="score4">
+									★★★★★ 
+									<span class="fillStar" style="width: ${afterwordBoardDTO.getTotalScore()*10}%" >★★★★★</span>
+										 <input type="range" value="0" step="1" min="0" max="10"
+									id="curriScore" name="curriScore"> 
+								 	</span> 
+							</div>
+					    	
 					    <p> 강사 만족도 : ${afterwordBoardDTO.getTeacherScore()}</p>
 					    <p> 학원시설 만족도 : ${afterwordBoardDTO.getFacilityScore()}</p>
 					    <p> 커리큘럼 만족도 :${afterwordBoardDTO.getCurriculumScore()}</p>
 			
 	 				  
 	 					<p>좋아요 아이콘 클릭 시 controller로 이동하면서 좋아요 숫자 +1 함 
-							<a href="${contextPath}/afterword/recommend.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" onclick="likeForm.submit(); return false;">	
+							<a href="${contextPath}/afterword/recommend.do?boardNum=${afterwordBoardDTO.getBoardNumber()}">	
+								<i class="xi-thumbs-up"></i>
 							</a>
 						</p>
 							
-						<p>추천수 : ${afterwordBoardDTO.getRecommend()} </p>
+						<p>추천수 : <i class="xi-thumbs-up"></i> ${afterwordBoardDTO.getRecommend()} </p>
 							<form id="likeForm" style="display: none;" action="${contextPath}/afterword/recommend.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" method="post">
 								<input type="hidden" name="postId" value="123">
 							</form>
 
 	 	
 	 	
-	    
+	  
 			<!-- 댓글입력창 -->
 		    	<form id= "commetForm" action="${contextPath}/comment/abCommentRegister.do?boardNum=${afterwordBoardDTO.getBoardNumber()}" method="post"> 
                 <textarea class="form-control" id= "commentContents"  name="commentContents" rows="5" placeholder="댓글을 입력해주세요" maxlength="999" oninput="limitMaxLength(this);" name="contents" style="overflow-y: auto;"></textarea>
@@ -162,7 +159,7 @@
 
 <% } %>
 		
-		
+<% } %>	
 		
  	<!-- <script src="../resources/js/bootstrap.min.js"></script>-->
 	<!-- <script src="../resources/js/popper.js"></script> -->
@@ -214,7 +211,8 @@
 		  console.error("writeDateValueElement or writeDateElement is null");
 		}
   		
-		  
+
+		
 	</script>
 
 

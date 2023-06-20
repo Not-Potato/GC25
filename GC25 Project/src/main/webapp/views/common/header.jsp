@@ -67,7 +67,7 @@
 			</nav>
 				
 			<div class="search">
-				<form id="searchForm">
+				<form>
 					<input type="text" placeholder="검색어를 입력하세요" name="googleSearch">
 					<button><i class="xi-search"></i></button>
 				</form>

@@ -11,14 +11,23 @@
 
 <!-- 회원등급에 따른 상세페이지 접근 구분 -->
 <%
-    // 회원 상태 확인
-    int memberStatus = (Integer) session.getAttribute("memberStatus");
-    if (memberStatus == 0) {
-        // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시  
-        out.println("<script>alert('현재페이지는 우수회원 만 접근가능합니다.'); window.location.href='${contextPath}/foreword/board.do'; </script>");
-    } else {
-     	// 아래 코드 부분 구현
+     // 로그인 여부 확인
+    Object memberNumberObj = session.getAttribute("memberNumber");
+	
+	if (memberNumberObj == null) {
+		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
+        out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");  
+	}else {
+		// 로그인 되어 있는 경우, 회원 상태 확인
+		int memberNumber = (Integer) memberNumberObj;
+        int memberStatus = (Integer) session.getAttribute("memberStatus");
+
+        if (memberStatus == 0) { %>
+<%  	 // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
+          out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/forerword/board.do'; </script>");
+        } else { 
 %>
+
 
 
 <!DOCTYPE html>
@@ -57,10 +66,7 @@
  		
  		<!-- 삭제 & 수정 버튼은 글쓴이와 현재 접속한 사람이 일치할때만 화면에 보여짐 -->
 			<%-- 현재 사용자 ID 세션에서 가져오기 --%>
-				<%
-				int memberNumber = (Integer) session.getAttribute("memberNumber");
-				%>
-	
+				
 			<%-- 글 작성자 ID 가져오기 --%>
 				<%
 				ForewordBoardDTO forewordBoardDTO = (ForewordBoardDTO)session.getAttribute("forewordBoardDTO");
@@ -85,11 +91,11 @@
 	 	<p>게시글 제목: ${forewordBoardDTO.getTitle()}</p>
 		<p>글쓴이 이미지: <img src="../resources/images/${forewordBoardDTO.getImageFileName()}" alt="${forewordBoardDTO.getImageFileName()}" style="width:30px; heigh:30px; border-radius:50%; object-fit:cover;"> </p>
 		<p>글쓴이 닉네임: ${forewordBoardDTO.getNickname()}</p>
-		<p>작성일:<div id="writeDateValue" style="display: none;"> ${forewordBoardDTO.getWriteDate()}</div></p>
+		<p>작성일: <i class="xi-pencil-point"></i> <div id="writeDateValue" style="display: none;"> ${forewordBoardDTO.getWriteDate()}</div></p>
 				"writeDateValue"id가 아래 스크립트에서 사용됩니다.
 				<p>	작성일 기준 현재 시간에서 빼는 script 실행 결과 출력부 <div id=writeDate></div>
-		<p>조회수: ${forewordBoardDTO.getViews()}</p>
-		<p>댓글수: ${forewordBoardDTO.getCommentCount()}</p>
+		<p>조회수: <i class="xi-eye"></i> ${forewordBoardDTO.getViews()}</p>
+		<p>댓글수: <i class="xi-comment"></i> ${forewordBoardDTO.getCommentCount()}</p>
 	 	<p>글 내용:  ${forewordBoardDTO.getContents()}</p>
 						
 	 					
@@ -97,11 +103,26 @@
 		<p>과정구분 :${forewordBoardDTO.getCourse()}</p> 
 		<p>코스: ${forewordBoardDTO.getCourse()}</p>
 		
+		<p> 수강후기에서 가져온 전체 만족도 : ${forewordBoardDTO.getAcademyAvgScore()} </p>
+		<div class="starBox col-3">
+								<span class="emptyStar" id="score4">
+									★★★★★ 
+									<span class="fillStar" style="width: ${forewordBoardDTO.getAcademyAvgScore()*10}%" >★★★★★</span>
+										 <input type="range" value="0" step="1" min="0" max="10"
+									id="curriScore" name="curriScore"> 
+								 	</span> 
+							</div>
+			  	
+	    <p> 강사 만족도 : ${afterwordBoardDTO.getTeacherScore()}</p>
+	    <p> 학원시설 만족도 : ${afterwordBoardDTO.getFacilityScore()}</p>
+	    <p> 커리큘럼 만족도 :${afterwordBoardDTO.getCurriculumScore()}</p>
 			
 		<p>좋아요 아이콘 클릭 시 controller로 이동하면서 좋아요 숫자 +1 함 </p>
-			<a href="${contextPath}/foreword/recommend.do?boardNum=${forewordBoardDTO.getBoardNumber()}" onclick="likeForm.submit(); return false;"></a>
+			<a href="${contextPath}/foreword/recommend.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
+				<i class="xi-thumbs-up"></i>
+			</a>
 		</p>
-		<p>추천수: ${forewordBoardDTO.getRecommend()}</p>
+		<p>추천수: <i class="xi-thumbs-up"></i> ${forewordBoardDTO.getRecommend()}</p>
 		<form id="likeForm" style="display: none;" action="${contextPath}/foreword/recommend.do?boardNum=${forewordBoardDTO.getBoardNumber()}" method="post">
 			<input type="hidden" name="postId" value="123">
 		</form>
@@ -184,6 +205,8 @@
 		}
   		
 		
+<% } %>
+
 
 	</script>
 
