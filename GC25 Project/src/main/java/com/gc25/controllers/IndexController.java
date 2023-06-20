@@ -87,8 +87,8 @@ public class IndexController extends HttpServlet {
 					request.setAttribute("revList", academyRev);
 					
 					//test
-					session.setAttribute("memberNumber", 10000);
-					session.setAttribute("memberStatus", 1);
+					//session.setAttribute("memberNumber", 10000);
+					//session.setAttribute("memberStatus", 1);
 					
 					
 					nextPage = "/index.jsp";

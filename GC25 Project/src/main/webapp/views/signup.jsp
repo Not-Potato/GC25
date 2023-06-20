@@ -22,7 +22,7 @@
 </head>
 <body>
 
-<%@ include file = "./common/header.jsp" %>
+<jsp:include page="./common/header.jsp"></jsp:include>
 	
 	<div class="body_container">
        	<form>
@@ -85,7 +85,7 @@
         	</form>
           </div>
        
-      
+   <jsp:include page="./common/footer.jsp"></jsp:include>    
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
@@ -350,7 +350,7 @@
 		}
 	</script>
 
-<%@ include file = "./common/footer.jsp" %>
+
 
 </body>
 </html>

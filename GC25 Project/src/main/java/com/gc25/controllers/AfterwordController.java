@@ -135,6 +135,8 @@ public class AfterwordController extends HttpServlet {
 					
 					service.upload(dto);
 					
+					session.setAttribute("memberStatus", 1);
+					
 					PrintWriter out = response.getWriter();
 					// forward 시 주소가 그대로 유지됨(upload.do) 
 					// 그 상태에서 f5(새로고침) --> 글 중복으로 작성됨
