@@ -109,7 +109,7 @@
 		   <button type="button" class="btn btn-outline-danger" onclick="withdrawal()">회원 탈퇴</button>
 	 </div>
 </div>    
- <jsp:include page="./common/footer.jsp"></jsp:include>
+<jsp:include page="./common/footer.jsp"></jsp:include>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">

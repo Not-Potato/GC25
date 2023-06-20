@@ -15,84 +15,65 @@
 	<title>GC25</title>
 	<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>	
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
+	<link href="../resources/css/reset.css" rel="stylesheet">
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
-	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="/resources/images/mini_logo.png">
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <body>
-
-<jsp:include page="./common/header.jsp"></jsp:include>
+	<jsp:include page="./common/header.jsp"></jsp:include>
 	
-	<div class="body_container">
-       	<form>
-        <h1>회원가입</h1>
-            <table>
-                <tr>
-                    <td>이메일</td>
-                    <td>
-                        <input type="text" name="memberEmail" id="memberEmail" placeholder="이메일을 입력하세요." >
-                    </td>
-                    <td>
-                        <button class="emailCheckBtn" onclick="emailCheck()">중복 확인</button>
-                    </td>
-                    <td>
-                        <button class="emailHashCheckBtn" onclick="emailSend()">이메일 인증</button>
-                    </td>
-                </tr>
-                <tr>
-                	 <td>
-                        <div id="emailCheckMessage"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>비밀번호</td>
-                    <td>
-                        <input type="password" onkeyup="passwordCheck()" name="memberPwd" id="memberPwd" placeholder="비밀번호를 입력하세요." >
-                    </td>
-                    <td>
-                    	<h5 id="passwordRegCheckMessage"></h5>
-                    </td>
-                </tr>
-                 
-                <tr>
-                    <td>비밀번호 확인</td>
-                    <td>
-                        <input type="password" onkeyup="passwordCheck()" name="memberPwd2" id="memberPwd2" placeholder="비밀번호를 다시 입력하세요." >
-                    </td>
-                     <td>
-                    	<h5 id="passwordCheckMessage"></h5>
-                    </td>
-                </tr>
-                <tr>
-                    <td>닉네임</td>
-                    <td>
-                        <input type="text" name="memberNickname" id="memberNickname" placeholder="닉네임을 입력하세요." >
-                    </td>
-                    <td>
-                        <button class="nicknameCheckBtn" onclick="nicknamecheck()">중복 확인</button>
-                    </td>
-                </tr>
-                  <tr>
-                	 <td>
-                        <div id="nicknameCheckMessage"></div>
-                    </td>
-                </tr>
-                
-            </table>
-                <input class="reset_btn" type="reset" value="다시 입력">    
-                <button class="signup_btn" onclick="signup()">가입하기</button>
-        	</form>
-          </div>
-       
-   <jsp:include page="./common/footer.jsp"></jsp:include>    
+	<div class="sign-up-page">
+		<div class="inner">
+			<div class="title">
+			    <h2>회원가입</h2>
+			</div>
+			
+			<form>
+				<div>
+					<label for="memberEmail">이메일</label>
+					<input type="text" name="memberEmail" id="memberEmail" placeholder="아이디(E-Mail)" >
+					<button class="emailCheckBtn btn" onclick="emailCheck()">중복 확인</button>
+					<button class="emailHashCheckBtn btn" onclick="emailSend()">이메일 인증</button>
+					<p id="emailCheckMessage"></p>
+				</div>
+				
+				<div>
+					<label for="memberPwd">비밀번호</label>
+					<input type="password" onkeyup="passwordCheck()" name="memberPwd" id="memberPwd" placeholder="비밀번호" >
+					<p id="passwordRegCheckMessage"></p>
+				</div>
+				
+				<div>
+					<label for="memberPwd">비밀번호 확인</label>
+					<input type="password" onkeyup="passwordCheck()" name="memberPwd2" id="memberPwd2" placeholder="비밀번호 확인" >
+					<p id="passwordCheckMessage"></p>
+				</div>
+				
+				<div>
+					<label for="memberNickname">닉네임</label>
+					<input type="text" name="memberNickname" id="memberNickname" placeholder="닉네임을 입력하세요." >
+					<button class="nicknameCheckBtn btn" onclick="nicknamecheck()">중복 확인</button>
+					<p id="nicknameCheckMessage"></p>
+				</div>
+				
+				<div>
+					<button type="reset" class="btn">다시입력</button>
+	                <button class="signup_btn btn" onclick="signup()">가입하기</button>
+	            </div>
+			</form>
+		</div>
+	</div>
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script type="text/javascript">
+  <jsp:include page="./common/footer.jsp"></jsp:include>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+	<script type="text/javascript">
 		
 		var emailOverlapCheck = false;
 		var nicknameOverlapCheck = false;
+		
+		let ok = "<i class='xi-check-circle ok'></i>";
+		let not_ok = "<i class='xi-close-circle no'></i>";
 		
 		//이메일 중복 확인
 		function emailCheck(){
@@ -129,11 +110,11 @@
 					console.log("오버랩" + emailOverlapCheck);
 		
 					if(result == 1) {
-						$("#emailCheckMessage").text("사용할 수 있는 이메일입니다.");
+						$("#emailCheckMessage").html(ok + "사용할 수 있는 이메일입니다.");
 						console.log(result);
 				
 					} else {
-						$("#emailCheckMessage").text("사용할 수 없는 이메일입니다.");
+						$("#emailCheckMessage").html(not_ok + "사용할 수 없는 이메일입니다.");
 						console.log(result);
 					}
 				},
@@ -153,16 +134,16 @@
 			let memberPwd = $("#memberPwd").val();
 			let memberPwd2 = $("#memberPwd2").val();
 			if (!passwordReg.test(memberPwd)) {
-				$("#passwordRegCheckMessage").html("비밀번호는 8~12자로 반드시 영문자,숫자,특수문자를 포함해야 합니다.");
+				$("#passwordRegCheckMessage").html(not_ok + "비밀번호는 8~12자로 반드시 영문자,숫자,특수문자를 포함해야 합니다.");
 				return false;
 			} else {
-				$("#passwordRegCheckMessage").html("");
+				$("#passwordRegCheckMessage").html(ok + "사용 가능한 비밀번호입니다!");
 			}
 			
 			if(memberPwd!=memberPwd2) {
-				$("#passwordCheckMessage").html("비밀번호가 서로 일치하지 않습니다.");
+				$("#passwordCheckMessage").html(not_ok + "비밀번호가 서로 일치하지 않습니다.");
 			} else {
-				$("#passwordCheckMessage").html("");
+				$("#passwordCheckMessage").html(ok + "비밀번호가 서로 일치합니다!");
 			}
 			
 		}
@@ -192,11 +173,11 @@
 				success : function(result) {
 					console.log(result);
 					if(result == 1) {
-						$("#nicknameCheckMessage").text("사용할 수 있는 닉네임입니다.");
+						$("#nicknameCheckMessage").html(ok + "사용할 수 있는 닉네임입니다.");
 						console.log(result);
 						
 					} else {
-						$("#nicknameCheckMessage").text("사용할 수 없는 닉네임입니다.");
+						$("#nicknameCheckMessage").html(not_ok + "사용할 수 없는 닉네임입니다.");
 						console.log(result);
 					}
 				},
@@ -349,8 +330,6 @@
 		
 		}
 	</script>
-
-
-
+	
 </body>
 </html>
