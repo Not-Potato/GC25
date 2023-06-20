@@ -22,7 +22,7 @@
 	
 </head>
 <body>
-<%@ include file = "./common/header.jsp" %>
+	<jsp:include page="./common/header.jsp"></jsp:include>
 <%
 	
 	String memberEmail = (String)session.getAttribute("memberEmail");
@@ -112,7 +112,7 @@
 		   <button type="button" class="btn btn-outline-danger" onclick="withdrawal()">회원 탈퇴</button>
 	 </div>
 </div>    
-<%@ include file = "./common/footer.jsp" %>
+<jsp:include page="./common/footer.jsp"></jsp:include>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 <script type="text/javascript">
