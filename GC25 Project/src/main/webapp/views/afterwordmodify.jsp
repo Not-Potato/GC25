@@ -40,10 +40,7 @@ request.setAttribute("pageName", "afterword");
       
         <h2>수강 후기 작성</h2>
          
-     
 
-       
-          
                 	<!-- onsubmit enter로 submit 되는 것 방지하는 옵션 -->
                     <form class="row g-3 m-auto w-800" name="postingForm" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/upload.do">
 

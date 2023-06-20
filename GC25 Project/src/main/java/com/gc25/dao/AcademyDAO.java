@@ -54,7 +54,6 @@ public class AcademyDAO {
 			pstmt.setString(2,"%" +searchValue+"%"); 
 			pstmt.setString(3,"%" +searchValue+"%");
 			
-			System.out.println(query);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -197,6 +196,7 @@ public class AcademyDAO {
 			
 			if (rs.next()) {
 	            result = rs.getInt(1); // 결과(개수) 가져오기
+	        
 	        }
 			if (result != 0) {
 				query = "SELECT a_number FROM GC25_ACADEMY WHERE a_name = ?";	
@@ -208,7 +208,7 @@ public class AcademyDAO {
 				if (rs.next()) {
 					result = rs.getInt("a_number"); // 결과(학원 번호) 가져오기
 				}
-				System.out.println("가져온 학원 번호는 " + result);
+			
 			}
 			
 			if(con!=null)try{con.close();} catch(Exception ex){}

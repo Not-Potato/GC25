@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 import com.gc25.dto.AfterwordBoardDTO;
 import com.gc25.dto.CommentDTO;
+import com.gc25.dto.ForewordBoardDTO;
 import com.gc25.service.AfterwordBoardService;
 import com.gc25.service.AfterwordViewerService;
 import com.gc25.service.CommentService;
@@ -198,6 +199,77 @@ public class AfterwordController extends HttpServlet {
 					//다음페이지 이동
 					nextPage = "/afterword/viewer.do";
 					
+				}
+				
+				// 글 수정
+				case "/modify.do" -> {
+					// 해당 게시글의 게시글 번호 가져오기
+					String boardNumStr = request.getParameter("boardNum");
+					int boardNum = Integer.parseInt(boardNumStr);
+
+					int bBoard = 0;
+
+					// 글번호 db에서 정보 가져와서 수정jsp페이지로 보내주기 // 본문 가져오기
+					AfterwordBoardDTO afterwordBoardDTO = afterwordViewerService.getAfterwordBoard(boardNum);
+					request.setAttribute("afterwordBoardDTO", afterwordBoardDTO);
+
+					// 세센에 DB내용과 사용자 정보 심어서 다음페이지로 보내주기
+					session.setAttribute("afterwordBoardDTO", afterwordBoardDTO);
+					
+					// 다음페이지 이동
+					nextPage = views + "/afterwordmodify.jsp";
+				}
+
+				// 글 수정 업로드
+				case "/modifyupload.do" -> {
+
+					// 해당 게시글의 게시글 번호 가져오기
+					String boardNumStr = request.getParameter("boardNum");
+					int boardNum = Integer.parseInt(boardNumStr);
+
+				
+					int bBoard = 0;
+
+					AfterwordBoardDTO afterwordBoardDTO = (AfterwordBoardDTO) session.getAttribute("afterwordBoardDTO");
+					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
+					afterwordBoardDTO.setMemberNumber((Integer)(session.getAttribute("memberNumber")));
+			
+					// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
+					// 학원번호, 학원이름, 과정구분, 제목, 내용
+					afterwordBoardDTO.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
+					afterwordBoardDTO.setAcademyName(request.getParameter("academyName"));
+					afterwordBoardDTO.setCourse(request.getParameter("course"));
+					afterwordBoardDTO.setTitle(request.getParameter("title"));
+					afterwordBoardDTO.setContents(request.getParameter("contents"));
+
+					afterwordViewerService.modifyAfterwordBoard(afterwordBoardDTO);
+
+					PrintWriter out = response.getWriter();
+					// forward 시 주소가 그대로 유지됨(upload.do)
+					// 그 상태에서 f5(새로고침) --> 글 중복으로 작성됨
+					// 얼럿 창 띄우면서 확인 누르면 기본 페이지로 이동하게끔 처리
+					out.print("""
+							<script>
+								alert("게시글 수정 성공!");
+								document.location.href = "%s/foreword";
+							</script>
+							""".formatted(request.getContextPath()));
+
+				}case "/delete.do" -> {
+
+					// 해당 게시글의 게시글 번호 가져오기
+					String boardNumStr = request.getParameter("boardNum");
+					int boardNum = Integer.parseInt(boardNumStr);
+
+				
+					//본문 삭제
+					afterwordViewerService.deleteAfterwordBoard(boardNum);
+					//댓글 삭제
+					commentService.deleteFbComment(boardNum);
+					
+
+					// 다음페이지 이동
+					nextPage = "/foreword/board.do";
 				}
 				
 				// 디폴트 페이지 = 게시판 (글 목록)

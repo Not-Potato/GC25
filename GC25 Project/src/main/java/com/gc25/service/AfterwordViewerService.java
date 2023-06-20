@@ -4,6 +4,7 @@ import com.gc25.dao.AfterwordBoardDAO;
 import com.gc25.dao.AfterwordViewerDAO;
 import com.gc25.dao.RecommendDAO;
 import com.gc25.dto.AfterwordBoardDTO;
+import com.gc25.dto.ForewordBoardDTO;
 
 public class AfterwordViewerService {
 	AfterwordViewerDAO afterwordViewrDao;
@@ -19,8 +20,19 @@ public class AfterwordViewerService {
 		return afterwordViewrDao.getAfterwordBoard(boardNum);
 	}
 	
+	//게시글 수정
+	public void modifyAfterwordBoard(AfterwordBoardDTO afterwordBoardDTO) {
+		afterwordViewrDao.modifyAfterwordBoard (afterwordBoardDTO);
+	}
+	
 	//좋아요 수 업데이트 
 	public void setRecommend(int memberNum, int boardNum, int bBoard ) {
 		recommendDao.setRecommend(memberNum, boardNum, bBoard);
 	}
+	
+	// 게시글 삭제
+	public void deleteAfterwordBoard(int boardNum) {
+	afterwordViewrDao.deleteAfterwordBoard (boardNum);
+	}
+	
 }
