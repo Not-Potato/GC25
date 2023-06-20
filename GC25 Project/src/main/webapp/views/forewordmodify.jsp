@@ -11,6 +11,7 @@
      // 로그인 여부 확인
     Object memberNumberObj = session.getAttribute("memberNumber");
 	
+	
 	if (memberNumberObj == null) {
 		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
         out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");  
@@ -51,11 +52,11 @@
 					<p>설명설명설명</p>
 				</div>
        
-				<form class="foreword-form" name="posting-form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/modifyupload.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
+				<form class="foreword-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/modifyupload.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
 					<div class="first-line">
 						<div>
 							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName" value="${forewordBoardDTO.getAcademyName()}">
-							<!-- <input type="hidden" name="academyNum" id="academyNum" value=""> -->
+							<input type="hidden" name="academyNum" id="academyNum" value=""> 
 							<div class="search-list">
 								<ul class="d-none" id="none">
 									<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
@@ -81,7 +82,7 @@
 					                <option value="풀스택" selected>풀스택</option>
 					            </c:when>
 					            <c:otherwise>
-					            	<!-- <option disabled selected value="">----- 과정 구분 -----</option> -->
+					            	<option disabled selected value="">----- 과정 구분 -----</option> 
 					                <option value="프론트엔드">프론트엔드</option>
 					                <option value="백엔드">백엔드</option>
 					                <option value="풀스택">풀스택</option>
@@ -162,7 +163,7 @@
 		            } else {
 		                console.log('글 작성 진행');
 		                num.value = result;
-		                document.postingForm.submit();
+		                document.posting_form.submit();
 		            }
 		        },
 	
@@ -194,6 +195,15 @@
  				alert('입력 가능한 범위를 초과했습니다!');
  			}
  		}    
+		
+ 		function selectCourse(course) {
+ 		    // 선택한 과정에 대한 동작 정의
+ 		    console.log(course);
+ 		    
+ 		    // 선택한 과정을 버튼에 표시
+ 		    document.querySelector('.coursebtn').textContent = course;
+ 		   	document.querySelector('.course-dropdown').classList.remove('show');
+ 		  }
 	</script>
 </body>
 </html>
