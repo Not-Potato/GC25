@@ -103,9 +103,9 @@
 								  		<div class="starBox">
 								  			 <span class="emptyStar" id="score5">
 	       									 	★★★★★
-	      									 	<span class="fillStar">★★★★★</span>
-	        								 	<input type="range" value="${afterwordBoardDTO.getTotalScore()}" step="1" min="0" max="10" 
-	        								 		id="totalScore" name="totalScore">
+	      									 	<span class="fillStar" style="width:${afterwordBoardDTO.getTotalScore()*10}%">★★★★★</span>
+	        								 	<%-- <input type="range" value="${afterwordBoardDTO.getTotalScore()}" step="1" min="0" max="10" 
+	        								 		id="totalScore" name="totalScore">--%>
 	    									 </span>
 								  		</div> <!-- end of starBox  -->
 									</div>

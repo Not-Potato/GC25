@@ -240,7 +240,7 @@ textarea {outline: none; }
 }
 #header .h-banner p span {
   	font-size:23px;
-/*   	text-shadow:1px 1px 1px #000; */
+	text-shadow:1px 1px 1px #000; 
 }
 #header .h-banner p small {
   font-size: 17px;
@@ -591,9 +591,10 @@ aside .rank li:last-child {
 	text-decoration : none;
 }
 
-.board-page .top-menu:hover .dropcontent {
+.board-page .top-menu .dropdown:hover .dropcontent {
 	display: block;
 }
+
 
 /* top-menu */
 
@@ -823,7 +824,6 @@ aside .rank li:last-child {
     background-color: #007CFF;
     color: #fff;
 }
-
 /* ********** 글 쓰기 ********** */
 .login-page .inner {
 	margin: auto;

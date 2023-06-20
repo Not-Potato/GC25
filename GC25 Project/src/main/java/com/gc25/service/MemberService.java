@@ -42,9 +42,13 @@ public class MemberService {
 	
 	public String getMemberImageFileName(String memberEmail) {
 		
-		String result = memberDAO.getMemberImageFileName(memberEmail);
+		String memberImageFileName = memberDAO.getMemberImageFileName(memberEmail);
 		
-		return result;
+		if (memberImageFileName == null || memberImageFileName.isEmpty()) {
+	        return "profile.jpg";
+	    }
+	    return memberImageFileName;
+		
 	}
 	
 	public String setMemberImageFileName(String memberImageFileName, String memberEmail) {

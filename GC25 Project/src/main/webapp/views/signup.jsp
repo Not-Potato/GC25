@@ -21,7 +21,6 @@
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 </head>
 <body>
-
 	<jsp:include page="./common/header.jsp"></jsp:include>
 	
 	<div class="sign-up-page">
@@ -66,6 +65,7 @@
 		</div>
 	</div>
 
+  <jsp:include page="./common/footer.jsp"></jsp:include>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
 	<script type="text/javascript">
 		
@@ -330,6 +330,6 @@
 		
 		}
 	</script>
-	<jsp:include page="./common/footer.jsp"></jsp:include>
+	
 </body>
 </html>
