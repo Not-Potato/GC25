@@ -26,16 +26,9 @@
 	System.out.println("hashcheck : "+ isRight);
 	
 	if(isRight) {
-		script.println("<script>");
-		script.println("alert('인증에 성공했습니다. 세션이 만료되기 전에 회원가입을 진행 해 주세요.')");
-		script.println("window.close();"); //창 닫힘
-		script.println("</script>");
+		script.println("<script> alert('인증에 성공했습니다.\\n세션이 만료되기 전에 회원가입을 진행 해 주세요.'); window.close(); </script>");
 		
 	} else {
-		script.println("<script>");
-		script.println("alert('인증에 실패했습니다. 처음부터 다시 진행 해 주세요.')");
-		script.println("window.close();");
-		script.println("</script>");
-		
+		script.println("<script> alert('인증에 실패했습니다.\\n처음부터 다시 진행 해 주세요.'); window.close(); </script>");
 	}
 %>

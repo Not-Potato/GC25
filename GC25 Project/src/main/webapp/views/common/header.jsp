@@ -43,9 +43,6 @@
 					<p><span>${ memberNickname }</span>&nbsp님 환영합니다! 아직 작성 된 글이 없네요. -----<small>Click</small>--->
 					<a href="${contextPath}/foreword/write.do">&nbsp작성 하러 가기</a></p>
 				</c:when>
-				<c:when test="${ memberNickname ==null || memberStatus ==null }" >
-		
-				</c:when>
 				<c:when test="${ memberNumber ==null }" >
 					<p>로그인을 해 주세요.</p> 
 				</c:when>

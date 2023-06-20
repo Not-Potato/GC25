@@ -46,13 +46,14 @@
 			<div class="inner">
 				<div class="title">
 					<h2>상담 후기 작성</h2>
-					<p>설명설명설명</p>\				</div>
+					<p>설명설명설명</p>				
+				</div>
 				
-				<form class="foreword-form" name="posting-form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/upload.do">
+				<form class="foreword-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/upload.do">
 					<div class="first-line">
 						<div>
-							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academy-name">
-							<input type="text" name="academyNum" id="academyNum" value="">
+							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName">
+							<input type="hidden" name="academyNum" id="academyNum" value="">
 							<div class="search-list">
 								<ul class="d-none" id="none">
 									<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
@@ -60,13 +61,13 @@
 							</div>
 						</div>
 							<div class="course-dropdown">
-								<button class="coursebtn">----- 과정 구분 -----</button>
-								<ul class="course-select" id="course">
+								<select class="box form-select" id="course" name="course">
 									<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
-									<li onclick="selectCourse('프론트엔드')">프론트엔드</li>
-									<li onclick="selectCourse('백엔드')">백엔드</li>
-									<li onclick="selectCourse('풀스택')">풀스택</li>
-								</ul>
+									<option disabled selected value="">----- 과정 구분 -----</option>
+									<option value="프론트엔드">프론트엔드</option>
+									<option value="백엔드">백엔드</option>
+									<option value="풀스택">풀스택</option>
+								</select>
 							</div>
 					</div>
 					
@@ -103,50 +104,25 @@
 	<script src="../resources/js/academynameinput.js"></script>
 	<script>
 		let num = document.getElementById("academyNum");
-		let course = document.getElementById("course");
+		
 		function posting() {	
 		    // 사용자 입력 값 받아오기
 		    let academyName = $("#academy-name").val();
 		    let course = $("#course").val();
 		    let title = $("#title").val();
 		    let contents = $("#contents").val();
-		    let academyNum = $("#academyNum").val();
+		 
 		    
 		    let check1 = isEmpty(academyName);
 		    let check2 = isEmpty(course);
 		    let check3 = isEmpty(title);
 		    let check4 = isEmpty(contents);
-		    
-		    let check5 = isEmpty(academyNum);
+		 
 	
  		    // 만약 하나라도 true면 --> 입력되지 않은 값이 존재하는 경우
-			if (check1 || check2 || check3 || check4 ||check5) {
-				let emptyInputs = [];
-				
-				if(check1) {
-					emptyInputs.push("학원 명");
-				}
-				
-				if(check2) {
-					emptyInputs.push("과정 구분");
-				}
-				
-				if(check3) {
-					emptyInputs.push("제 목");
-				}
-				
-				if(check4) {
-					emptyInputs.push("내 용");
-				}
-				
-				if(check5) {
-					emptyInputs.push("학원 번호");
-				}
-				
-				let errorMessage ="다음 항목들이 입력되지 않았습니다:\n\n"; 
-				errorMessage += emptyInputs.join("\n");
-				alert(errorMessage);
-		        //alert('입력되지 않은 값이 존재합니다!');
+			if (check1 || check2 || check3 || check4) {
+			
+		        alert('입력되지 않은 값이 존재합니다!');
 		        return false;
 		    } 
 	
@@ -167,7 +143,7 @@
 		            } else {
 		                console.log('글 작성 진행');
 		                num.value = result;
-		                document.posting-form.submit();
+		                document.posting_form.submit();
 		            }
 		        },
 	
