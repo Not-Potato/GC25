@@ -47,7 +47,7 @@ public class ForewordBoardDTO {
 		this.academyNumber = academyNumber;
 		this.academyName = academyName;
 		this.course = course;
-		this.setWriteDate(d);;
+		this.setWriteDate(d);
 		this.title = title;
 		this.contents = contents;
 		this.recommend = 0;

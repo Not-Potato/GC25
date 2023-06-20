@@ -17,7 +17,7 @@
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('로그인이 필요한 페이지입니다.')");
-		script.println("location.href='/views/login.jsp';");
+		script.println("location.href='/mem/login.do';");
 		script.println("</script>");
 		script.close(); //오류생기면 이 jsp 페이지 종료
 	}
@@ -51,7 +51,7 @@
       <div id="profile">
         <form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
         	<img src="../resources/images/<%= memberImageFileName %>" alt="기본이미지" id="profileImg" >
-        	<input type="file" name="profile">
+        	<input type="file" name="profile" id ="profile">
         	<button class="profileBtn" onclick="profileChange()">수정</button>
         </form>
         <form method="post" enctype="multipart/form-data" name="/mem/proflieImgRemove" action="/mem/proflieImgRemove">
@@ -204,6 +204,7 @@ function changeSubmit(userResponse) {
 	console.log("changeSubmit : " + userResponse);
 	var form = new FormData(document.getElementById("proflieImgChange"));
 	form.append("userResponse",userResponse);
+	
 	  
 	$.ajax({
 			type :"post",

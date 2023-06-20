@@ -53,13 +53,14 @@
 							</div>
 						</div>
 							<div class="course-dropdown">
-							   <select class="box form-select" id="course" name="course">
-		                           <!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
-		                           <option disabled selected value="">----- 과정 구분 -----</option>
-		                           <option value="프론트엔드">프론트엔드</option>
-		                           <option value="백엔드">백엔드</option>
-		                           <option value="풀스택">풀스택</option>
-                       			</select>
+
+								<select class="box form-select" id="course" name="course">
+									<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
+									<option disabled selected value="">----- 과정 구분 -----</option>
+									<option value="프론트엔드">프론트엔드</option>
+									<option value="백엔드">백엔드</option>
+									<option value="풀스택">풀스택</option>
+								</select>
 							</div>
 					</div>
 					
@@ -95,7 +96,7 @@
 	<script src="../resources/js/academynameinput.js"></script>
 	<script>
 		let num = document.getElementById("academyNum");
-		let course = document.getElementById("course");
+		
 		function posting() {	
 		    // 사용자 입력 값 받아오기
 		    let academyName = $("#academy-name").val();
@@ -107,8 +108,7 @@
 		    let check2 = isEmpty(course);
 		    let check3 = isEmpty(title);
 		    let check4 = isEmpty(contents);
-		    
-		  
+      
  		    // 만약 하나라도 true면 --> 입력되지 않은 값이 존재하는 경우
 			if (check1 || check2 || check3 || check4) {		
 		        alert('입력되지 않은 값이 존재합니다!');

@@ -104,9 +104,6 @@ public class ForewordController extends HttpServlet {
 			// 글 업로드 --> 작성 완료 얼럿 창 --> 목록으로 이동
 			case "/upload.do" -> {
 				System.out.println("포스팅 발행!!!!");
-			
-				
-			
 				// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 				// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 				// 학원번호, 학원이름, 과정구분, 제목, 내용
@@ -121,6 +118,7 @@ public class ForewordController extends HttpServlet {
 				service.upload(dto);
 				
 				session.setAttribute("memberStatus", 1);
+	
 
 				PrintWriter out = response.getWriter();
 				// forward 시 주소가 그대로 유지됨(upload.do)
