@@ -282,25 +282,30 @@ textarea {outline: none; }
 #header .gnb li a:hover {
 	color: #00D4EA;
 }
-#header .search {
+
+#header .search form {
 	width: 500px;
 	display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
+    align-items: center;
 }
-#header .search input {
-	width: 450px;
+
+#header .search form input{
+	width: 440px;
 	height: 50px;
 	font-size: 18px;
 	border: 1px solid #00D4EA;
     background: #FFF;
     padding-left: 10px;
 }
+
 #header .search button {
 	width: 50px;
 	height: 50px;
 	background: #FFF;
 	border: 1px solid #00D4EA;
-	border-left: none;
+	border-left: none; 
+	
 }
 #header .search button i {
 	color: #00D4EA;

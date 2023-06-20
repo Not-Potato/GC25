@@ -23,6 +23,7 @@
 </head>
 <body>
 <%@ include file = "./common/header.jsp" %>
+
 <%
 	
 	String memberEmail = (String)session.getAttribute("memberEmail");

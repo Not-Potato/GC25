@@ -161,6 +161,7 @@ public class AfterwordController extends HttpServlet {
 					//본문 가져오기 
 				 	AfterwordBoardDTO afterwordBoardDTO = afterwordViewerService.getAfterwordBoard(boardNum);
 				 	request.setAttribute("afterwordBoardDTO", afterwordBoardDTO);
+				 	session.setAttribute("afterwordBoardDTO", afterwordBoardDTO);
 				 	
 				 	//댓글 리스트 가져오기 
 				 	ArrayList<CommentDTO> commentList =  commentService.getAfterwordComment(boardNum);
@@ -168,11 +169,11 @@ public class AfterwordController extends HttpServlet {
 				 	
 				 	
 					//사용자 아이디 심어주기 (TEST)
-					int memberNum = 10000;
+					//int memberNum = 10000;
 					//session.setAttribute("memberEmail", memberNum); 
-//					memberNum = (Integer)session.getAttribute("memberNumber");
-					session.setAttribute("memberNumber", memberNum);
-					session.setAttribute("afterwordBoardDTO", afterwordBoardDTO);
+					//memberNum = (Integer)session.getAttribute("memberNumber");
+					//session.setAttribute("memberNumber", memberNum);
+					
 				 	
 					
 					//다음페이지 이동

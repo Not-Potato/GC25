@@ -32,13 +32,16 @@ public class ForewordBoardDTO {
 	private String nickname; // 닉네임
 	private String imageFileName; // 이미지
 	
+	//학원만족도(별점)
+	private double academyAvgScore;// 학원 만족도
+	
 	
 	public ForewordBoardDTO() {
 		
 	}
 
 	public ForewordBoardDTO(int boardNumber, int memberNumber, int academyNumber, String academyName,
-			String course, Timestamp d, String title, String contents, String nickname, String imageFileName) {
+			String course, Timestamp d, String title, String contents, String nickname, String imageFileName, double academyAvgScore) {
 		this.boardNumber = boardNumber;
 		this.memberNumber = memberNumber;
 		this.academyNumber = academyNumber;
@@ -164,10 +167,19 @@ public class ForewordBoardDTO {
 		this.imageFileName = imageFileName;
 	}
 
+	
+	public double getAcademyAvgScore() {
+		return academyAvgScore;
+	}
+
+	public void setAcademyAvgScore(double academyAvgScore) {
+		this.academyAvgScore = academyAvgScore;
+	}
+
 	@Override
 	public String toString() {
-		return String.format("글번호: %d, 작성자 고유번호: %d, 학원 고유번호: %d, 학원 명: %s, 과정구분: %s, 작성일: %s, 제목: %s, 내용: %s, 추천수: %d, 조회수: %d, 댓글수: %d", 
-				this.boardNumber, this.memberNumber, this.academyNumber, this.academyName, this.course, this.writeDate, this.title, this.contents, this.recommend, this.views, this.commentCount);
+		return String.format("글번호: %d, 작성자 고유번호: %d, 학원 고유번호: %d, 학원 명: %s, 과정구분: %s, 작성일: %s, 제목: %s, 내용: %s, 추천수: %d, 조회수: %d, 댓글수: %d 학원평점: %d", 
+				this.boardNumber, this.memberNumber, this.academyNumber, this.academyName, this.course, this.writeDate, this.title, this.contents, this.recommend, this.views, this.commentCount, this.academyAvgScore);
 	}
 	
 	

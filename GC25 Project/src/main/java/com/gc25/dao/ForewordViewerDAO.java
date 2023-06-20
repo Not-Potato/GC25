@@ -50,9 +50,10 @@ public class ForewordViewerDAO {
 			try {
 				
 				String query = """
-								SELECT f.fb_number, f.M_NUMBER, f.a_number, f.a_name, f.fb_COURSE ,f.fb_DATE, f.fb_TITLE, f.fb_CONTENTS, f.fb_RECOMMEND, f.FB_VIEWS, f.FB_COMMENTCOUNT, m.m_nickname AS nickname, m.m_imagefilename AS image
+								SELECT f.fb_number, f.M_NUMBER, f.a_number, f.a_name, f.fb_COURSE ,f.fb_DATE, f.fb_TITLE, f.fb_CONTENTS, f.fb_RECOMMEND, f.FB_VIEWS, f.FB_COMMENTCOUNT, m.m_nickname AS nickname, m.m_imagefilename AS image, a.a_avgscore AS avgscore
 								FROM GC25_FOREWORD_BOARD f
 								JOIN GC25_MEMBER m ON f.m_number = m.m_number
+								JOIN GC25_academy a ON f.a_number = a.a_number
 								WHERE f.fb_number = ?
 						""";
 				pstmt = con.prepareStatement(query);
@@ -72,8 +73,10 @@ public class ForewordViewerDAO {
 					int fBoardViews = rs.getInt("fb_views");
 					int fBoardCommentCount = rs.getInt("fb_commentcount");
 					
+					
 					String nickname = rs.getString("nickname");
 					String imageFileName = rs.getString("image");
+					double academyAvgScore = rs.getDouble("avgscore");
 					
 					b.setBoardNumber(fBoardNumber);
 					b.setMemberNumber(mNumber);
@@ -89,7 +92,7 @@ public class ForewordViewerDAO {
 					
 					b.setNickname(nickname);
 					b.setImageFileName(imageFileName);
-					
+					b.setAcademyAvgScore(academyAvgScore);
 
 				}
 				

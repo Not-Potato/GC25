@@ -6,6 +6,26 @@
 <%
 	request.setAttribute("pageName", "foreword");
 %>
+
+<!-- 회원등급에 따른 상세페이지 접근 구분 -->
+<%
+     // 로그인 여부 확인
+    Object memberNumberObj = session.getAttribute("memberNumber");
+	
+	if (memberNumberObj == null) {
+		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
+        out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");
+	}else {
+		// 로그인 되어 있는 경우, 회원 상태 확인
+		int memberNumber = (Integer) memberNumberObj;
+        int memberStatus = (Integer) session.getAttribute("memberStatus");
+
+        if (memberStatus == 0) { %>
+<%      // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
+          out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/forerword/board.do'; </script>");
+        } else { 
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,14 +46,13 @@
 			<div class="inner">
 				<div class="title">
 					<h2>상담 후기 작성</h2>
-					<p>설명설명설명</p>
-				</div>
+					<p>설명설명설명</p>\				</div>
 				
 				<form class="foreword-form" name="posting-form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/upload.do">
 					<div class="first-line">
 						<div>
-							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName">
-							<input type="hidden" name="academyNum" id="academyNum" value="">
+							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academy-name">
+							<input type="text" name="academyNum" id="academyNum" value="">
 							<div class="search-list">
 								<ul class="d-none" id="none">
 									<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
@@ -73,6 +92,11 @@
 		<!-- footer include 영역 -->
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
+    
+    
+<% } %>
+<% } %>
+
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script src="../resources/js/academynameinput.js"></script>
 	<script>
@@ -84,17 +108,45 @@
 		    let course = $("#course").val();
 		    let title = $("#title").val();
 		    let contents = $("#contents").val();
-			
+		    let academyNum = $("#academyNum").val();
+		    
 		    let check1 = isEmpty(academyName);
 		    let check2 = isEmpty(course);
 		    let check3 = isEmpty(title);
 		    let check4 = isEmpty(contents);
+		    
+		    let check5 = isEmpty(academyNum);
 	
-		    // 만약 하나라도 true면 --> 입력되지 않은 값이 존재하는 경우
-			if (check1 || check2 || check3 || check4) {
-		        alert('입력되지 않은 값이 존재합니다!');
+ 		    // 만약 하나라도 true면 --> 입력되지 않은 값이 존재하는 경우
+			if (check1 || check2 || check3 || check4 ||check5) {
+				let emptyInputs = [];
+				
+				if(check1) {
+					emptyInputs.push("학원 명");
+				}
+				
+				if(check2) {
+					emptyInputs.push("과정 구분");
+				}
+				
+				if(check3) {
+					emptyInputs.push("제 목");
+				}
+				
+				if(check4) {
+					emptyInputs.push("내 용");
+				}
+				
+				if(check5) {
+					emptyInputs.push("학원 번호");
+				}
+				
+				let errorMessage ="다음 항목들이 입력되지 않았습니다:\n\n"; 
+				errorMessage += emptyInputs.join("\n");
+				alert(errorMessage);
+		        //alert('입력되지 않은 값이 존재합니다!');
 		        return false;
-		    }
+		    } 
 	
 		    //TODO: 학원명 - DB에 없는 데이터 입력할 수 없도록 제한
 		    $.ajax({
@@ -126,13 +178,13 @@
 		
 		// 값이 비어 있는지 체크하는 함수
 	    // 비어 있으면 --> true
-		let isEmpty = function(value){
+ 		let isEmpty = function(value){
 		    if( value == "" || value == null || value == undefined || ( value != null && typeof value == "object" && !Object.keys(value).length ) ){
 		        return true;
 		    }else{
 		        return false;
 		    }
-		};
+		}; 
 		
  		document.posting-form.addEventListener("keydown", evt => {
 			if (evt.code === "Enter" || evt.keyCode === 13) evt.preventDefault();

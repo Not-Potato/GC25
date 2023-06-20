@@ -6,6 +6,25 @@
 <%
 	request.setAttribute("pageName", "afterword");
 %>
+<!-- 회원등급에 따른 상세페이지 접근 구분 -->
+<%
+     // 로그인 여부 확인
+    Object memberNumberObj = session.getAttribute("memberNumber");
+	
+	if (memberNumberObj == null) {
+		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
+        out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");
+	}else {
+		// 로그인 되어 있는 경우, 회원 상태 확인
+		int memberNumber = (Integer) memberNumberObj;
+        int memberStatus = (Integer) session.getAttribute("memberStatus");
+
+        if (memberStatus == 0) { %>
+<%      // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
+          out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/afterword/board.do'; </script>");
+
+        } else { 
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -157,6 +176,10 @@
 		<!-- footer include 영역 -->
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
+    
+<% } %>
+		
+<% } %>	
     <script src="../resources/js/bootstrap.min.js"></script>
 	<!-- <script src="../resources/js/popper.js"></script> -->
 	<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->

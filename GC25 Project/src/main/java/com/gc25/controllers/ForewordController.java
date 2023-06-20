@@ -145,16 +145,17 @@ public class ForewordController extends HttpServlet {
 				// 본문 가져오기
 				ForewordBoardDTO forewordBoardDTO = forewordViewerService.getForewordBoard(boardNum);
 				request.setAttribute("forewordBoardDTO", forewordBoardDTO);
-
+				session.setAttribute("forewordBoardDTO", forewordBoardDTO);
+				
 				// 댓글 리스트 가져오기
 				ArrayList<CommentDTO> commentList = commentService.getForewordComment(boardNum);
 				request.setAttribute("commentList", commentList);
 
 				// 사용자 아이디 심어주기 (TEST)
 				// request.getAttribute("memberNumber");
-				int memberNumber = 10000;
-				session.setAttribute("memberNumber", memberNumber);
-				session.setAttribute("forewordBoardDTO", forewordBoardDTO);
+				//int memberNumber = 10000;
+				//session.setAttribute("memberNumber", memberNumber);
+				
 				
 
 				nextPage = views + "/forewordviewer.jsp";
