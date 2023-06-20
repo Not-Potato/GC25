@@ -17,7 +17,6 @@
 		// 로그인 되어 있는 경우, 회원 상태 확인
 		memberNumber = (Integer) memberNumberObj;
         memberStatus = (Integer) session.getAttribute("memberStatus");
-
         if (memberStatus == 0) {   	 
         // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
           out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/forerword/board.do'; </script>");

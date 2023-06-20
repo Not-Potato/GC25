@@ -245,7 +245,7 @@ public class CommentDAO {
 		public void deleteFbComment(int bBoardNum) {
 			
 			//댓글 DB에 추가	
-			String query = "DELETE GC25_GC25_COMMENT WHERE fb_number  = ?";
+			String query = "DELETE GC25_COMMENT WHERE fb_number  = ?";
 					
 
 			try {
