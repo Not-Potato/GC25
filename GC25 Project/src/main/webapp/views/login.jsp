@@ -27,30 +27,34 @@
 </head>
 <body class="text-center">
 	<%@ include file = "./common/header.jsp" %>	
-	<main class="form-signin text-center">	
-		
-		<form method="post" action="/mem/login/result.do" onsubmit="return memberLogin();" name="memberlogin" >
-			    
-			<h1 class="h3 mb-3 fw-normal">로그인</h1>
-		    
-			<div class="form-floating w-50 mt-5 text-center">
-			     <input type="text" id="memberEmail" name="memberEmail" class="form-control " placeholder="이메일">
-			     <label for="floatingInput">이메일</label>
-		    </div>  
-		
-		    <div class="form-floating mt-3 w-50 text-center">
-		      	<input type="password" class="form-control " id="memberPwd" name="memberPwd" placeholder="비밀번호">
-		     	<label for="floatingPassword">비밀번호</label>
-		    </div>  
-		   		   
-		    <button class="w-40 btn btn-lg btn-primary mt-5" type="submit">로그인</button> 
-		        
-		</form>
-	   
-	</main>
+	<!-- header include 영역 -->
+	
+	<div class="login-page">
+		<div class="inner">
+			<div class="title">
+			    <h2>로그인</h2>
+			</div>
+			
+			<div class="login-bg">
+			    <form method="post" action="/mem/login/result.do" onsubmit="return memberLogin();" name="memberlogin" >
+			     	<div>
+			     		<p>
+				     		<label for="memberEmail">아이디(E-Mail)</label>
+				    		<input type="text" id="memberEmail" name="memberEmail" class="box" placeholder="아이디(E-Mail)를 입력해 주세요">
+			     		</p>
+			     		<p>
+				     		<label for="memberPwd">비밀번호</label>
+					    	<input type="password" class="box" id="memberPwd" name="memberPwd" placeholder="비밀번호를 입력해 주세요">
+					    </p>	
+			     	</div>
+			     		
+		     		<button class="" type="submit">로그인</button> 
+			    </form>
+			</div>
+		</div>
+	</div>
  	<%@ include file = "./common/footer.jsp" %>
  
-<script src="<c:url value='/resources/js/bootstrap.min.js' />"></script>
 <script src="<c:url value='/resources/js/jquery.js' />"></script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>

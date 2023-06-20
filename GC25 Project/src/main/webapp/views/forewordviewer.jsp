@@ -31,31 +31,21 @@
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
 	<link rel="shortcut icon" type="image/x-icon" href="/resources/images/mini_logo.png">
 	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">	
-	
-	<!-- 좋아요 아이콘이라서 다른거 이용할시 지워도 됩니다. -->
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-	<style>
-	.material-symbols-outlined {
-	  font-variation-settings:
-							  'FILL' 0,
-							  'wght' 300,
-							  'GRAD' 200,
-							  'opsz' 24
-	}
-	</style>
-	<!-- 좋아요 아이콘 CSS 끝-->
-	
-	
-	
-	
-	
 </head>
 <body>
 	
 		<jsp:include page="./common/header.jsp"></jsp:include>
 	 	<!-- header include 영역 -->
-
-<!--  css 적용 필요한 부분 -->	
+		
+		<div class="board-page foreword-page write-page foreword-write-page">
+			<div class="inner">
+				<div class="title">
+					<h2>상담 후기 작성</h2>
+					<p>설명설명설명</p>
+				</div>
+			</div>
+		</div>
+		
         <p>게시판 타이틀: 상담 후기</p>
       
  		<!-- (전체 게시글보기는 단순 뒤로가기 기능으로 꼭 구현 안해도됨! -->
