@@ -16,14 +16,6 @@
 		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
         out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");
 	}else {
-		// 로그인 되어 있는 경우, 회원 상태 확인
-		int memberNumber = (Integer) memberNumberObj;
-        int memberStatus = (Integer) session.getAttribute("memberStatus");
-
-        if (memberStatus == 0) { %>
-<%      // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
-          out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/forerword/board.do'; </script>");
-        } else { 
 %>
 
 <!DOCTYPE html>
@@ -61,6 +53,7 @@
 							</div>
 						</div>
 							<div class="course-dropdown">
+
 								<select class="box form-select" id="course" name="course">
 									<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
 									<option disabled selected value="">----- 과정 구분 -----</option>
@@ -98,7 +91,6 @@
     
     
 <% } %>
-<% } %>
 
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script src="../resources/js/academynameinput.js"></script>
@@ -111,17 +103,14 @@
 		    let course = $("#course").val();
 		    let title = $("#title").val();
 		    let contents = $("#contents").val();
-		 
 		    
 		    let check1 = isEmpty(academyName);
 		    let check2 = isEmpty(course);
 		    let check3 = isEmpty(title);
 		    let check4 = isEmpty(contents);
-		 
-	
+      
  		    // 만약 하나라도 true면 --> 입력되지 않은 값이 존재하는 경우
-			if (check1 || check2 || check3 || check4) {
-			
+			if (check1 || check2 || check3 || check4) {		
 		        alert('입력되지 않은 값이 존재합니다!');
 		        return false;
 		    } 

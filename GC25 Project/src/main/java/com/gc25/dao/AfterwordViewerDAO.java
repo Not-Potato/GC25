@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import javax.naming.Context;
@@ -12,6 +13,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.gc25.dto.AfterwordBoardDTO;
+import com.gc25.dto.ForewordBoardDTO;
 
 public class AfterwordViewerDAO {
 	private Connection con; // db연결을 위한 connection 변수
@@ -116,5 +118,67 @@ public class AfterwordViewerDAO {
 			return a;
 	}
 	
+	
+	//게시글 수정
+	
+		public void modifyAfterwordBoard(AfterwordBoardDTO afterwordBoardDTO) {
+
+			
+			try {
+				
+				String updateQuery = """
+									UPDATE GC25_AFTERWORD_BOARD
+									SET 
+									a_number = ?,
+									a_name = ?,
+									ab_course = ?,
+									ab_title = ?,
+									ab_contents = ?
+									WHERE ab_number = ?
+					
+							""";
+				
+				con = ds.getConnection();	
+				pstmt = con.prepareStatement(updateQuery);
+				pstmt.setInt(1, afterwordBoardDTO.getAcademyNumber());
+		
+				pstmt.setString(2, afterwordBoardDTO.getAcademyName());
+				pstmt.setString(3, afterwordBoardDTO.getCourse());
+				pstmt.setString(4, afterwordBoardDTO.getTitle());
+				pstmt.setString(5, afterwordBoardDTO.getContents());
+				pstmt.setInt(6, afterwordBoardDTO.getBoardNumber());
+				
+				pstmt.executeUpdate();			
+				
+				
+				con.close();
+				pstmt.close();
+			
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
+			
+		}
+		
+		//게시글 삭제 
+		public void deleteAfterwordBoard(int boardNum) {
+			
+			String deleteQuery = "DELETE GC25_AFTERWORD_BOARD WHERE ab_number  = ?";
+		
+			try {
+				
+				con = ds.getConnection();	
+				pstmt = con.prepareStatement(deleteQuery);
+				pstmt.setInt(1,boardNum);
+				pstmt.executeUpdate();
+				
+				con.close();
+				pstmt.close();
+
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+			
+	}
 	
 }// end of class AfterwordViewerDAO	

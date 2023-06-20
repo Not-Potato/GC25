@@ -104,14 +104,11 @@ public class ForewordController extends HttpServlet {
 			// 글 업로드 --> 작성 완료 얼럿 창 --> 목록으로 이동
 			case "/upload.do" -> {
 				System.out.println("포스팅 발행!!!!");
-				
-				dto = new ForewordBoardDTO();
-				// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
-				dto.setMemberNumber((Integer) (session.getAttribute("memberNumber")));
-				//dto.setMemberNumber(10020);
-
 				// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
+				// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 				// 학원번호, 학원이름, 과정구분, 제목, 내용
+				dto = new ForewordBoardDTO();
+				dto.setMemberNumber((Integer) (session.getAttribute("memberNumber")));
 				dto.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
 				dto.setAcademyName(request.getParameter("academyName"));
 				dto.setCourse(request.getParameter("course"));
@@ -188,10 +185,6 @@ public class ForewordController extends HttpServlet {
 				String boardNumStr = request.getParameter("boardNum");
 				int boardNum = Integer.parseInt(boardNumStr);
 
-				// 사용자 아이디 가져오기
-				// test용
-				// int memberNum= (Integer) session.getAttribute("memberNumber");
-				int memberNumber = 10000;
 				int aBoard = 0;
 
 				// 글번호 db에서 정보 가져와서 수정jsp페이지로 보내주기 // 본문 가져오기
@@ -200,33 +193,13 @@ public class ForewordController extends HttpServlet {
 
 				// 세센에 DB내용과 사용자 정보 심어서 다음페잊로 보내주기
 				session.setAttribute("forewordBoardDTO", forewordBoardDTO);
-				session.setAttribute("memberNumber", memberNumber);
-				/*
-				 * forewordViewerService.modifyForewordBoard(boardNum, academyNum, academyName,
-				 * course, title, contents);
-				 * 
-				 * 
-				 * 
-				 * //변경된 내용 가져오기 //본문 가져오기 ForewordBoardDTO forewordBoardDTO =
-				 * forewordViewerService.getForewordBoard(boardNum);
-				 * request.setAttribute("forewordBoardDTO", forewordBoardDTO);
-				 * 
-				 * //댓글 리스트 가져오기 ArrayList<CommentDTO> commentList =
-				 * commentService.getForewordComment(boardNum);
-				 * System.out.println("forewordController commentList 확인용:"+ commentList);
-				 * request.setAttribute("commentList", commentList);
-				 */
-
-				// 사용자 아이디 심어주기 (TEST)
-				// request.getAttribute("memberNumber");
-
+				
 				// 다음페이지 이동
 				nextPage = views + "/forewordmodify.jsp";
 			}
 
 			// 글 수정 업로드
 			case "/modifyupload.do" -> {
-				System.out.println("수정내용 업로드");
 
 				// 해당 게시글의 게시글 번호 가져오기
 				String boardNumStr = request.getParameter("boardNum");
