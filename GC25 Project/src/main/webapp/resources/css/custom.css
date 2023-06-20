@@ -240,7 +240,7 @@ textarea {outline: none; }
 }
 #header .h-banner p span {
   	font-size:23px;
-/*   	text-shadow:1px 1px 1px #000; */
+	text-shadow:1px 1px 1px #000; 
 }
 #header .h-banner p small {
   font-size: 17px;
@@ -474,7 +474,7 @@ aside .rank {
 	position: fixed;
     top: 50%;
     transform: translateY(-50%);
-    border-radius: 25px;
+    border-radius: 0.7em;
     border: 1px solid #007CFF;
 }
 aside .review-ranking {
@@ -493,6 +493,7 @@ aside .rank li {
     font-size: 15px;
     color: #007CFF;
     font-weight: 700;
+    margin: -1px;
 }
 aside .rank li strong {
 	width: 140px;
@@ -507,8 +508,9 @@ aside .rank li:first-child {
 	padding: 20px 20px;
     background: #007CFF;
     color: #FFF;
-    border-radius: 25px 25px 0 0;
+    border-radius: 0.5em 0.5em 0 0;
     justify-content: center;
+    margin: -1px;
 }
 aside .rank li:last-child {
     border: none;
@@ -594,9 +596,10 @@ aside .rank li:last-child {
 	text-decoration : none;
 }
 
-.board-page .top-menu:hover .dropcontent {
+.board-page .top-menu .dropdown:hover .dropcontent {
 	display: block;
 }
+
 
 /* top-menu */
 
@@ -826,8 +829,157 @@ aside .rank li:last-child {
     background-color: #007CFF;
     color: #fff;
 }
-
-
 /* ********** 글 쓰기 ********** */
-
-
+.login-page .inner {
+	margin: auto;
+}
+.login-page .title {
+    width: 1400px;
+    height: 150px;
+    padding-left: 50px;
+	background-image: url("../images/sub-title-login.png");
+}
+.login-page .title h2 {
+	font-size: 30px;
+	font-weight: 700;
+	padding-top: 60px;
+	color: #FFF;
+}
+.login-page .login-bg {
+	width: 1400px;
+	height: 1633px;
+	background-image: url("../images/login-bg.png");
+	background-repeat: no-repeat;
+	background-size : contain;
+	position: relative;
+	margin-top: 50px;
+	border-radius: 1rem;
+}
+.login-page form {
+	height: 400px;
+	width: 1000px;
+	padding: 0 100px;
+/* 	background-color: #fff; */
+	background-color:rgba(255, 209, 76, 1);
+	border: 3px solid black;
+	border-radius: 1rem;
+	margin: 50px auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: absolute;
+	bottom: 8%;
+	left: 50%;
+    transform: translate(-50%, 0);
+}
+.login-page form div {
+	width: 500px;
+}
+.login-page form p label {
+	margin: 20px 0 -2px 0;
+	font-size: 20px;
+	display: block;
+	color: #007cff;
+}
+.login-page form p input {
+	height: 50px;
+	width: 450px;
+	font-size: 20px;
+	border: 1px solid #007cff;
+}
+.login-page form button {
+	width: 250px;
+	height: 150px;
+	margin-top: 49px;
+	font-size: 20px;
+	background-color: #fff;
+	border-radius: 0.4rem;
+	border: 1px solid #007CFF;
+	color: #007CFF;
+}
+.login-page form button:hover {
+	background-color: #007CFF;
+	color: #ffd14c;
+}
+/* ********** 로그인 페이지 ********** */
+.sign-up-page .inner {
+	margin: auto;
+}
+.sign-up-page .title {
+    width: 1400px;
+    height: 150px;
+    padding-left: 50px;
+	background-image: url("../images/sub-title-signup.png");
+}
+.sign-up-page .title h2 {
+	font-size: 30px;
+	font-weight: 700;
+	padding-top: 60px;
+	color: #FFF;
+}
+.sign-up-page form {
+	width: 950px;
+	height: 900px;
+	margin: auto;
+	margin-top: 100px;
+}
+.sign-up-page form div {
+	height: 180px;
+	font-size: 18px;
+	border-top: 1px solid #818181;
+	padding-top: 40px;
+}
+.sign-up-page form div:first-child {
+	border-top: none;
+}
+.sign-up-page form div:last-child {	/* 버튼 그룹 */
+	margin: auto;
+	text-align: center;
+	padding-top: 60px;
+}
+.sign-up-page form div label {
+	display: inline-block;
+	width: 180px;
+	font-weight: bold;
+	border-right: 1px solid #007cff;
+}
+.sign-up-page form div p {
+	margin: 10px 0 0 205px; 
+	display: flex;
+}
+.sign-up-page form div p .ok {
+	color: #1fc05c;
+	font-size: 20px;
+	margin: -1px 10px 0 0;
+	align-self: center;
+}
+.sign-up-page form div p .no {
+	color: #e60005;
+	font-size: 20px;
+	margin: -1px 10px 0 0;
+	align-self: center;
+}
+.sign-up-page form div input {
+	height: 50px;
+	width: 450px;
+	font-size: 20px;
+	margin-left: 20px;
+	border: 1px solid #007cff;
+}
+.sign-up-page form div button {
+	font-size: 18px;
+	width: 120px;
+	height: 50px;
+	border-radius: 0.4rem;
+	border: 1px solid #007cff;
+	margin-left: 20px;
+	color: #007cff;
+}
+.sign-up-page form div button:hover {
+	color: #fff;
+	background-color: #007CFF;
+}
+.sign-up-page form div:last-child button {	/* 버튼 그룹의 버트  */
+	margin: 0 10px;
+}
+/* ********** 회원가입 페이지 ********** */

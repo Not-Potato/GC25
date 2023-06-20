@@ -21,7 +21,6 @@
 			menu3 = "on";
 			break;
 	}
-
 %>
 <c:set var="memberNumber" value="${ sessionScope.memberNumber }" />
 <!DOCTYPE html>
@@ -38,18 +37,21 @@
 		<div class="h-banner">
 			<c:set var="memberNickname" value="${ sessionScope.memberNickname }" />
 			<c:set var="memberStatus" value="${ sessionScope.memberStatus }" />
+			<c:set var="memberNumber" value="${ sessionScope.memberNumber }" />
 			<c:choose>
 				<c:when test="${ memberStatus == 0 }" >
-					<p><span>${ memberNickname }</span>&nbsp님 환영합니다! 아직 작성 된 글이 없네요. ------<small>Click</small>-----> 
+					<p><span>${ memberNickname }</span>&nbsp님 환영합니다! 아직 작성 된 글이 없네요. -----<small>Click</small>--->
 					<a href="${contextPath}/foreword/write.do">&nbsp작성 하러 가기</a></p>
 				</c:when>
-				<c:when test="${ memberNickname ==null  }" >
+				<c:when test="${ memberNickname ==null || memberStatus ==null }" >
 		
 				</c:when>
+				<c:when test="${ memberNumber ==null }" >
+					<p>로그인을 해 주세요.</p> 
+				</c:when>
 				<c:otherwise>
-					<p><span>${ memberNickname }</span>님 환영합니다!</p>
+					<p><span>${ memberNickname }</span>&nbsp님 환영합니다!</p>
 				</c:otherwise>
-				
 			</c:choose>
 		</div>
 		<div class="inner">

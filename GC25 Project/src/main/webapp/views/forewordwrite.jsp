@@ -59,13 +59,15 @@
 								</ul>
 							</div>
 						</div>
-						<select class="box form-select" id="course" name="course">
-							<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
-							<option disabled selected value="">----- 과정 구분 -----</option>
-							<option value="프론트엔드">프론트엔드</option>
-							<option value="백엔드">백엔드</option>
-							<option value="풀스택">풀스택</option>
-						</select>
+							<div class="course-dropdown">
+								<button class="coursebtn">----- 과정 구분 -----</button>
+								<ul class="course-select" id="course">
+									<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
+									<li onclick="selectCourse('프론트엔드')">프론트엔드</li>
+									<li onclick="selectCourse('백엔드')">백엔드</li>
+									<li onclick="selectCourse('풀스택')">풀스택</li>
+								</ul>
+							</div>
 					</div>
 					
 					<!-- 제목 -->
@@ -101,7 +103,7 @@
 	<script src="../resources/js/academynameinput.js"></script>
 	<script>
 		let num = document.getElementById("academyNum");
-	
+		let course = document.getElementById("course");
 		function posting() {	
 		    // 사용자 입력 값 받아오기
 		    let academyName = $("#academy-name").val();
@@ -197,6 +199,15 @@
  				alert('입력 가능한 범위를 초과했습니다!');
  			}
  		}
+ 		
+ 		function selectCourse(course) {
+ 		    // 선택한 과정에 대한 동작 정의
+ 		    console.log(course);
+ 		    
+ 		    // 선택한 과정을 버튼에 표시
+ 		    document.querySelector('.coursebtn').textContent = course;
+ 		   	document.querySelector('.course-dropdown').classList.remove('show');
+ 		  }
 	</script>
 </body>
 </html>

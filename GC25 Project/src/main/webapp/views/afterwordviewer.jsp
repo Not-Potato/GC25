@@ -96,7 +96,7 @@
 	 				
 		<p>학원이름: ${afterwordBoardDTO.getAcademyName()}</p>
 		<p>학원 별점: ${afterwordBoardDTO.getTotalScore()} </p>
-				  
+
 	 			<!-- 수강 후기 정보 -->		  
 					    <p> 과정구분 :  ${afterwordBoardDTO.getCourse()} </p> 
 					    <p> 강사명: ${afterwordBoardDTO.getTeacherName()}</p>

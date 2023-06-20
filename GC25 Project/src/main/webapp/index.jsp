@@ -55,7 +55,7 @@
                         
 						<ul>
 <c:forEach var="fb" items="${ fList }" varStatus="vs" begin="0" end="4" step="1">
-							<li>
+							<li onclick="location.href='${contextPath}/foreword/viewer.do?boardNum=${ fList[vs.index].boardNumber }'">
 								<div>
 									<em>${ fList[vs.index].writeDate }</em>
 									<strong>${ fList[vs.index].title }</strong>
@@ -90,7 +90,7 @@
                         
 						<ul>
 <c:forEach var="ab" items="${ aList }" varStatus="vs" begin="0" end="4" step="1">
-							<li>
+							<li onclick="location.href='${contextPath}/afterword/viewer.do?boardNum=${ aList[vs.index].boardNumber }'">
 								<div>
 									<em>${ aList[vs.index].writeDate }</em>
 									<strong>${ aList[vs.index].title }</strong>

@@ -316,7 +316,7 @@ public class MemberController extends HttpServlet {
 							PrintWriter out = response.getWriter();
 							out.println("<script>");
 							out.println("alert('로그인 성공!')");
-							script.println("location.replace('/main')");
+							out.println("location.replace('/main');");
 							out.println("</script>");
 
 							//세션 설정
@@ -348,7 +348,7 @@ public class MemberController extends HttpServlet {
 							System.out.println("이미지 파일 : "+memberImageFileName);
 							System.out.println("등급 : "+memberStatus);
 							
-							nextPage = "/main";
+							//response.sendRedirect(request.getContextPath() + "/main");
 							
 						// DB에 저장된 아이디가 아닌 경우
 						} else if (loginSuccess == -1) { 
@@ -593,6 +593,7 @@ public class MemberController extends HttpServlet {
 				System.out.println(memberImageFileName);
 				
 				session.setAttribute("memberImageFileName", memberImageFileName);
+				session.setAttribute("memberNickname", memberNickname);
 			
 				int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
 				if(updateSuccess==1) {
@@ -645,7 +646,7 @@ public class MemberController extends HttpServlet {
 								
 								//업로드 확장자 제한
 								String fileExtension="";
-								List<String> allowedExtensions = new ArrayList<>(Arrays.asList("jpg", "png", "gif", "svg"));
+								List<String> allowedExtensions = new ArrayList<>(Arrays.asList("jpg", "png", "gif", "svg" , "jpeg"));
 								if (fileName != null && !fileName.isEmpty()) {
 									fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
 								}
