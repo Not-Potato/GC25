@@ -127,26 +127,6 @@
 	
 }
 
-/* 회원가입 */
-.body_container {
-	width:1000px ;
-	margin:0 auto ;
-	
-}
-
-.signup_h1 {
-	text-align:center;
-	margin:30px 0;
-	padding:20px;
-	background-color:#00D4EA;
-	font-size:30px;
-}
-
-.table_container {
-	margin:auto;
-	
-}
-
 .alertModal {
 	position : absolute;
 	top:50%;
@@ -159,15 +139,6 @@
 	
 	background-color:white;
 }
-
-/*로그인*/
-.logincontainer{
-	width:600px;
-}
-
-
-
-
 /* ---------------- 형주 ---------------- */
 /* ----- forewordviewer ----- */
 
@@ -565,7 +536,6 @@ aside .rank li:last-child {
 }
 .board-page .top-menu div {
 	border-radius: 15px;
-    border: 1px solid #007CFF;
     overflow: hidden;
 }
 .board-page .top-menu ul li {
@@ -975,11 +945,134 @@ aside .rank li:last-child {
 	margin-left: 20px;
 	color: #007cff;
 }
-.sign-up-page form div button:hover {
+.sign-up-page form div button:first-child {
+    border: 1px solid red;
+    color: red;
+}
+.sign-up-page form div button:first-child:hover {
+    border: 1px solid red;
+    background-color: red;
+    color: #fff;
+}
+.sign-up-page form div button:last-child:hover {
 	color: #fff;
 	background-color: #007CFF;
 }
-.sign-up-page form div:last-child button {	/* 버튼 그룹의 버트  */
+.sign-up-page form div:last-child button:last-child {	/* 버튼 그룹의 버튼  */
 	margin: 0 10px;
 }
 /* ********** 회원가입 페이지 ********** */
+.view-page .con {
+	margin-top: 50px;
+}
+.view-page button {
+	height: 50px;
+	width: 100px;
+}
+.view-page button.none {
+	border: 1px solid #8C8C8C;
+    color: #8C8C8C;
+    cursor: not-allowed;
+}
+.view-page .con .btn-group {
+	display: flex;
+	justify-content: space-between;
+}
+.view-page .post {
+	width: 100%;
+	border: 1px solid #007cff;
+	margin-top: 50px;
+	padding: 100px;
+}
+.view-page .post .info {
+	border-bottom: 1px solid #007cff;
+	padding: 50px 50px 20px 50px;
+}
+.view-page .post .info h4 {
+	font-size: 30px;
+	font-weight: 700;
+}
+.view-page .post .info .profile {
+	display: flex;
+	align-items: center;
+	padding: 20px 0;
+	font-size: 20px;
+}
+.view-page .post .info .profile p {
+	margin-left: 10px;
+}
+.view-page .post .info div:last-child {
+	display: flex;
+	justify-content: space-between;
+}
+.view-page .post .info .i-left em:before {
+	content: " | ";
+}
+.view-page .post .info .i-left em:first-child:before {
+	content: "";
+}
+.view-page .post .info .i-left {
+	color: #505151;
+}
+.view-page .post .info .i-right em {
+	margin-left: 30px;
+}
+.view-page .post .info em {
+	font-size: 20px;
+}
+.view-page .post .text {
+	padding: 50px;
+}
+.view-page .post .like {
+	width: 200px;
+	margin: auto;
+	text-align: center;
+	margin-top: 100px;
+	padding-top: 50px;
+	border-top: 1px solid #007cff;
+}
+.view-page .post .like i {
+	font-size: 50px;
+	text-align: center;
+}
+.view-page .post .academy-info {
+	padding: 50px;
+	margin-top: 100px; 
+	border: 1px solid #007cff;
+	font-size: 20px;
+}
+.view-page .post .academy-info .starBox {
+	display: flex;
+	align-items: center;
+}
+.view-page .post .academy-info .starBox p {
+	margin-right: 10px;
+}
+.view-page .post .comment-write {
+	margin-top: 100px;
+	border: 1px solid #007cff;
+}
+.view-page .post .comment-write em {
+	/* 댓글 창 위로 정렬 */
+}
+.view-page .post .comment-write form {
+	display: flex;
+	justify-content: center;
+	padding: 50px 0;
+}
+.view-page .post .comment-write form textarea {
+	width: 800px;
+	height: 100px;
+	font-size: 18px;
+	border: 1px solid #007cff;
+	border-right: none;
+	resize: none;
+}
+.view-page .post .comment-write form button {
+	height: 100px;
+	border-radius: 0 1em 1em 0;
+	border: 1px solid #007cff;
+	color: #007cff;
+	font-size: 18px;
+}
+/* ********** 상담후기 작성 페이지 ********** */
