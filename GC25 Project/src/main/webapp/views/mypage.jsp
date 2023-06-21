@@ -49,12 +49,12 @@
 	 <h2 class="mp_h2">마이페이지</h2>
 	 <div class="bodyContainer"> 
       <div id="profile">
-        <form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
-        	<img src="../resources/images/<%= memberImageFileName %>" alt="기본이미지" id="profileImg" >
-        	<input type="file" name="profile" id ="profile">
+        <form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" > <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
+        	<img src="../resources/images/profileimages/<%= memberImageFileName %>" alt="기본이미지" id="profileImg" >
+        	<input type="file" name="profile" id ="profile" accept="image/*">
         	<button class="profileBtn" onclick="profileChange()">수정</button>
         </form>
-        <form method="post" enctype="multipart/form-data" name="/mem/proflieImgRemove" action="/mem/proflieImgRemove">
+        <form method="post" enctype="multipart/form-data" name=ImgRemove" >
         <button id="removeBtn" name="imgRemoveBtn" onclick="imgdel();"> 삭제 </button>
         </form>
       </div>
@@ -195,17 +195,18 @@ function profileChange() {
 			userResponse=false;
 			console.log(userResponse);
 			alert('이미지 변경이 취소되었습니다.');
-			history.back();
+			
 		}
 	
 }
 
+
 function changeSubmit(userResponse) {
+	
 	console.log("changeSubmit : " + userResponse);
 	var form = new FormData(document.getElementById("proflieImgChange"));
 	form.append("userResponse",userResponse);
 	
-	  
 	$.ajax({
 			type :"post",
 			async : true,
@@ -217,7 +218,6 @@ function changeSubmit(userResponse) {
 				console.log("result: "+result);
 				if(userResponse){
 					alert("이미지 전송이 완료되었습니다.");
-					
 				}
 			},
 			error : function(result)  {
