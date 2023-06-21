@@ -31,7 +31,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>GC25 | Foreword Review Page</title>
+	<title>GC25 | 상담후기 상세보기 </title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -57,7 +57,7 @@
 					<div class="">
 <% if (mine) { %>
 						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/foreword/modify.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">수정</button>
-						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/foreword/delete.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">삭제</button>
+						<button type="button" class="btn use-btn" onclick=" confirmDelete(${forewordBoardDTO.getBoardNumber()})">삭제</button>
 <% } else {%>
 						<button type="button" class="btn none">수정</button>				
 						<button type="button" class="btn none">삭제</button>				
@@ -147,7 +147,7 @@
 	<script src="<c:url value='./js/jquery.js' />"></script>
 	<script src="<c:url value='./js/custom.js' />"></script>
 	<script>
-	    /* 게시글 시간 계산 (몇시간 전) */
+	 /* 게시글 시간 계산 (몇시간 전) */
 	    var writeDateValueElement = document.querySelector("#writeDateValue");
 		var writeDateElement = document.querySelector("#writeDate");
 		
@@ -185,6 +185,15 @@
 		} else {
 		  console.error("writeDateValueElement or writeDateElement is null");
 		}
+	
+	/* 글 삭제 시 ajax 통신부  */	
+		function confirmDelete(boardNum) {
+    		var confirmed = confirm("정말로 삭제하시겠습니까?");
+    		if (confirmed) {
+        	location.href = "${contextPath}/foreword/delete.do?boardNum=" + boardNum;
+    		}
+		}
+		
 	</script>
 
 </body>

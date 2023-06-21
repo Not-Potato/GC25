@@ -20,18 +20,17 @@
 		int memberNumber = (Integer) memberNumberObj;
         int memberStatus = (Integer) session.getAttribute("memberStatus");
 
-        if (memberStatus == 0) { %>
-<%   	// 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
+        if (memberStatus == 0) { 
+  	// 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
             out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/forerword/board.do'; </script>");
-        } else { 
+        }
 %>
-
 
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | Foreword Modify Page</title>
+	<title>GC25 | 상담후기 수정페이지 </title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -49,7 +48,7 @@
 			<div class="inner">
 				<div class="title">
 					<h2>상담 후기 수정</h2>
-					<p>설명설명설명</p>
+					<p>나의 경험을 다른 이용자와 공유해보세요!</p>
 				</div>
        
 				<form class="foreword-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/modifyupload.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
@@ -117,10 +116,7 @@
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
     
-    
-<% } %>
-<% } %>  
-
+<% } %>   
 
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script src="../resources/js/academynameinput.js"></script>

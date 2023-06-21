@@ -30,7 +30,7 @@
 			<div class="inner">        
 				<div class="title">
 				    <h2>수강 후기</h2>
-				    <p>설명설명설명</p>
+				    <p>수강 후기 게시판입니다. </p>
 				</div>
 				
 				<div class="top-menu">
