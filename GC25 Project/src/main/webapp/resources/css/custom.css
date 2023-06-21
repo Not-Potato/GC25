@@ -913,7 +913,7 @@ aside .rank li:last-child {
 	box-sizing: border-box;
 }
 .sign-up-page form {
-	width: 950px;
+	width: 980px;
 	height: 900px;
 	margin: auto;
 	margin-top: 100px;
@@ -1006,6 +1006,23 @@ aside .rank li:last-child {
 	color: #fff;
 	background-color: #007cff;
 }
+.view-page button.edit-btn {
+	color: #fff;
+	background-color: #007cff;	
+}
+.view-page button.edit-btn:hover {
+	color: #007cff;
+	background-color: #fff;	
+}
+.view-page button.del-btn {
+	color: #fff;
+	background-color: red;	
+	border: 1px solid red;
+}
+.view-page button.del-btn:hover {
+	color: red;
+	background-color: #fff;	
+}
 .view-page .con .btn-group {
 	display: flex;
 	justify-content: space-between;
@@ -1018,7 +1035,7 @@ aside .rank li:last-child {
 .view-page .post {
 	width: 100%;
 	border: 1px solid #007cff;
-	margin-top: 50px;
+	margin-top: 10px;
 	padding: 100px;
 	box-sizing: border-box;
 }

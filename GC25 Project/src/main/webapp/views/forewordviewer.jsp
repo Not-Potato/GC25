@@ -56,8 +56,8 @@
 					
 					<div class="">
 <% if (mine) { %>
-						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/foreword/modify.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">수정</button>
-						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/foreword/delete.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">삭제</button>
+						<button type="button" class="btn use-btn edit-btn" onclick=" location.href='${contextPath}/foreword/modify.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">수정</button>
+						<button type="button" class="btn use-btn del-btn" onclick=" location.href='${contextPath}/foreword/delete.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">삭제</button>
 <% } else {%>
 						<button type="button" class="btn none">수정</button>				
 						<button type="button" class="btn none">삭제</button>				
@@ -70,7 +70,7 @@
 						<h4>${forewordBoardDTO.getTitle()}</h4>
 						
 						<div class="profile">
-							<img class="profile-image" src="../resources/images/${forewordBoardDTO.getImageFileName()}" alt="${forewordBoardDTO.getImageFileName()}">
+							<img class="profile-image" src="../resources/images/profileimages/${forewordBoardDTO.getImageFileName()}" alt="${forewordBoardDTO.getImageFileName()}">
 							<p>${forewordBoardDTO.getNickname()}</p>
 						</div>
 						
@@ -124,7 +124,7 @@
 <c:forEach var="c" items="${commentList}" varStatus="num" >
 							<div class="comment">
 								<div class="profile">
-									<img src="../resources/images/${commentList[num.index].getImageFileName()}" alt="${commentList[num.index].getImageFileName()}" class="profile-image">
+									<img src="../resources/images/profileimages/${commentList[num.index].getImageFileName()}" alt="${commentList[num.index].getImageFileName()}" class="profile-image">
 									<p>${commentList[num.index].getNickname()}</p>
 								</div>
 								

@@ -52,14 +52,13 @@
 		    <div class="my-page">
 	          <div id="profile" class="mp-profile">
 	            <form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
-	                <img src="../resources/images/profile.jpg" alt="">
-	                <!-- <img src="../resources/images/<%= memberImageFileName %>" alt="기본이미지" id="profileImg" > -->
+	                <img src="../resources/images/profileimages/<%= memberImageFileName %>" alt="<%= memberImageFileName %>">
 	                <input type="file" name="profile"> 
-	                </form>
+				</form>
 	            <div class="edit-del"> 
 	                <button class="profileBtn" onclick="profileChange()">수정</button> 
 	                <form method="post" enctype="multipart/form-data" name="/mem/proflieImgRemove" action="/mem/proflieImgRemove">
-	                <button id="removeBtn" name="imgRemoveBtn" onclick="imgdel();"> 삭제 </button>
+	                	<button id="removeBtn" name="imgRemoveBtn" onclick="imgdel();"> 삭제 </button>
 	                </form>
 	            </div>
 	          </div>
@@ -80,7 +79,7 @@
 	            </p>
 	            <p class="nickname">
 	                <label for="">닉네임</label>
-	                <input type="text">
+	                <input type="text" name="memberNickname" id="memberNickname" placeholder="${ memberNickname }">
 	                <button class="nicknameCheckBtn" onclick="nickcheck()">중복 확인</button>
 	                <div id="nicknameCheckMessage"></div>
 	            </p>
