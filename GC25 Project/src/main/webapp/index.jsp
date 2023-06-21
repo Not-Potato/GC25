@@ -125,7 +125,7 @@
 			<ul class="rank review-ranking">
              	<li>리뷰 TOP</li>
 <c:forEach var="ac" items="${ revList }" varStatus="vs" >
-             	<li>
+             	<li onclick="location.href='${contextPath}/academy/map.do?searchValue=${ revList[vs.index].academyName }'">
              		<strong>
 						${ revList[vs.index].academyName }
 					</strong>
@@ -137,7 +137,7 @@
              <ul class="rank score-ranking">
               <li>평점 TOP</li>
 <c:forEach var="ac" items="${ avgList }" varStatus="vs" >
-                 <li>
+                 <li onclick="location.href='${contextPath}/academy/map.do?searchValue=${ avgList[vs.index].academyName }'">
                  	<strong>
 						${ avgList[vs.index].academyName }
 					</strong>
