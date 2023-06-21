@@ -56,6 +56,9 @@ public class AfterwordBoardDTO {
 	private String nickname; // 닉네임
 	private String imageFileName; // 이미지
 	
+	//학원만족도(별점)
+	private double academyAvgScore;// 학원 만족도
+	
 	public AfterwordBoardDTO() {
 		
 	}
@@ -86,6 +89,14 @@ public class AfterwordBoardDTO {
 		this.recommend = 0;
 		this.views = 0;
 		this.commentCount = 0;
+	}
+
+	public double getAcademyAvgScore() {
+		return academyAvgScore;
+	}
+
+	public void setAcademyAvgScore(double academyAvgScore) {
+		this.academyAvgScore = academyAvgScore;
 	}
 
 	public int getBoardNumber() {

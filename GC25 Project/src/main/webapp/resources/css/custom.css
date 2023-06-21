@@ -6,7 +6,22 @@
 .d-none {
 	display: none;
 }
-
+.profile-image {
+	 width:30px; 
+	 heigh:30px; 
+	 border-radius:50%; 
+	 object-fit:cover;
+}
+.profile {
+	display: flex;
+	align-items: center;
+	padding: 20px 0;
+	box-sizing: border-box;
+}
+.profile img {
+	
+	margin-right: 10px;
+}
 /* ---------------- 자연 ---------------- */
 
 /* 자동 완성 리스트 */
@@ -35,6 +50,7 @@
 /* 자동 완성 리스트 in 현재 선택된 검색어 */
 .auto-complete > li {
     padding: 5px 0 5px 15px;
+    box-sizing: border-box;
 }
 
 .auto-complete > li:not(:last-child) {
@@ -77,56 +93,6 @@
 
 /* ---------------- 수현 ---------------- */
 
-/* my page */
-*{
-    margin:0;
-    padding:0;
-    box-sizing: border-box;
-}
-.container {
-	margin:0 auto;
-}
-.mp_h2 {
-	text-align: center;
-	padding:20px;
-	background-color:#00D4EA;
-}
-
-.bodyContainer {
-	display:flex;
-	justify-content: center;
-	margin-top:50px;
-}
-
-
-#profile {
-	display:flex;
-	flex-direction: column;
-	margin-right:40px;
-}
-#profile #profileImg {
-	width:100px;
-	height:100px;
-	border-radius: 50%;
-}
-#profile input {
-	margin-top:20px;
-	width:100px;
-	height:40px;
-}
-#inputBox {
-	width:400px;
-	height:500px;
-	margin-left:20px;
-	  
-}
-#inputBox table input {
-	width:200px;
-	height:50px;
-	margin-bottom :40px;
-	
-}
-
 .alertModal {
 	position : absolute;
 	top:50%;
@@ -140,8 +106,6 @@
 	background-color:white;
 }
 /* ---------------- 형주 ---------------- */
-/* ----- forewordviewer ----- */
-
 
 
 
@@ -161,7 +125,7 @@
     font-size: 16px;
 	color: #373737;
 }
-.inner { margin: auto; padding: 100px 0; }
+.inner { margin: auto; padding: 100px 0; box-sizing: border-box;}
 button {cursor: pointer;}
 input {outline: none; text-indent: 15px;}
 textarea {outline: none; }
@@ -207,6 +171,7 @@ textarea {outline: none; }
   	text-align: left; 
   	font-size:20px;
   	padding:10px;
+  	box-sizing: border-box;
 /*   	text-shadow:2px 2px 2px #ccc; */
 }
 #header .h-banner p span {
@@ -233,6 +198,7 @@ textarea {outline: none; }
     justify-content: space-between;
     align-items: center;
     padding: 0;
+    box-sizing: border-box;
 }
 #header .gnb {
 	width: 350px;
@@ -268,6 +234,7 @@ textarea {outline: none; }
 	border: 1px solid #00D4EA;
     background: #FFF;
     padding-left: 10px;
+    box-sizing: border-box;
 }
 
 #header .search button {
@@ -336,6 +303,7 @@ textarea {outline: none; }
 
 #visual .inner {
 	padding-bottom: 0;
+	box-sizing: border-box;
 }
 /* 비주얼 영역 */
 
@@ -361,6 +329,7 @@ textarea {outline: none; }
     padding-left: 10px;
     box-sizing: border-box;
     color: #FFF;
+    box-sizing: border-box;
 }
 #content .inner .board .board-title h3 {
 	width: 132px;
@@ -428,6 +397,7 @@ textarea {outline: none; }
 	margin: 0;
 	padding: 0;
 	border: none;
+	box-sizing: border-box;
 }
 #content .inner .board ul li .post-stats ul li i {
 	margin-right: 10px;
@@ -464,7 +434,7 @@ aside .rank li {
     font-size: 15px;
     color: #007CFF;
     font-weight: 700;
-    margin: -1px;
+    box-sizing: border-box;
 }
 aside .rank li strong {
 	width: 140px;
@@ -481,7 +451,10 @@ aside .rank li:first-child {
     color: #FFF;
     border-radius: 0.5em 0.5em 0 0;
     justify-content: center;
-    margin: -1px;
+    box-sizing: border-box;
+}
+li {
+	margin: 0;
 }
 aside .rank li:last-child {
     border: none;
@@ -495,6 +468,7 @@ aside .rank li:last-child {
     width: 1400px;
     height: 150px;
     padding-left: 50px;
+    box-sizing: border-box;
 }
 .afterword-page .title {
 	background-image: url("../images/sub-title-afterword.png");
@@ -507,6 +481,7 @@ aside .rank li:last-child {
 	font-weight: 700;
 	padding-top: 40px;
 	color: #FFF;
+	box-sizing: border-box;
 }
 .board-page .title p {
 	font-size: 20px;
@@ -529,6 +504,7 @@ aside .rank li:last-child {
     line-height: 50px;
     font-weight: 700;
     color: #007CFF;
+    box-sizing: border-box;
 }
 .board-page .top-menu button:hover {
 	background: #007CFF;
@@ -582,6 +558,7 @@ aside .rank li:last-child {
     margin-bottom: 50px;
     padding: 30px 50px;
     padding-bottom: 60px;
+    box-sizing: border-box;
 }
 .board-page .board-list > li div {
 	font-size: 28px;
@@ -634,12 +611,14 @@ aside .rank li:last-child {
     height: 150px;
     padding-left: 50px;
     background-image: url("../images/sub-title-map.png");
+    box-sizing: border-box;
 }
 .map-page .title h2 {
 	font-size: 30px;
 	font-weight: 700;
 	padding-top: 40px;
 	color: #FFF;
+	box-sizing: border-box;
 }
 .map-page .title p {
 	font-size: 20px;
@@ -667,6 +646,7 @@ aside .rank li:last-child {
     border-right: none;
     font-size: 18px;
     padding-left: 10px;
+    box-sizing: border-box;
 }
 .map-page .search-of-map form .search-btn {
     width: 100px;
@@ -676,6 +656,7 @@ aside .rank li:last-child {
     border: 1px solid #007CFF;
     color: #007CFF;
     font-size: 18px;
+    box-sizing: border-box;
 }
 .map-page .search-of-map form .search-btn:hover {
     color: #fff;
@@ -739,7 +720,7 @@ aside .rank li:last-child {
 .write-page form .third-line {
 	display: flex;
 	width: 900px;
-	margin-bottom: 30px;
+	margin-bottom: 15px;
 }
 .write-page form .first-line div {
 	width: 50%;
@@ -747,10 +728,11 @@ aside .rank li:last-child {
 }
 .write-page form .first-line select {
 	margin-left: 10px;
-	width: 50%;
-	height: 50px;
+	width: 100%;
+	height: 55px;
 	padding: 0 10px;
 	color: #333;
+	box-sizing: border-box;
 }
 .write-page form .first-line div #academy-name {
 	width: 100%;
@@ -770,6 +752,7 @@ aside .rank li:last-child {
 .write-page textarea {
 	padding: 15px;
 	resize: none;
+	box-sizing: border-box;
 }
 .write-page .btn-group {
 	margin: auto;
@@ -799,7 +782,44 @@ aside .rank li:last-child {
     background-color: #007CFF;
     color: #fff;
 }
-/* ********** 글 쓰기 ********** */
+/* ********** 글 쓰기 - 전체 (상담/수강 공용) ********** */
+.write-page .addition-first-line {
+	display: flex;
+	align-items: center;
+	margin-bottom: 17px;
+}
+.write-page .addition-first-line > input {
+	width: 42%;
+	margin-right: 15px;
+}
+.write-page .addition-first-line .chk-box {
+	display: flex;
+	align-items: center;
+}
+.write-page .addition-first-line .chk {
+	zoom: 1.3;
+}
+.write-page .addition-first-line label {
+	font-size: 18px;
+}
+.write-page .addition-second-line {
+	display: flex;
+	justify-content: space-between;
+	margin: 50px 0 80px 0;
+}
+.write-page .after-form .starBox {
+	display: flex;
+	align-items: center;
+	font-size: 20px;
+}
+.write-page .after-form .starBox label {
+	display: inline-block;
+	margin-right: 5px;
+}
+.write-page .after-form .starBox span {
+	font-size: 30px;	
+}
+/* ********** 글 쓰기 - 수강 ********** */
 .login-page .inner {
 	margin: auto;
 }
@@ -808,12 +828,14 @@ aside .rank li:last-child {
     height: 150px;
     padding-left: 50px;
 	background-image: url("../images/sub-title-login.png");
+	box-sizing: border-box;
 }
 .login-page .title h2 {
 	font-size: 30px;
 	font-weight: 700;
 	padding-top: 60px;
 	color: #FFF;
+	box-sizing: border-box;
 }
 .login-page .login-bg {
 	width: 1400px;
@@ -841,6 +863,7 @@ aside .rank li:last-child {
 	bottom: 8%;
 	left: 50%;
     transform: translate(-50%, 0);
+    box-sizing: border-box;
 }
 .login-page form div {
 	width: 500px;
@@ -880,12 +903,14 @@ aside .rank li:last-child {
     height: 150px;
     padding-left: 50px;
 	background-image: url("../images/sub-title-signup.png");
+	box-sizing: border-box;
 }
 .sign-up-page .title h2 {
 	font-size: 30px;
 	font-weight: 700;
 	padding-top: 60px;
 	color: #FFF;
+	box-sizing: border-box;
 }
 .sign-up-page form {
 	width: 950px;
@@ -898,6 +923,7 @@ aside .rank li:last-child {
 	font-size: 18px;
 	border-top: 1px solid #818181;
 	padding-top: 40px;
+	box-sizing: border-box;
 }
 .sign-up-page form div:first-child {
 	border-top: none;
@@ -906,6 +932,7 @@ aside .rank li:last-child {
 	margin: auto;
 	text-align: center;
 	padding-top: 60px;
+	box-sizing: border-box;
 }
 .sign-up-page form div label {
 	display: inline-block;
@@ -968,40 +995,53 @@ aside .rank li:last-child {
 .view-page button {
 	height: 50px;
 	width: 100px;
+	border-radius: 0.5em;
+	font-size: 18px;
+}
+.view-page button.use-btn {
+	color: #007cff;
+	border: 1px solid #007cff;
+}
+.view-page button.use-btn:hover {
+	color: #fff;
+	background-color: #007cff;
+}
+.view-page .con .btn-group {
+	display: flex;
+	justify-content: space-between;
 }
 .view-page button.none {
 	border: 1px solid #8C8C8C;
     color: #8C8C8C;
     cursor: not-allowed;
 }
-.view-page .con .btn-group {
-	display: flex;
-	justify-content: space-between;
-}
 .view-page .post {
 	width: 100%;
 	border: 1px solid #007cff;
 	margin-top: 50px;
 	padding: 100px;
+	box-sizing: border-box;
 }
 .view-page .post .info {
 	border-bottom: 1px solid #007cff;
 	padding: 50px 50px 20px 50px;
+	box-sizing: border-box;
 }
 .view-page .post .info h4 {
 	font-size: 30px;
 	font-weight: 700;
 }
-.view-page .post .info .profile {
-	display: flex;
-	align-items: center;
-	padding: 20px 0;
-	font-size: 20px;
-}
 .view-page .post .info .profile p {
-	margin-left: 10px;
+	font-size: 20px;
+	margin-right: 5px;
 }
-.view-page .post .info div:last-child {
+.view-page .post .info .tc-left .profile p:after {
+	content: "  | ";
+}
+.view-page .post .info .tc-left .profile p:last-child:after {
+	content: "";
+}
+.view-page .post .info .review-item {
 	display: flex;
 	justify-content: space-between;
 }
@@ -1022,6 +1062,8 @@ aside .rank li:last-child {
 }
 .view-page .post .text {
 	padding: 50px;
+	margin-bottom: 400px;
+	box-sizing: border-box;
 }
 .view-page .post .like {
 	width: 200px;
@@ -1030,6 +1072,7 @@ aside .rank li:last-child {
 	margin-top: 100px;
 	padding-top: 50px;
 	border-top: 1px solid #007cff;
+	box-sizing: border-box;
 }
 .view-page .post .like i {
 	font-size: 50px;
@@ -1040,6 +1083,7 @@ aside .rank li:last-child {
 	margin-top: 100px; 
 	border: 1px solid #007cff;
 	font-size: 20px;
+	box-sizing: border-box;
 }
 .view-page .post .academy-info .starBox {
 	display: flex;
@@ -1048,31 +1092,149 @@ aside .rank li:last-child {
 .view-page .post .academy-info .starBox p {
 	margin-right: 10px;
 }
-.view-page .post .comment-write {
+.view-page .post .comment-group {
 	margin-top: 100px;
 	border: 1px solid #007cff;
 }
-.view-page .post .comment-write em {
+.view-page .post .comment-group em {
 	/* 댓글 창 위로 정렬 */
+	margin: auto;
+	width: 100px;
+	display: block;
+	color: #007cff;
+	font-size: 40px;
+	display: flex;
+	align-items: center;
+	margin-top: 50px;
 }
-.view-page .post .comment-write form {
+.view-page .post .comment-group form {
 	display: flex;
 	justify-content: center;
-	padding: 50px 0;
+	padding: 10px 0 30px 0;
+	box-sizing: border-box;
 }
-.view-page .post .comment-write form textarea {
+.view-page .post .comment-group form textarea {
 	width: 800px;
 	height: 100px;
 	font-size: 18px;
 	border: 1px solid #007cff;
+	border-radius: 1em 0 0 1em;
 	border-right: none;
 	resize: none;
+	padding: 15px 15px;
+	box-sizing: border-box;
 }
-.view-page .post .comment-write form button {
+.view-page .post .comment-group form button {
 	height: 100px;
 	border-radius: 0 1em 1em 0;
 	border: 1px solid #007cff;
 	color: #007cff;
 	font-size: 18px;
 }
+.view-page .post .comment-group form button:hover {
+	color: #fff;
+	background-color: #007cff;
+}
+.view-page .post .comment-group .comments {
+	margin-bottom: 40px;
+}
+.view-page .post .comment-group .comments .comment {
+	border-bottom: 1px solid #007cff;
+	width: 900px;
+	margin: auto;
+	padding-bottom: 20px;
+	box-sizing: border-box;
+}
+.view-page .post .comment-group .comments .comment .comment-text {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.view-page .post .comment-group .comments .comment .comment-text p:first-child {
+	font-size: 20px;
+	width: 700px;
+}
+.view-page .post .comment-group .comments .comment:last-child {
+	border-bottom: none;
+}
+.view-page .i-bottom {
+	display: flex;
+	justify-content: space-between;
+}
+.view-page .score-to-star {
+	display: flex;
+	align-items: center;
+	font-size: 15px;
+}
+.view-page .score-to-star p {
+	width: 150px;
+	text-align: right;
+}
+.view-page .score-to-star p:after {
+	content: " | ";
+	margin-left: 10px;
+	color: #ededed;
+}
+.view-page .score-to-star .starBox {
+	margin-left: 10px;
+}
+.view-page .score-to-star span {
+	font-size: 15px;
+}
+.view-page .top-con {
+	display: flex;
+	justify-content: space-between;
+}
 /* ********** 상담후기 작성 페이지 ********** */
+.my-page {
+    width: 1200px;
+    display: flex;
+    margin: auto;
+    justify-content: space-between;
+    background: pink;
+    align-items: center;
+}
+.my-page button {
+    width: 100px; height: 50px;
+    border: none;
+    background: #007CFF;
+    font-size: 18px;
+    color: #FFF;
+    border-radius: 15px;
+}
+.my-page .mp-profile img {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.my-page .mp-profile form {
+    margin-bottom: 50px;
+    display: flex;
+    align-items: center;
+}
+.my-page .mp-profile .edit-del {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+}
+.my-page .input-box p {
+    width: 500px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 30px 0;
+}
+.my-page .input-box p input {
+    width: 300px;
+    border: none;
+    height: 40px;
+    text-indent: 10px;
+    font-size: 18px;
+}
+.my-page .input-box .nickname button {
+    width: 100px; height: 40px;
+    background: #ededed;
+    color: #999;
+    border-radius: 0;
+}
+/* ********** 마이 페이지 ********** */

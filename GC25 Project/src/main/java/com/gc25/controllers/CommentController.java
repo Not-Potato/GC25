@@ -1,6 +1,7 @@
 package com.gc25.controllers;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
@@ -74,7 +75,17 @@ public class CommentController extends HttpServlet {
 				
 					commentService.abAddComment(aBoardNum, fBoardNum, memberNum, commentContents);
 					
-					nextPage = "/afterword/viewer.do";
+//					nextPage = "/afterword/viewer.do";
+					
+					PrintWriter out = response.getWriter();
+					// forward 시 주소가 그대로 유지됨(/abCommentRegister.do)
+					// 그 상태에서 f5(새로고침) --> 댓글 중복으로 작성됨
+					// 얼럿 창 띄우면서 확인 누르면 기존 페이지로 이동하게끔 처리
+					out.print("<script>");
+					out.print("alert(\"댓글 작성이 완료되었습니다!\");");
+					out.print("document.location.href = \"/afterword/viewer.do?boardNum=" + aBoardNum + "\";");
+					out.print("</script>");
+					
 				}
 				//상담후기 댓글 등록
 				case "/fbCommentRegister.do" -> {
@@ -100,7 +111,16 @@ public class CommentController extends HttpServlet {
 				
 					commentService.fbAddComment(aBoardNum, fBoardNum, memberNum, commentContents);
 					
-					nextPage = "/foreword/viewer.do";
+					//nextPage = "/foreword/viewer.do";
+					
+					PrintWriter out = response.getWriter();
+					// forward 시 주소가 그대로 유지됨(/fbCommentRegister.do)
+					// 그 상태에서 f5(새로고침) --> 댓글 중복으로 작성됨
+					// 얼럿 창 띄우면서 확인 누르면 기존 페이지로 이동하게끔 처리
+					out.print("<script>");
+					out.print("alert(\"댓글 작성이 완료되었습니다!\");");
+					out.print("document.location.href = \"/foreword/viewer.do?boardNum=" + fBoardNum + "\";");
+					out.print("</script>");
 				}
 			}//end of switch
 			

@@ -105,8 +105,6 @@ public class ForewordController extends HttpServlet {
 			case "/upload.do" -> {
 				System.out.println("포스팅 발행!!!!");
 			
-				
-			
 				// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 				// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 				// 학원번호, 학원이름, 과정구분, 제목, 내용
@@ -126,12 +124,10 @@ public class ForewordController extends HttpServlet {
 				// forward 시 주소가 그대로 유지됨(upload.do)
 				// 그 상태에서 f5(새로고침) --> 글 중복으로 작성됨
 				// 얼럿 창 띄우면서 확인 누르면 기본 페이지로 이동하게끔 처리
-				out.print("""
-						<script>
-							alert("게시글 작성 성공!");
-							document.location.href = "%s/foreword";
-						</script>
-						""".formatted(request.getContextPath()));
+				out.print("<script>");
+				out.print("alert(\"게시글 작성이 완료되었습니다!\");");
+				out.print("document.location.href = \"/foreword\";");
+				out.print("</script>");
 			}
 			// 게시글 상세보기
 			case "/viewer.do" -> {
