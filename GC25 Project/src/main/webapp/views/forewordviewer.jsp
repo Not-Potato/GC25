@@ -52,12 +52,12 @@
 			
 			<div class="con">
 				<div class="btn-group">
-					<button type="button" class="btn" onclick=" location.href='${contextPath}/foreword/board.do?boardNum=${forewordBoardDTO.getBoardNumber()}' ">목록</button>
+					<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/foreword/board.do?boardNum=${forewordBoardDTO.getBoardNumber()}' ">목록</button>
 					
 					<div class="">
 <% if (mine) { %>
-						<button type="button" class="btn" onclick=" location.href='${contextPath}/foreword/modify.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">수정</button>
-						<button type="button" class="btn" onclick=" location.href='${contextPath}/foreword/delete.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">삭제</button>
+						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/foreword/modify.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">수정</button>
+						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/foreword/delete.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">삭제</button>
 <% } else {%>
 						<button type="button" class="btn none">수정</button>				
 						<button type="button" class="btn none">삭제</button>				
@@ -70,13 +70,13 @@
 						<h4>${forewordBoardDTO.getTitle()}</h4>
 						
 						<div class="profile">
-							<img src="../resources/images/${forewordBoardDTO.getImageFileName()}" alt="${forewordBoardDTO.getImageFileName()}" style="width:30px; heigh:30px; border-radius:50%; object-fit:cover;">
+							<img class="profile-image" src="../resources/images/${forewordBoardDTO.getImageFileName()}" alt="${forewordBoardDTO.getImageFileName()}">
 							<p>${forewordBoardDTO.getNickname()}</p>
 						</div>
 						
 						<div id="writeDateValue" class="d-none"> ${forewordBoardDTO.getWriteDate()}</div>
 						
-						<div>
+						<div class="review-item">
 							<div class="i-left">
 								<em><i class="xi-maker"></i>${forewordBoardDTO.getAcademyName()}</em>
 								<em>${forewordBoardDTO.getCourse()}</em>
@@ -113,22 +113,31 @@
 						</div>
 					</div>
 					
-					<div class="comment-write">
+					<div class="comment-group">
 						<em><i class="xi-comment"></i> ${forewordBoardDTO.getCommentCount()}</em>
 						<form id= "commetForm" action="${contextPath}/comment/fbCommentRegister.do?boardNum=${forewordBoardDTO.getBoardNumber()}" method="post"> 
 							<textarea class="" id= "commentContents"  name="commentContents" rows="5" placeholder="댓글을 입력해주세요" maxlength="999" oninput="limitMaxLength(this);" name="contents" style="overflow-y: auto;"></textarea>
 							<button type="submit" class="btn">등록</button>                       	
 						</form>
+						
+						<div class="comments">
+<c:forEach var="c" items="${commentList}" varStatus="num" >
+							<div class="comment">
+								<div class="profile">
+									<img src="../resources/images/${commentList[num.index].getImageFileName()}" alt="${commentList[num.index].getImageFileName()}" class="profile-image">
+									<p>${commentList[num.index].getNickname()}</p>
+								</div>
+								
+								<div class="comment-text">
+									<p>${commentList[num.index].getCommentContents()}</p>
+									<p>${commentList[num.index].getCommentDate()}</p>
+								</div>
+							</div>
+</c:forEach>
+						</div>
 					</div>
 				</div>
 				
-				<div class="comments">
-<c:forEach var="c" items="${commentList}" varStatus="afterNum" >
-					<p>댓글 작성사 이미지: <img src="../resources/images/${commentList[afterNum.index].getImageFileName()}" alt= "${commentList[afterNum.index].getImageFileName()}" id=" ${commentList[afterNum.index].getImageFileName()}" style="width:30px; heigh:30px; border-radius:50%; object-fit:cover;">
-					<p>댓글 작성자 닉네임: <span>${commentList[afterNum.index].getNickname()}</span></p>
-					<p>댓글 리스트 ${commentList[afterNum.index].getCommentContents()} </p>
-</c:forEach>
-				</div>
 			</div>
 		</div>
 	</div>

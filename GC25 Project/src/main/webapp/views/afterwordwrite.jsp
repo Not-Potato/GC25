@@ -14,7 +14,7 @@
 	if (memberNumberObj == null) {
 		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
         out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");
-	}else {
+	}
 %>
 
 <!DOCTYPE html>
@@ -30,150 +30,125 @@
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
-	<div id="wrap" class="w-100">
+	<div id="wrap">
     	<jsp:include page="./common/header.jsp"></jsp:include>
         <!-- header include 영역 -->
 
-        <section id="" class="mt-5">
-            <div class="inner m-auto">
-                <h2 class="text-center p-4 bg-light border rounded-pill mb-4 m-auto text-primary w-800">수강 후기 작성</h2>
-            </div>
-        </section>
-
-        <main id="container" class="main">
-            <section id="content">
-                <div class="inner m-auto">
-                	<!-- onsubmit enter로 submit 되는 것 방지하는 옵션 -->
-                    <form class="row g-3 m-auto w-800" name="posting-form" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/upload.do">
-
-						<!-- 학원 이름 입력 창 -->
-                        <div class="col-md-6">
-							<input type="text" id="academyName"
-								class="form-control" autocomplete="off" name="academyName" placeholder="학원 명" >
-							<input type="hidden" name="academyNum" id="academyNum" class="" value="">
-							<div class="searchList">
-								<div class="d-none col-md-12" id="none">
+		<div class="board-page foreword-page write-page foreword-write-page">
+			<div class="inner">
+				<div class="title">
+					<h2>수강 후기 작성</h2>
+					<p>설명설명설명</p>				
+				</div>
+				
+				<form class="after-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/upload.do">
+					<!-- 첫 번째 줄 (학원 명 / 과정 구분) -->
+					<div class="first-line">
+						<div>
+							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName">
+							<input type="hidden" name="academyNum" id="academyNum" value="">
+							<div class="search-list">
+								<ul class="d-none" id="none">
 									<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
-								</div>
+								</ul>
 							</div>
 						</div>
-
-                        <!-- 과정 구분 -->
-                        <div class="col-md-6">
-                            <select class="form-select" id="course" name="course">
-                            	<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
-                                <option disabled selected value="">----- 과정 구분 -----</option>
-                                <option value="프론트엔드">프론트엔드</option>
-                                <option value="백엔드">백엔드</option>
-                                <option value="풀스택">풀스택</option>
-                            </select>
-                        </div>
-                        
-                        <!-- 강사 명 -->
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" id="teacher" placeholder="강사 명" 
-                            maxlength="10" oninput="limitMaxLength(this);" name="teacher">
-                        </div>
-                        
-                        <!-- 개강 ~ 종강 -->
-						<div class="col-md-4">
-							<input class="col-md-12 form-control" type="text" id="openToEnd" name="openToEnd" value="" />
+						<div class="course-dropdown">
+						   <select class="box form-select" id="course" name="course">
+								<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
+								<option disabled selected value="">----- 과정 구분 -----</option>
+								<option value="프론트엔드">프론트엔드</option>
+								<option value="백엔드">백엔드</option>
+								<option value="풀스택">풀스택</option>
+							</select>
 						</div>
-						
-                        <!-- 전공/비전공 여부 -->
-                        <div class="col-md-2 mt-4 pt-2">
-							<div class="form-check form-switch">
-								<div>
-								<input class="form-check-input" type="checkbox" role="switch" id="major" name="major" value="비전공">
-								<label class="form-check-label" id="majorLabel" for="major">비전공</label>
-								</div>
+					</div>
+					
+					<!-- 두 번째 줄(강사명 / 개강~종강 / 전공·비전공여부 / 유·무상 여부)  -->
+					<div class="addition-first-line">
+						<input class="box" type="text" id="teacher" placeholder="강사 명"maxlength="10" oninput="limitMaxLength(this);" name="teacher">
+                        <input class="box" type="text" id="openToEnd" autocomplete="off" name="openToEnd" value="" />
+                        <div>
+							<div class="chk-box">
+								<input class="chk" type="checkbox" role="switch" id="major" name="major" value="비전공">
+								<label id="majorLabel" for="major">비전공</label>
+							</div>
+							<div class="chk-box">
+								<input class="chk" type="checkbox" role="switch" id="cost" name="cost" value="무상">
+								<label id="costLabel" for="cost">무상</label>
 							</div>
 						</div>
-
-                        <!-- 유/무상 여부 -->
-                        <div class="col-md-2 mt-4 pt-2">
-							<div class="form-check form-switch">
-								<input class="form-check-input" type="checkbox" role="switch" id="cost" name="cost" value="무상">
-								<label class="form-check-label" id="costLabel" for="cost">무상</label>
-							</div>
-						</div>
-						
+					</div>
+					
+					<!-- 제목 -->
+					<div class="second-line">
+						<input type="text" class="input-title box" id="title" placeholder="제목" maxlength="30" oninput="limitMaxLength(this);" name="title">
+					</div>
+					
+					<!-- 내용 -->
+					<div class="third-line">
+						<textarea id="contents" class="input-contents" rows="15" placeholder="내용" maxlength="1500" oninput="limitMaxLength(this);" name="contents"></textarea>
+					</div>
+					
+					<!-- 점수 4개 -->
+					<div class="addition-second-line">
 						<!-- 전체 만족도 -->
-						<div class="starBox col-3">
+						<div class="starBox">
 							<label>전체</label><br>
 							<span class="emptyStar" id="score1">
 								★★★★★
 								<span class="fillStar">★★★★★</span>
-								<input type="range" value="0" step="1" min="0" max="10"
-								id="totalScore" name="totalScore">
+								<input type="range" value="0" step="1" min="0" max="10" id="totalScore" name="totalScore">
 							</span>
 						</div>
 
 						<!-- 강사 만족도 -->
-						<div class="starBox col-3">
+						<div class="starBox">
 							<label>강사</label>
 							<span class="emptyStar" id="score2">
 								★★★★★
 								<span class="fillStar">★★★★★</span>
-								<input type="range" value="0" step="1" min="0" max="10"
-								id="teacherScore" name="teacherScore">
+								<input type="range" value="0" step="1" min="0" max="10" id="teacherScore" name="teacherScore">
 							</span>
 						</div>
 
 						<!-- 학원 시설 만족도 -->
-						<div class="starBox col-3">
+						<div class="starBox">
 							<label>학원 시설</label>
 							<span class="emptyStar" id="score3">
 								★★★★★
 								<span class="fillStar">★★★★★</span>
-								<input type="range" value="0" step="1" min="0" max="10"
-								id="facScore" name="facScore">
+								<input type="range" value="0" step="1" min="0" max="10" id="facScore" name="facScore">
 							</span>
 						</div>
 
+
 						<!-- 커리큘럼 만족도 -->
-						<div class="starBox col-3">
+						<div class="starBox">
 							<label>커리큘럼</label>
 							<span class="emptyStar" id="score4">
 								★★★★★
 								<span class="fillStar">★★★★★</span>
-								<input type="range" value="0" step="1" min="0" max="10"
-								id="curriScore" name="curriScore">
+								<input type="range" value="0" step="1" min="0" max="10" id="curriScore" name="curriScore">
 							</span>
 						</div>
-
-                        <!-- 제목 -->
-                        <div class="col-12">
-                            <input type="text" class="form-control" id="title" placeholder="제목" 
-                            maxlength="30" oninput="limitMaxLength(this);" name="title">
-                        </div>
-
-                        <!-- 내용 -->
-                        <div class="col-12">
-                            <textarea class="form-control" id="contents" rows="15" placeholder="내용" 
-                            maxlength="1500" oninput="limitMaxLength(this);" name="contents"></textarea>
-                        </div>
-
-                        <!-- 버튼 -->
-                        <div class="d-flex justify-content-center">
-                            <button type="reset" class="btn btn-outline-primary me-2">취소</button>
-                            <button type="submit" class="btn btn-primary ms-2">작성</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-        </main>
-        <!-- main -->
+					</div>
+					
+					<!-- 버튼 -->
+					<div class="btn-group">
+						<button type="reset" class="box">취소</button>
+						<button type="submit" class="box">작성</button>
+					</div>
+				</form>
+			</div>
+		</div>
 
 		<!-- footer include 영역 -->
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
+	
+	
     
-<% } %>
-		
-    <script src="../resources/js/bootstrap.min.js"></script>
-	<!-- <script src="../resources/js/popper.js"></script> -->
-	<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -186,7 +161,7 @@
 		
 		function posting() {	
 		    // 사용자 입력 값 받아오기
-		    let academyName = $("#academyName").val();
+		    let academyName = $("#academy-name").val();
 		    let course = $("#course").val();
 		    let title = $("#title").val();
 		    let contents = $("#contents").val();
@@ -199,6 +174,7 @@
 		    let facScore = $("#facScore").val();
 		    let curriScore = $("#curriScore").val();
 		    
+		    console.log("학원 이름: " + academyName);
 		    console.log("강사 이름: " + teacher);
 		    console.log("전공/비전공: " + major);
 		    console.log("유/무상: " + cost);
@@ -241,7 +217,7 @@
 		            } else {
 		                console.log('글 작성 진행');
 		                num.value = result;
-		                document.postingForm.submit();
+		                document.posting_form.submit();
 		            }
 		        },
 	
@@ -263,7 +239,7 @@
 		};
 		
 		// enter key 입력 --> form 제출 X
-		document.postingForm.addEventListener("keydown", evt => {
+		document.posting_form.addEventListener("keydown", evt => {
 			if (evt.code === "Enter") evt.preventDefault();
 		});
 		

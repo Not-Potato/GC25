@@ -42,9 +42,9 @@ public class ForewordBoardDAO {
 			if (searchType.equals("최신순")) {
 				// 글 번호, 글 제목, 글 내용, 작성시간, 좋아요, 조회수, 댓글수
 				query = """
-						SELECT fb_number, fb_title, fb_contents, a_name, fb_date, fb_recommend, fb_views, fb_commentcount 
-						FROM (SELECT * FROM GC25_FOREWORD_BOARD ORDER BY fb_date DESC) 
-						OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
+					SELECT fb_number, fb_title, fb_contents, a_name, fb_date, fb_recommend, fb_views, fb_commentcount 
+					FROM (SELECT * FROM GC25_FOREWORD_BOARD ORDER BY fb_date DESC) 
+					OFFSET ? ROWS FETCH NEXT 10 ROWS ONLY
 				""";
 			} else if (searchType.equals("추천순")) {
 				query = """

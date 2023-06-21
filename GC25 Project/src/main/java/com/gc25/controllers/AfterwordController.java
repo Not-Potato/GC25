@@ -142,12 +142,10 @@ public class AfterwordController extends HttpServlet {
 					// forward 시 주소가 그대로 유지됨(upload.do) 
 					// 그 상태에서 f5(새로고침) --> 글 중복으로 작성됨
 					// 얼럿 창 띄우면서 확인 누르면 기본 페이지로 이동하게끔 처리
-					out.print("""
-							<script>
-								alert("게시글 작성 성공!");
-								document.location.href = "%s/afterword";
-							</script>
-							""".formatted(request.getContextPath()) );
+					out.print("<script>");
+					out.print("alert(\"게시글 작성이 완료되었습니다!\");");
+					out.print("document.location.href = \"/afterword\";");
+					out.print("</script>");
 				}
 				
 				//게시글 상세보기	

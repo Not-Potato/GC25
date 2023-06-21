@@ -27,7 +27,6 @@ public class CommentService {
 	}
 	
 	public void fbAddComment(int aBoardNum, int fBoardNum, int memberNum, String commentContents) {
-		System.out.println("commnet서비스 확인용 출력입니다.");
 		commentDAO.fbAddComment(aBoardNum, fBoardNum, memberNum, commentContents);
 	}
 	
