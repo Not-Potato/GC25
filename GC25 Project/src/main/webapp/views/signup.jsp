@@ -215,14 +215,10 @@
 					  	alert ("인증메일이 발송되었습니다.");
 					  	console.log(result);
 					  
-					} else if (result==0){
+					} else{
 					  alert("이메일 중복확인을 해 주세요.");
 					  console.log(result);
-					  
-					} else if (result==-1) {
-						alert("이미 가입된 이메일입니다.");
-						console.log(result);
-					}
+					} 
 				},
 				error : function(result)  {
 					alert("오류가 발생했습니다.");

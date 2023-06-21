@@ -55,7 +55,7 @@
                         
 						<ul>
 <c:forEach var="fb" items="${ fList }" varStatus="vs" begin="0" end="4" step="1">
-							<li onclick="location.href='${contextPath}/foreword/viewer.do?boardNum=${ fList[vs.index].boardNumber }'">
+							<li class="list-click" onclick="location.href='${contextPath}/foreword/viewer.do?boardNum=${ fList[vs.index].boardNumber }'">
 								<div>
 									<em>${ fList[vs.index].writeDate }</em>
 									<strong>${ fList[vs.index].title }</strong>
@@ -90,7 +90,7 @@
                         
 						<ul>
 <c:forEach var="ab" items="${ aList }" varStatus="vs" begin="0" end="4" step="1">
-							<li onclick="location.href='${contextPath}/afterword/viewer.do?boardNum=${ aList[vs.index].boardNumber }'">
+							<li class="list-click" onclick="location.href='${contextPath}/afterword/viewer.do?boardNum=${ aList[vs.index].boardNumber }'">
 								<div>
 									<em>${ aList[vs.index].writeDate }</em>
 									<strong>${ aList[vs.index].title }</strong>
@@ -125,7 +125,7 @@
 			<ul class="rank review-ranking">
              	<li>리뷰 TOP</li>
 <c:forEach var="ac" items="${ revList }" varStatus="vs" >
-             	<li onclick="location.href='${contextPath}/academy/map.do?searchValue=${ revList[vs.index].academyName }'">
+             	<li class="aside-click" onclick="location.href='${contextPath}/academy/map.do?searchValue=${ revList[vs.index].academyName }'">
              		<strong>
 						${ revList[vs.index].academyName }
 					</strong>
@@ -137,7 +137,7 @@
              <ul class="rank score-ranking">
               <li>평점 TOP</li>
 <c:forEach var="ac" items="${ avgList }" varStatus="vs" >
-                 <li onclick="location.href='${contextPath}/academy/map.do?searchValue=${ avgList[vs.index].academyName }'">
+                 <li class="aside-click" onclick="location.href='${contextPath}/academy/map.do?searchValue=${ avgList[vs.index].academyName }'">
                  	<strong>
 						${ avgList[vs.index].academyName }
 					</strong>
