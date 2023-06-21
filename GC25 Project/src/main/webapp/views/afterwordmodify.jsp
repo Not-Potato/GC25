@@ -29,7 +29,7 @@ request.setAttribute("pageName", "afterword");
 	<meta charset="UTF-8">
 	<title>GC25 | Afterword Write Page</title>
 	<link href="../resources/css/custom.css" rel="stylesheet">
-	<link href="../resources/css/bootstrap.min.css" rel="stylesheet">
+
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
@@ -75,8 +75,8 @@ request.setAttribute("pageName", "afterword");
                         </div>
                         
                         <!-- 개강 ~ 종강 -->
-						<div class="col-md-4">
-							<input class="col-md-12 form-control" type="text" id="openToEnd" name="openToEnd" value="" />
+						<div class="">
+							<input class="" type="text" id="openToEnd" name="openToEnd" value="" />
 						</div>
 						
 						
@@ -181,8 +181,6 @@ request.setAttribute("pageName", "afterword");
 		
    
    
-    <script src="../resources/js/bootstrap.min.js"></script>
-	<!-- <script src="../resources/js/popper.js"></script> -->
 	<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>

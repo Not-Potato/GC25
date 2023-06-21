@@ -1,6 +1,8 @@
 package com.gc25.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class CommentDTO {
 	
@@ -9,7 +11,7 @@ public class CommentDTO {
 	private int fBoardNumber; //상담후기 글 번호
 	private int memberNumber; //회원 번호
 	private String commentContents; //댓글내용
-	private Date commentDate; //작성일자
+	private String commentDate; //작성일자
 	
 	// 사용자 정보 가져오기 위한 추가 항목
 	private String nickname; // 닉네임
@@ -19,14 +21,14 @@ public class CommentDTO {
 	}
 
 	public CommentDTO(int commentNumber, int aBoardNumber, int fBoardNumber, int memberNumber, String commentContents,
-			Date commentDate, String nickname, String imageFileName) {
+			Timestamp d, String nickname, String imageFileName) {
 		super();
 		this.commentNumber = commentNumber;
 		this.aBoardNumber = aBoardNumber;
 		this.fBoardNumber = fBoardNumber;
 		this.memberNumber = memberNumber;
 		this.commentContents = commentContents;
-		this.commentDate = commentDate;
+		this.setCommentDate(d);;
 		this.nickname = nickname;
 		this.imageFileName = imageFileName;
 	}
@@ -71,14 +73,18 @@ public class CommentDTO {
 		this.commentContents = commentContents;
 	}
 
-	public Date getCommentDate() {
+	public String getCommentDate() {
 		return commentDate;
 	}
-
-	public void setCommentDate(Date commentDate) {
-		this.commentDate = commentDate;
+	
+	public void setCommentDate(Timestamp d) {
+		Date date = new Date(d.getTime());
+	    
+	    // 날짜 형식을 원하는 형식으로 포맷팅
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+		this.commentDate = sdf.format(date);
 	}
-
 	
 	//DB 조회용
 	
@@ -98,7 +104,10 @@ public class CommentDTO {
 		this.imageFileName = imageFileName;
 	}
 
-	
-	
-
+	@Override
+	public String toString() {
+		return "CommentDTO [commentNumber=" + commentNumber + ", aBoardNumber=" + aBoardNumber + ", fBoardNumber="
+				+ fBoardNumber + ", memberNumber=" + memberNumber + ", commentContents=" + commentContents
+				+ ", commentDate=" + commentDate + ", nickname=" + nickname + ", imageFileName=" + imageFileName + "]";
+	}
 }

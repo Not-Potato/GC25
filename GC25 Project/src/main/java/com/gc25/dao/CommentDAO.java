@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.naming.Context;
@@ -126,7 +127,7 @@ public class CommentDAO {
 
 	//댓글 수강후기게시판 댓글가져오기(id 매개변수 활용)  
 	public ArrayList<CommentDTO> getAfterwordComment(int boardNum) {
-		ArrayList<CommentDTO> commentList = new ArrayList(); 
+		ArrayList<CommentDTO> commentList = new ArrayList<>(); 
 		
 		try {
 			con = ds.getConnection(); 
@@ -150,7 +151,8 @@ public class CommentDAO {
 			int fBoardNumber = rs.getInt("fb_number");
 			int memberNumber = rs.getInt("m_number");
 			String commentContents = rs.getString("c_contents");
-			Date commentDate = rs.getDate("c_date");
+//			Date commentDate = rs.getDate("c_date");
+			Timestamp commentDate = rs.getTimestamp("c_date");
 			
 			String nickname = rs.getString("nickname");
 			String imageFileName = rs.getString("image");
@@ -164,6 +166,7 @@ public class CommentDAO {
 			comment.setMemberNumber(memberNumber);
 			comment.setCommentContents(commentContents);
 			comment.setCommentDate(commentDate);
+			
 			
 			comment.setNickname(nickname);
 			comment.setImageFileName(imageFileName);
@@ -185,7 +188,7 @@ public class CommentDAO {
 
 	//댓글 상담후기게시판 댓글가져오기(id 매개변수 활용)  
 	public ArrayList<CommentDTO> getForewordComment(int boardNum) {
-		ArrayList<CommentDTO> commentList = new ArrayList(); 
+		ArrayList<CommentDTO> commentList = new ArrayList<>(); 
 		
 		try {
 			con = ds.getConnection(); 
@@ -208,7 +211,8 @@ public class CommentDAO {
 			int fBoardNumber = rs.getInt("fb_number");
 			int memberNumber = rs.getInt("m_number");
 			String commentContents = rs.getString("c_contents");
-			Date commentDate = rs.getDate("c_date");
+//			Date commentDate = rs.getDate("c_date");
+			Timestamp commentDate = rs.getTimestamp("c_date");
 			
 			String nickname = rs.getString("nickname");
 			String imageFileName = rs.getString("image");

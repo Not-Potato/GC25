@@ -15,7 +15,7 @@
 	if (memberNumberObj == null) {
 		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
         out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");
-	}else {
+	}
 %>
 
 <!DOCTYPE html>
@@ -42,6 +42,7 @@
 				</div>
 				
 				<form class="foreword-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/upload.do">
+					<!-- 첫 번째 줄 (학원 명 / 과정 구분) -->
 					<div class="first-line">
 						<div>
 							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName">
@@ -88,9 +89,6 @@
 		<!-- footer include 영역 -->
         <jsp:include page="./common/footer.jsp"></jsp:include>
     </div>
-    
-    
-<% } %>
 
 	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script src="../resources/js/academynameinput.js"></script>

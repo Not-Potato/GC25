@@ -54,7 +54,17 @@ public class AfterwordViewerDAO {
 		 try {
 			 
 			
-				String query = "SELECT * FROM GC25_AFTERWORD_BOARD WHERE ab_number = ?";
+//				String query = "SELECT * FROM GC25_AFTERWORD_BOARD WHERE ab_number = ?";
+				String query = """
+							SELECT f.ab_number, f.M_NUMBER, f.a_number, f.a_name, f.ab_COURSE ,f.ab_DATE, f.ab_teacher, f.ab_totalscore, f.ab_open, f.ab_end, 
+							f.ab_major, f.ab_cost, f.ab_teacherscore, f.ab_facilityscore, f.ab_curriculumscore, f.ab_TITLE, f.ab_CONTENTS, 
+							f.ab_RECOMMEND, f.ab_views, f.ab_commentcount, m.m_nickname AS nickname, m.m_imagefilename AS image, a.a_avgscore AS avgscore 
+							FROM GC25_AFTERWORD_BOARD f
+							JOIN GC25_MEMBER m ON f.m_number = m.m_number
+							JOIN GC25_academy a ON f.a_number = a.a_number
+							WHERE f.ab_number = ?
+						""";
+				
 				pstmt = con.prepareStatement(query);
 				pstmt.setInt(1, boardNum);
 				ResultSet rs = pstmt.executeQuery();
@@ -82,12 +92,16 @@ public class AfterwordViewerDAO {
 					int views = rs.getInt("ab_views");
 					int commentCount = rs.getInt("ab_commentcount");
 					
-	
+					String nickname = rs.getString("nickname");
+					String imageFileName = rs.getString("image");
+					double academyAvgScore = rs.getDouble("avgscore");
+					
 					// 
 					a.setBoardNumber(boardNumber);
 					a.setMemberNumber(memberNumber);
 					a.setAcademyNumber(academyNumber);
 					a.setAcademyName(academyName);
+					a.setCourse(afterBoardCourse);
 					a.setWriteDate(writeDate);
 					a.setTeacherName(afterBoardTeacher);
 					a.setTotalScore(afterwordBoardTotalScore);
@@ -104,6 +118,10 @@ public class AfterwordViewerDAO {
 					a.setRecommend(recommend);
 					a.setViews(views);
 					a.setCommentCount(commentCount);
+					
+					a.setNickname(nickname);
+					a.setImageFileName(imageFileName);
+					a.setAcademyAvgScore(academyAvgScore);
 
 				}
 			
