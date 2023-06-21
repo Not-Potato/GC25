@@ -249,7 +249,7 @@ public class AfterwordController extends HttpServlet {
 					out.print("""
 							<script>
 								alert("게시글 수정 성공!");
-								document.location.href = "%s/foreword";
+								document.location.href = "%s/afterword";
 							</script>
 							""".formatted(request.getContextPath()));
 

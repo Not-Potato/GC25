@@ -173,7 +173,7 @@
 							<p>학원 평점 : ${afterwordBoardDTO.getAcademyAvgScore()} </p>
 							<span class="emptyStar">
 								★★★★★
-								<span class="fillStar" style="width: ${afterwordBoardDTO.getTotalScore()*10}%" >★★★★★</span>
+								<span class="fillStar" style="width: ${afterwordBoardDTO.getAcademyAvgScore()*10}%" >★★★★★</span>
 							</span> 
 						</div>
 					</div>
