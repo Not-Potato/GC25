@@ -117,9 +117,8 @@ public class ForewordController extends HttpServlet {
 				dto.setContents(request.getParameter("contents"));
 
 				service.upload(dto);
-				
+
 				session.setAttribute("memberStatus", 1);
-	
 
 				PrintWriter out = response.getWriter();
 				// forward 시 주소가 그대로 유지됨(upload.do)
@@ -136,7 +135,7 @@ public class ForewordController extends HttpServlet {
 				// 해당 게시글의 게시글 번호 가져오기
 				String boardNumStr = request.getParameter("boardNum");
 				int boardNum = Integer.parseInt(boardNumStr);
-				
+
 				// 상담후기 게시글이니 수강후기게시글은 기본 0으로 셋팅??이게 필요한가???
 				int aBoardNum = 0;
 
@@ -144,17 +143,15 @@ public class ForewordController extends HttpServlet {
 				ForewordBoardDTO forewordBoardDTO = forewordViewerService.getForewordBoard(boardNum);
 				request.setAttribute("forewordBoardDTO", forewordBoardDTO);
 				session.setAttribute("forewordBoardDTO", forewordBoardDTO);
-				
+
 				// 댓글 리스트 가져오기
 				ArrayList<CommentDTO> commentList = commentService.getForewordComment(boardNum);
 				request.setAttribute("commentList", commentList);
 
 				// 사용자 아이디 심어주기 (TEST)
 				// request.getAttribute("memberNumber");
-				//int memberNumber = 10000;
-				//session.setAttribute("memberNumber", memberNumber);
-				
-				
+				// int memberNumber = 10000;
+				// session.setAttribute("memberNumber", memberNumber);
 
 				nextPage = views + "/forewordviewer.jsp";
 			}
@@ -166,8 +163,8 @@ public class ForewordController extends HttpServlet {
 
 				// 사용자 아이디 가져오기
 				// test용
-				int memberNum= (Integer) session.getAttribute("memberNumber");
-				//int memberNumber = 10000;
+				int memberNum = (Integer) session.getAttribute("memberNumber");
+				// int memberNumber = 10000;
 				int aBoard = 0;
 
 				// 게시글 좋아요 수 +1 (DB에 업데이트)
@@ -192,7 +189,7 @@ public class ForewordController extends HttpServlet {
 
 				// 세센에 DB내용과 사용자 정보 심어서 다음페잊로 보내주기
 				session.setAttribute("forewordBoardDTO", forewordBoardDTO);
-				
+
 				// 다음페이지 이동
 				nextPage = views + "/forewordmodify.jsp";
 			}
@@ -207,13 +204,13 @@ public class ForewordController extends HttpServlet {
 				// 사용자 아이디 가져오기
 				// test용
 				// int memberNum= (Integer) session.getAttribute("memberNumber");
-				//int memberNumber = 10000;
+				// int memberNumber = 10000;
 				int aBoard = 0;
 
 				ForewordBoardDTO forewordBoardDTO = (ForewordBoardDTO) session.getAttribute("forewordBoardDTO");
 				// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
-				forewordBoardDTO.setMemberNumber((Integer)(session.getAttribute("memberNumber")));
-		
+				forewordBoardDTO.setMemberNumber((Integer) (session.getAttribute("memberNumber")));
+
 				// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 				// 학원번호, 학원이름, 과정구분, 제목, 내용
 				forewordBoardDTO.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
@@ -235,24 +232,22 @@ public class ForewordController extends HttpServlet {
 						</script>
 						""".formatted(request.getContextPath()));
 
-			}case "/delete.do" -> {
-
-				// 해당 게시글의 게시글 번호 가져오기
-				String boardNumStr = request.getParameter("boardNum");
-				int boardNum = Integer.parseInt(boardNumStr);
-
-			
-				//본문 삭제
-				forewordViewerService.deleteForewordBoard(boardNum);
-				//댓글 삭제
-				commentService.deleteFbComment(boardNum);
-				
-
-				// 다음페이지 이동
-				nextPage = "/foreword/board.do";
 			}
+			case "/delete.do" -> {
+	
+				String boardNumStr = request.getParameter("boardNum");
+			    int boardNum = Integer.parseInt(boardNumStr);
+			    
+			    // 본문 삭제
+			    forewordViewerService.deleteForewordBoard(boardNum);
+			    // 댓글 삭제
+			    commentService.deleteFbComment(boardNum);
+			    
+			    nextPage = "/foreword/board.do";
+		
 
 			// 디폴트 페이지 = 게시판 (글 목록)
+			}
 			default -> {
 				nextPage = "/foreword/board.do";
 			}

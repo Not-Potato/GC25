@@ -238,8 +238,16 @@ public class AfterwordController extends HttpServlet {
 					afterwordBoardDTO.setAcademyName(request.getParameter("academyName"));
 					afterwordBoardDTO.setCourse(request.getParameter("course"));
 					afterwordBoardDTO.setTitle(request.getParameter("title"));
+					afterwordBoardDTO.setTeacherName(request.getParameter("teacher"));
+					afterwordBoardDTO.setMajor(request.getParameter("major"));
+					afterwordBoardDTO.setCost(request.getParameter("cost"));
+					afterwordBoardDTO.setTitle(request.getParameter("title"));
 					afterwordBoardDTO.setContents(request.getParameter("contents"));
-
+					afterwordBoardDTO.setTotalScore(Integer.parseInt(request.getParameter("totalScore")));
+					afterwordBoardDTO.setTeacherScore(Integer.parseInt(request.getParameter("teacherScore")));
+					afterwordBoardDTO.setFacilityScore(Integer.parseInt(request.getParameter("facScore")));
+					afterwordBoardDTO.setCurriculumScore(Integer.parseInt(request.getParameter("curriScore")));
+					
 					afterwordViewerService.modifyAfterwordBoard(afterwordBoardDTO);
 
 					PrintWriter out = response.getWriter();
@@ -249,10 +257,11 @@ public class AfterwordController extends HttpServlet {
 					out.print("""
 							<script>
 								alert("게시글 수정 성공!");
-								document.location.href = "%s/foreword";
+								document.location.href = "%s/afterword";
 							</script>
 							""".formatted(request.getContextPath()));
 
+					
 				}case "/delete.do" -> {
 
 					// 해당 게시글의 게시글 번호 가져오기
@@ -267,7 +276,7 @@ public class AfterwordController extends HttpServlet {
 					
 
 					// 다음페이지 이동
-					nextPage = "/foreword/board.do";
+					nextPage = "/afterword/board.do";
 				}
 				
 				// 디폴트 페이지 = 게시판 (글 목록)
