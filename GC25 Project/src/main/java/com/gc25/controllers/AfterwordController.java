@@ -104,7 +104,6 @@ public class AfterwordController extends HttpServlet {
 					
 					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 					dto.setMemberNumber((Integer)(session.getAttribute("memberNumber")));
-//					dto.setMemberNumber(10020);
 					
 					// 개강일과 종강일은 같이 들어오기 때문에 받아서 split으로 잘라서 담아야 함
 					String openToEnd = request.getParameter("openToEnd");
@@ -302,16 +301,26 @@ public class AfterwordController extends HttpServlet {
 					// 해당 게시글의 게시글 번호 가져오기
 					String boardNumStr = request.getParameter("boardNum");
 					int boardNum = Integer.parseInt(boardNumStr);
-
-				
+					String academyName = request.getParameter("academyName");
+					System.out.println("afterwordcontroller 삭제 test:" + academyName);
+					
 					//본문 삭제
-					afterwordViewerService.deleteAfterwordBoard(boardNum);
+					afterwordViewerService.deleteAfterwordBoard(boardNum, academyName);
 					//댓글 삭제
 					commentService.deleteFbComment(boardNum);
 					
 
-					// 다음페이지 이동
-					nextPage = "/afterword/board.do";
+					PrintWriter out = response.getWriter();
+					// forward 시 주소가 그대로 유지됨(upload.do)
+					// 그 상태에서 f5(새로고침) --> 글 중복으로 작성됨
+					// 얼럿 창 띄우면서 확인 누르면 기본 페이지로 이동하게끔 처리
+					out.print("""
+							<script>
+								alert("게시글 삭제 성공!");
+								document.location.href = "%s/afterword";
+							</script>
+							""".formatted(request.getContextPath()));
+
 				}
 				
 				// 디폴트 페이지 = 게시판 (글 목록)

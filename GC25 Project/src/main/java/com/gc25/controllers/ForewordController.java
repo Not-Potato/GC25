@@ -19,6 +19,7 @@ import com.gc25.service.CommentService;
 import com.gc25.service.ForewordBoardService;
 import com.gc25.service.ForewordViewerService;
 
+
 @WebServlet("/foreword/*")
 public class ForewordController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -163,17 +164,18 @@ public class ForewordController extends HttpServlet {
 
 				// 사용자 아이디 가져오기
 				// test용
-				int memberNum = (Integer) session.getAttribute("memberNumber");
-				// int memberNumber = 10000;
+				int memberNumber = (Integer) session.getAttribute("memberNumber");
+			
 				int aBoard = 0;
 
 				// 게시글 좋아요 수 +1 (DB에 업데이트)
-				forewordViewerService.setRecommend(memberNum, boardNum, aBoard);
+				forewordViewerService.setRecommend(memberNumber, boardNum, aBoard);
 
 				// 다음페이지 이동
 				nextPage = "/foreword/viewer.do";
 
 			}
+			
 
 			// 글 수정
 			case "/modify.do" -> {
@@ -237,13 +239,22 @@ public class ForewordController extends HttpServlet {
 	
 				String boardNumStr = request.getParameter("boardNum");
 			    int boardNum = Integer.parseInt(boardNumStr);
-			    
+			    String academyName = request.getParameter("academyName");
 			    // 본문 삭제
-			    forewordViewerService.deleteForewordBoard(boardNum);
+			    forewordViewerService.deleteForewordBoard(boardNum, academyName);
 			    // 댓글 삭제
 			    commentService.deleteFbComment(boardNum);
 			    
-			    nextPage = "/foreword/board.do";
+			    PrintWriter out = response.getWriter();
+				// forward 시 주소가 그대로 유지됨(upload.do)
+				// 그 상태에서 f5(새로고침) --> 글 중복으로 작성됨
+				// 얼럿 창 띄우면서 확인 누르면 기본 페이지로 이동하게끔 처리
+				out.print("""
+						<script>
+							alert("게시글 삭제 성공!");
+							document.location.href = "%s/foreword";
+						</script>
+						""".formatted(request.getContextPath()));
 		
 
 			// 디폴트 페이지 = 게시판 (글 목록)

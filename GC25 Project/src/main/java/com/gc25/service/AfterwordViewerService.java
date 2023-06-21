@@ -31,8 +31,8 @@ public class AfterwordViewerService {
 	}
 	
 	// 게시글 삭제
-	public void deleteAfterwordBoard(int boardNum) {
-	afterwordViewrDao.deleteAfterwordBoard (boardNum);
+	public void deleteAfterwordBoard(int boardNum, String academyName) {
+	afterwordViewrDao.deleteAfterwordBoard (boardNum, academyName);
 	}
 	
 }

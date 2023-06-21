@@ -58,13 +58,12 @@ public class AcademyController extends HttpServlet {
 					String pageNumStr = request.getParameter("pageNum");
 					String searchValue = request.getParameter("searchValue");
 					
+					if (searchValue != null) {searchValue = searchValue.toUpperCase();}
+					
+					System.out.println("academycontroller 검색어" + searchValue);
+					
 					HttpSession session = request.getSession();
-					session.setAttribute("searchValue", searchValue);
 					
-					System.out.println("controller pageNumStr:" + pageNumStr);
-					System.out.println("controller searchValue (사용자 검색어):" + searchValue);
-					
-					String savedSearchValue = (String) session.getAttribute("searchValue");
 					
 					// 페이지 넘버 값이 없으면 1 적용 / 있으면 그 값 그대로 유지
 					pageNumStr = (pageNumStr == null || pageNumStr.equals("") ? "1" : pageNumStr); 
@@ -72,7 +71,7 @@ public class AcademyController extends HttpServlet {
 					// 받아온 pageNumStr int로 캐스팅 
 					int pageNum = Integer.parseInt(pageNumStr);
 					
-					System.out.println(pageNum);
+				
 					// 한 페이지에 보여질 학원글 수 : 1개
 					int pagePerScreen = 1; 
 					
@@ -84,19 +83,17 @@ public class AcademyController extends HttpServlet {
 					int endPage = totalPage;
 					int startPage = endPage - (endPage -1);
 					
-					System.out.println("controller endPage" + endPage);
-					System.out.println("controller startPage" +startPage);
-					// 리스트 불러오기
 					
+					// 리스트 불러오기
 					academyList = academyService.listAcademys(pageNum, searchValue);
 					
-					//
+					
 					request.setAttribute("pageNum", pageNum);
 					request.setAttribute("totalPage", totalPage);
 					request.setAttribute("startPage", startPage);
 					request.setAttribute("endPage", endPage);
 					request.setAttribute("pagePerScreen", pagePerScreen);
-					//request.setAttribute("searchValue", searchValue);
+					
 					
 					// 리스트 반환
 					request.setAttribute("academyList", academyList);

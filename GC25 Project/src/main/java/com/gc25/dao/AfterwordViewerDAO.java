@@ -1,5 +1,7 @@
 package com.gc25.dao;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -186,6 +188,40 @@ public class AfterwordViewerDAO {
 				pstmt.executeUpdate();			
 				
 				
+				// 글 수정 후 학원 totalscore 평균 계산 (학원 명 기준)
+				
+			String totalQuery = """
+							SELECT AVG(ab_totalscore)
+						  	FROM GC25_AFTERWORD_BOARD
+						  	WHERE a_name = ?
+						  	GROUP BY a_name
+						""";
+				pstmt = con.prepareStatement(totalQuery);
+				pstmt.setString(1, afterwordBoardDTO.getAcademyName());
+				ResultSet rs = pstmt.executeQuery();
+				
+				double avg = 0;
+				
+				if (rs.next()) {
+					BigDecimal deAvg = rs.getBigDecimal(1); // 컬럼 인덱스나 컬럼 이름을 사용하여 값을 가져옵니다.
+					avg = deAvg.setScale(1, RoundingMode.HALF_UP).doubleValue(); // 1자리로 반올림하고 double로 변환합니다.
+				}
+				
+				// 2단계 --> 학원 테이블에서 a_avgscore 칼럼 값 변경하기
+				
+				String avgqQuery = """
+						UPDATE GC25_ACADEMY 
+							SET a_avgscore = ?
+							WHERE a_name = ?
+						""";
+				pstmt = con.prepareStatement(avgqQuery);				
+				pstmt.setDouble(1, avg);
+				pstmt.setString(2, afterwordBoardDTO.getAcademyName());
+				pstmt.executeUpdate();
+				
+				// 학원 테이블 a_reviewcount 칼럼 업데이트
+			
+				
 				con.close();
 				pstmt.close();
 			
@@ -196,22 +232,33 @@ public class AfterwordViewerDAO {
 		}
 		
 		//게시글 삭제 
-		public void deleteAfterwordBoard(int boardNum) {
+		public void deleteAfterwordBoard(int boardNum, String academyName) {
 			
-			String deleteQuery = "DELETE GC25_AFTERWORD_BOARD WHERE ab_number  = ?";
-		
 			try {
-				
+				String deleteQuery = "DELETE GC25_AFTERWORD_BOARD WHERE ab_number  = ?";
+					
 				con = ds.getConnection();	
 				pstmt = con.prepareStatement(deleteQuery);
 				pstmt.setInt(1,boardNum);
+				System.out.println("afterwordView DAO 삭제:" + deleteQuery);
 				pstmt.executeUpdate();
+				
+						
+			
+			//삭제 시 리뷰 수 -1
+				String reviewCountQuery = "UPDATE GC25_ACADEMY SET a_reviewcount = (a_reviewcount - 1) WHERE a_name = ?";
+			
+				pstmt = con.prepareStatement(reviewCountQuery);
+				pstmt.setString(1,academyName);
+				pstmt.executeUpdate();
+				
+				System.out.println("afterwordView DAO 리뷰카운트 마이너스확인용:" + academyName);
 				
 				con.close();
 				pstmt.close();
-
-			} catch(Exception ex) {
-				ex.printStackTrace();
+				
+			}catch(Exception ex) {
+				
 			}
 			
 	}

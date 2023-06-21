@@ -26,13 +26,17 @@ public class ForewordViewerService {
 			forewordViewrDao.modifyForewordBoard (forewordBoardDTO);
 		}
 			
-	//좋아요 수 업데이트 
-	public void setRecommend(int memberNum, int boardNum, int aBoard ) {
-		recommendDao.fbSetRecommend(memberNum, boardNum, aBoard);
+		
+		 //좋아요 수 업데이트 
+		 public void setRecommend(int memberNum, int boardNum, int aBoard) { 
+			 recommendDao.fbSetRecommend(memberNum, boardNum, aBoard); 
+		}
+		 
+
+	// 게시글 삭제
+	public void deleteForewordBoard(int boardNum, String academyName) {
+		forewordViewrDao.deleteForewordBoard (boardNum ,academyName);
 	}
 	
-	// 게시글 삭제
-	public void deleteForewordBoard(int boardNum) {
-		forewordViewrDao.deleteForewordBoard (boardNum);
-	}
+	
 }
