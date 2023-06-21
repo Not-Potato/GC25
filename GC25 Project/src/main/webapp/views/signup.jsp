@@ -275,7 +275,7 @@
 					if(result == 1) {
 					  	alert ("회원가입이 완료되었습니다.");
 					  	console.log("가입완료"+result);
-					  	location.href="/index.jsp";
+					  	location.href="/mem/login.do";
 					}else if(result == -200){
 						  alert("이미 가입된 이메일입니다.");
 						  console.log(result);

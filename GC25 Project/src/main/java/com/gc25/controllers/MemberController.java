@@ -264,7 +264,7 @@ public class MemberController extends HttpServlet {
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
 					script.println("alert('로그아웃 되었습니다.')");
-					script.println("location.replace('/views/login.jsp')");
+					script.println("location.replace('/main')");
 					script.println("</script>");
 					
 					//nextPage = views + "/login.jsp";
@@ -486,7 +486,7 @@ public class MemberController extends HttpServlet {
 								return;
 							}
 						}
-					nextPage="/main";
+					
 					
 					} catch (Exception ex) {
 						ex.printStackTrace();
