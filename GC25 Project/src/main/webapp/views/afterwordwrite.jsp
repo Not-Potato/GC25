@@ -21,7 +21,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | 상담후기 글쓰기 페이지 </title>
+	<title>GC25 | 수강후기 글쓰기 페이지 </title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon / date range picker -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -45,7 +45,7 @@
 					<!-- 첫 번째 줄 (학원 명 / 과정 구분) -->
 					<div class="first-line">
 						<div>
-							<input type="text" id="academy_name" class="box" placeholder="학원 명" autocomplete="off" name="academyName">
+							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName">
 							<input type="hidden" name="academyNum" id="academyNum" value="">
 							<div class="search-list">
 								<ul class="d-none" id="none">

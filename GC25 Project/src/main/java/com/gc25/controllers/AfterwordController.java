@@ -232,6 +232,38 @@ public class AfterwordController extends HttpServlet {
 					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 					afterwordBoardDTO.setMemberNumber((Integer)(session.getAttribute("memberNumber")));
 			
+					String openToEnd = request.getParameter("openToEnd");
+					String open = openToEnd.split(" ~ ")[0];
+					String end = openToEnd.split(" ~ ")[1];
+					
+					
+					String m =""; 
+					String c = ""; 
+					
+					
+					
+					if (afterwordBoardDTO.getMajor().equals("비전공")) {
+						m = "전공";
+					}else {
+						m = "비전공";
+					}
+					
+					if (afterwordBoardDTO.getCost().equals("무상")) {
+						c = "유상";
+					}else {
+						c = "무상";
+					}
+					
+					System.out.println(m);
+					System.out.println(c);
+					
+					
+					// 체크박스 --> null(off)로 넘어오면 각각 "비전공", "무상"
+					String major = request.getParameter("major") == null ? m :afterwordBoardDTO.getMajor();
+						
+					String cost = request.getParameter("cost") == null ? c : afterwordBoardDTO.getCost();
+					
+					System.out.println();
 					// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 					// 학원번호, 학원이름, 과정구분, 제목, 내용
 					afterwordBoardDTO.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
@@ -239,14 +271,17 @@ public class AfterwordController extends HttpServlet {
 					afterwordBoardDTO.setCourse(request.getParameter("course"));
 					afterwordBoardDTO.setTitle(request.getParameter("title"));
 					afterwordBoardDTO.setTeacherName(request.getParameter("teacher"));
-					afterwordBoardDTO.setMajor(request.getParameter("major"));
-					afterwordBoardDTO.setCost(request.getParameter("cost"));
+					afterwordBoardDTO.setMajor(major);
+					afterwordBoardDTO.setCost(cost);
+					afterwordBoardDTO.setOpenDate(open);
+					afterwordBoardDTO.setEndDate(end);
 					afterwordBoardDTO.setTitle(request.getParameter("title"));
 					afterwordBoardDTO.setContents(request.getParameter("contents"));
 					afterwordBoardDTO.setTotalScore(Integer.parseInt(request.getParameter("totalScore")));
 					afterwordBoardDTO.setTeacherScore(Integer.parseInt(request.getParameter("teacherScore")));
 					afterwordBoardDTO.setFacilityScore(Integer.parseInt(request.getParameter("facScore")));
 					afterwordBoardDTO.setCurriculumScore(Integer.parseInt(request.getParameter("curriScore")));
+					
 					
 					afterwordViewerService.modifyAfterwordBoard(afterwordBoardDTO);
 

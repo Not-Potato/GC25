@@ -140,8 +140,8 @@ public class AfterwordViewerDAO {
 	//게시글 수정
 	
 		public void modifyAfterwordBoard(AfterwordBoardDTO afterwordBoardDTO) {
-
-			
+			System.out.println("afterword DAO 수정 null test major:"+ afterwordBoardDTO.getMajor());
+			System.out.println("afterword DAO 수정 null test cost:"+ afterwordBoardDTO.getCost());
 			try {
 				
 				String updateQuery = """
@@ -174,6 +174,7 @@ public class AfterwordViewerDAO {
 				pstmt.setString(5, afterwordBoardDTO.getOpenDate());
 				pstmt.setString(6, afterwordBoardDTO.getEndDate());
 				pstmt.setString(7, afterwordBoardDTO.getMajor());
+				
 				pstmt.setString(8, afterwordBoardDTO.getCost());
 				pstmt.setInt(9,afterwordBoardDTO.getTotalScore());
 				pstmt.setInt(10, afterwordBoardDTO.getTeacherScore());
