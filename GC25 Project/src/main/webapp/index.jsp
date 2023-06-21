@@ -50,7 +50,7 @@
                 	<!-- 상담 후기 게시판 최신 글 다섯 개 -->
                     <div class="board foreword">
                     	<div class="board-title">
-                    		<h3>상담 후기</h3>
+                    		<h3 onclick="location.href='/foreword/board.do'" >상담 후기</h3>
                     	</div>
                         
 						<ul>
@@ -85,7 +85,7 @@
                 	<!-- 수강 후기 게시판 최신 글 다섯 개 -->
                     <div class="board afterword">
                     	<div class="board-title">
-                    		<h3>수강 후기</h3>
+                    		<h3 onclick="location.href='/afterword/board.do'">수강 후기</h3>
                     	</div>
                         
 						<ul>
@@ -125,7 +125,7 @@
 			<ul class="rank review-ranking">
              	<li>리뷰 TOP</li>
 <c:forEach var="ac" items="${ revList }" varStatus="vs" >
-             	<li>
+             	<li onclick="location.href='${contextPath}/academy/map.do?searchValue=${ revList[vs.index].academyName }'">
              		<strong>
 						${ revList[vs.index].academyName }
 					</strong>
@@ -137,7 +137,7 @@
              <ul class="rank score-ranking">
               <li>평점 TOP</li>
 <c:forEach var="ac" items="${ avgList }" varStatus="vs" >
-                 <li>
+                 <li onclick="location.href='${contextPath}/academy/map.do?searchValue=${ avgList[vs.index].academyName }'">
                  	<strong>
 						${ avgList[vs.index].academyName }
 					</strong>

@@ -503,8 +503,7 @@ public class MemberController extends HttpServlet {
 					String memberPwd = request.getParameter("memberPwd");
 					String memberPwd2 = request.getParameter("memberPwd2"); //비밀번호 확인용
 					String memberNickname = request.getParameter("memberNickname");
-					String memberImageFileName = memberDTO.getMemberImageFileName();
-
+					String memberImageFileName = memberService.getMemberImageFileName(memberEmail);
 					String nicknameOverlapCheckParam;
 					
 					PrintWriter out = response.getWriter();
@@ -567,30 +566,34 @@ public class MemberController extends HttpServlet {
 						 return;		
 					} 
 				
-				//비밀번호 불일치
-				if (!memberPwd.equals(memberPwd2)) {
-					result = -500; 
-					out.print(result);
+					//비밀번호 불일치
+					if (!memberPwd.equals(memberPwd2)) {
+						result = -500; 
+						out.print(result);
+						
+						return;
+					}//비밀번호 정규식에 부합
+					else if (!memberPwd.matches(passwordReg)) {
+						result = -600; 
+						out.print(result);
+						return;
+					}
 					
-					return;
-				}//비밀번호 정규식에 부합
-				else if (!memberPwd.matches(passwordReg)) {
-					result = -600; 
-					out.print(result);
-					return;
-				}
-				
-				memberImageFileName = memberService.setMemberImageFileName(memberImageFileName, memberEmail);
-				System.out.println("삭제후 이미지"+memberImageFileName);
-				 //비밀번호 받아서 세팅
-			    if(request.getParameter("memberPwd")!=null){
-					memberPwd=request.getParameter("memberPwd");
-					System.out.println("비밀번호 넘어오나? : " +memberPwd);
-					System.out.println("정규식에 맞나??"+memberPwd.matches(passwordReg));
-					
+					memberImageFileName = memberService.setMemberImageFileName(memberImageFileName, memberEmail);
+					System.out.println("삭제후 이미지"+memberImageFileName);
+					 //비밀번호 받아서 세팅
+				    if(request.getParameter("memberPwd")!=null){
+						memberPwd=request.getParameter("memberPwd");
+						System.out.println("비밀번호 넘어오나? : " +memberPwd);
+						System.out.println("정규식에 맞나??"+memberPwd.matches(passwordReg));
+
 				//이미지 파일 세팅
 				memberImageFileName = (String) session.getAttribute("fileName");
 				System.out.println(memberImageFileName);
+				
+				if (memberImageFileName==null || memberImageFileName.equals("")) {
+					memberImageFileName="profile.jpg";
+				}
 				
 				session.setAttribute("memberImageFileName", memberImageFileName);
 				session.setAttribute("memberNickname", memberNickname);
@@ -600,16 +603,16 @@ public class MemberController extends HttpServlet {
 					result = 1; 
 					out.print(result);
 					return;
-				}		
-				
-					
-				}//case
 				}
+					
+						
+				}
+				}//case
 				case "/imgchange.do" -> {
 				
 					//memberService.getMemberImageFileName(memberImageFileName, memberEmail);
 					//파일 저장할 경로
-					File curPath=new File("C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\");
+					File curPath=new File("C:\\Users\\wpwpq\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\");
 //					System.out.println(curPath);
 					//DiskFileItemFactory는 FileItem 객체를 생성하기 위한 팩토리 클래스  
 					//->getSize(), getName(), isFormField 등을 제공 -> 업로드된 파일의 정보(이름, 크기, 타입 등)를 확인하고, 데이터에 접근하여 원하는 처리를 수행 
@@ -652,8 +655,10 @@ public class MemberController extends HttpServlet {
 								}
 								
 								if (!allowedExtensions.contains(fileExtension.toLowerCase())) {
-									PrintWriter out = response.getWriter();
-									out.println("허용되지 않는 파일 확장자입니다.");
+									PrintWriter script = response.getWriter();
+									script.println("<script> alert('허용되지 않는 확장자입니다.') </script> ");
+									System.out.println(fileExtension);
+									script.close(); //오류생기면 이 jsp 페이지 종료
 								} else {
 									fileItem.write(uploadFile);
 									System.out.println("파일 이름 : " + fileName);
@@ -683,7 +688,7 @@ public class MemberController extends HttpServlet {
 					
 					if(userResponse) {
 						memberImageFileName = memberService.getMemberImageFileName(memberEmail);
-						 String filePath = "C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\";
+						 String filePath = "C:\\Users\\wpwpq\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages";
 					     File file = new File(filePath+memberImageFileName);
 					      
 					     if (!memberImageFileName.equals("profile.jpg")) {
