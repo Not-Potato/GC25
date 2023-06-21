@@ -150,22 +150,38 @@ public class AfterwordViewerDAO {
 									a_number = ?,
 									a_name = ?,
 									ab_course = ?,
+									ab_teacher = ?, 
+									ab_open = ?, 
+									ab_end = ?, 
+									ab_major = ?,
+									ab_cost = ?, 
+									ab_totalscore = ?,
+									ab_teacherscore = ?,
+									ab_facilityscore = ?,
+									ab_curriculumscore = ?, 
 									ab_title = ?,
 									ab_contents = ?
 									WHERE ab_number = ?
-					
 							""";
 				
 				con = ds.getConnection();	
 				pstmt = con.prepareStatement(updateQuery);
+				
 				pstmt.setInt(1, afterwordBoardDTO.getAcademyNumber());
-		
 				pstmt.setString(2, afterwordBoardDTO.getAcademyName());
 				pstmt.setString(3, afterwordBoardDTO.getCourse());
-				pstmt.setString(4, afterwordBoardDTO.getTitle());
-				pstmt.setString(5, afterwordBoardDTO.getContents());
-				pstmt.setInt(6, afterwordBoardDTO.getBoardNumber());
-				
+				pstmt.setString(4, afterwordBoardDTO.getTeacherName());
+				pstmt.setString(5, afterwordBoardDTO.getOpenDate());
+				pstmt.setString(6, afterwordBoardDTO.getEndDate());
+				pstmt.setString(7, afterwordBoardDTO.getMajor());
+				pstmt.setString(8, afterwordBoardDTO.getCost());
+				pstmt.setInt(9,afterwordBoardDTO.getTotalScore());
+				pstmt.setInt(10, afterwordBoardDTO.getTeacherScore());
+				pstmt.setInt(11, afterwordBoardDTO.getFacilityScore());
+				pstmt.setInt(12, afterwordBoardDTO.getCurriculumScore());
+				pstmt.setString(13, afterwordBoardDTO.getTitle());
+				pstmt.setString(14, afterwordBoardDTO.getContents());
+				pstmt.setInt(15, afterwordBoardDTO.getBoardNumber());
 				pstmt.executeUpdate();			
 				
 				

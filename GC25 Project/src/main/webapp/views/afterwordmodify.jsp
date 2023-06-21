@@ -6,179 +6,172 @@
 <%
 request.setAttribute("pageName", "afterword");
 %>
+<%@ page import="com.gc25.dto.AfterwordBoardDTO" %>
 <!-- 회원등급에 따른 상세페이지 접근 구분 -->
-<%    
+<!-- 회원등급에 따른 상세페이지 접근 구분 -->
+<%
+     // 로그인 여부 확인
     Object memberNumberObj = session.getAttribute("memberNumber");
-	//로그인 여부 확인
+	
 	if (memberNumberObj == null) {
 		// 로그인이 되어있지 않은 경우, 로그인 페이지로 리다이렉트
         out.println("<script>alert('로그인 해주세요.'); window.location.href='http://localhost:8080/views/login.jsp'; </script>");
-	}else {
-		// 로그인 되어 있는 경우, 회원 상태 확인
-		int memberNumber = (Integer) memberNumberObj;
-        int memberStatus = (Integer) session.getAttribute("memberStatus");
-
-        if (memberStatus == 0) { 
-      // 회원 상태가 0일 때, 게시판 리스트 페이지로 리다이렉트하고 알림창 표시
-          out.println("<script>alert('현재 페이지는 우수회원만 접근 가능합니다.'); window.location.href='http://localhost:8080/afterword/board.do'; </script>");
-        } else { 
+	}
+	
+	AfterwordBoardDTO afterwordBoardDTO = (AfterwordBoardDTO)session.getAttribute("afterwordBoardDTO");
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | Afterword Write Page</title>
-	<link href="../resources/css/custom.css" rel="stylesheet">
-
+	<title>GC25 | 수강후기 수정 페이지</title>
+	<!-- 커스텀.css / reset.css / 파비콘 / x-icon / date range picker -->
+	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
+	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
+	<link rel="shortcut icon" type="image/x-icon" href="/resources/images/mini_logo.png">
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/xeicon@2.3.3/xeicon.min.css">
 	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 <body>
-	
+	<div id="wrap">
     	<jsp:include page="./common/header.jsp"></jsp:include>
         <!-- header include 영역 -->
 
-      
-        <h2>수강 후기 작성</h2>
-         
+      	<div class="board-page foreword-page write-page foreword-write-page">
+			<div class="inner">
+				<div class="title">
+					<h2>수강후기 수정하기</h2>
+					<p></p>				
+				</div>
 
-                	<!-- onsubmit enter로 submit 되는 것 방지하는 옵션 -->
-                    <form class="row g-3 m-auto w-800" name="postingForm" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/upload.do">
-
-						<!-- 학원 이름 입력 창 -->
-                        <div class="col-md-6">
-							<input type="text" id="academyName"
-								class="form-control" autocomplete="off" name="academyName" placeholder="학원 명" >
-							<input type="hidden" name="academyNum" id="academyNum" class="" value="">
-							<div class="searchList">
-								<div class="d-none col-md-12" id="none">
+				<form class="after-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/modifyupload.do?boardNum=${afterwordBoardDTO.getBoardNumber()}">
+					<!-- 첫 번째 줄 (학원 명 / 과정 구분) -->
+					<div class="first-line">
+						<div>
+							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName" value="${afterwordBoardDTO.getAcademyName()}">
+							<input type="hidden" name="academyNum" id="academyNum" value="">
+							<div class="search-list">
+								<ul class="d-none" id="none">
 									<!-- 자동 완성 검색 결과 div 들어갈 곳 -->
-								</div>
+								</ul>
 							</div>
 						</div>
-
-                        <!-- 과정 구분 -->
-                        <div class="col-md-6">
-                            <select class="form-select" id="course" name="course">
-                            	<!-- 선택할 수 없는 옵션의 value를 null로 지정 -->
-                                <option disabled selected value="">----- 과정 구분 -----</option>
-                                <option value="프론트엔드">프론트엔드</option>
-                                <option value="백엔드">백엔드</option>
-                                <option value="풀스택">풀스택</option>
-                            </select>
-                        </div>
-                        
-                        
-                        <!-- 강사 명 -->
-                        <div class="col-md-4">
-                            <input type="text" class="form-control" id="teacher" placeholder="강사 명" 
-                            maxlength="10" oninput="limitMaxLength(this);" name="teacher">
-                        </div>
-                        
-                        <!-- 개강 ~ 종강 -->
-						<div class="">
-							<input class="" type="text" id="openToEnd" name="openToEnd" value="" />
+						<select class="box form-select" id="course" name="course">
+					 		<option disabled value="">----- 과정 구분 -----</option>
+       				 		<c:choose>
+			            		<c:when test="${afterwordBoardDTO.getCourse() == '프론트엔드'}">
+					                <option value="프론트엔드" selected>프론트엔드</option>
+					                <option value="백엔드">백엔드</option>
+					                <option value="풀스택">풀스택</option>
+			            		</c:when>
+			            		<c:when test="${afterwordBoardDTO.getCourse() == '백엔드'}">
+					                <option value="프론트엔드">프론트엔드</option>
+					                <option value="백엔드" selected>백엔드</option>
+					                <option value="풀스택">풀스택</option>
+			            		</c:when>
+			            		<c:when test="${afterwordBoardDTO.getCourse() == '풀스택'}">
+					                <option value="프론트엔드">프론트엔드</option>
+					                <option value="백엔드">백엔드</option>
+					                <option value="풀스택" selected>풀스택</option>
+			            		</c:when>
+			            		<c:otherwise>
+					            	<option disabled selected value="">----- 과정 구분 -----</option> 
+					                <option value="프론트엔드">프론트엔드</option>
+					                <option value="백엔드">백엔드</option>
+					                <option value="풀스택">풀스택</option>
+			            		</c:otherwise>
+       				 		</c:choose>
+					</select>	
+				</div>
+				
+				<!-- 두 번째 줄(강사명 / 개강~종강 / 전공·비전공여부 / 유·무상 여부)  -->
+				<div class="addition-first-line">
+<%-- 					<input class="box" type="text" id="teacher" placeholder="강사 명" maxlength="10" oninput="limitMaxLength(this);" name="teacher" value="${afterwordBoardDTO.getTeacherName()}"> --%>
+					<input class="box" type="text" id="teacher" placeholder="강사 명" maxlength="10" oninput="limitMaxLength(this);" name="teacher" value="${afterwordBoardDTO.getTeacherName()}">
+                    <input class="box" type="text" id="openToEnd" autocomplete="off"  name="openToEnd" value="" />
+               
+                    <div>
+						<div class="chk-box">
+							<input class="chk" type="checkbox" role="switch" id="major" name="major" value="">
+							<label id="majorLabel" for="major">비전공</label>
 						</div>
+						<div class="chk-box">
+							<input class="chk" type="checkbox" role="switch" id="cost" name="cost" value="무상">
+							<label id="costLabel" for="cost">무상</label>
+						</div>
+					</div>
+				</div>	
 						
+                <!-- 제목 -->
+				<div class="second-line">
+					<input type="text" class="input-title box" id="title" placeholder="제목" maxlength="30" oninput="limitMaxLength(this);" name="title" value="${afterwordBoardDTO.getTitle()}">
+				</div>
+				
+				<!-- 내용 -->
+				<div class="third-line">
+					<textarea id="contents" class="input-contents" rows="15" placeholder="내용" maxlength="1500" oninput="limitMaxLength(this);" name="contents" >${afterwordBoardDTO.getContents()}</textarea>
+				</div>	
 						
-                        <!-- 전공/비전공 여부 -->
-                        <div class="col-md-2 mt-4 pt-2">
-							<div class="form-check form-switch">
-								<div>
-								<input class="form-check-input" type="checkbox" role="switch" id="major" name="major" value="비전공">
-								<label class="form-check-label" id="majorLabel" for="major">비전공</label>
-								</div>
-							</div>
-						</div>
+				<!-- 점수 4개 -->
+				<div class="addition-second-line">
+					<!-- 전체 만족도 -->
+					<div class="starBox">
+						<label>전체</label><br>
+						<span class="emptyStar" id="score1">
+							★★★★★
+							<span class="fillStar" style="width: ${afterwordBoardDTO.getTotalScore()*10}%">★★★★★</span>
+							<input type="range" value="${afterwordBoardDTO.getTotalScore()}" step="1" min="0" max="10" id="totalScore" name="totalScore">
+						</span>
+					</div>
+
+					<!-- 강사 만족도 -->
+					<div class="starBox">
+						<label>강사</label>
+						<span class="emptyStar" id="score2">
+							★★★★★
+							<span class="fillStar" style="width: ${afterwordBoardDTO.getTeacherScore()*10}%">★★★★★</span>
+							<input type="range" value="${afterwordBoardDTO.getTeacherScore()}" step="1" min="0" max="10"
+							id="teacherScore" name="teacherScore">
+						</span>
+					</div>
+
+					<!-- 학원 시설 만족도 -->
+					<div class="starBox">
+						<label>학원 시설</label>
+						<span class="emptyStar" id="score3">
+							★★★★★
+							<span class="fillStar" style="width: ${afterwordBoardDTO.getFacilityScore()*10}%">★★★★★</span>
+							<input type="range" value="${afterwordBoardDTO.getFacilityScore()}" step="1" min="0" max="10"
+							id="facScore" name="facScore">
+						</span>
+					</div>
 
 
-                        <!-- 유/무상 여부 -->
-                        <div class="col-md-2 mt-4 pt-2">
-							<div class="form-check form-switch">
-								<input class="form-check-input" type="checkbox" role="switch" id="cost" name="cost" value="무상">
-								<label class="form-check-label" id="costLabel" for="cost">무상</label>
-							</div>
-						</div>
-						
-						
-						<!-- 전체 만족도 -->
-						<div class="starBox col-3">
-							<label>전체</label><br>
-							<span class="emptyStar" id="score1">
-								★★★★★
-								<span class="fillStar">★★★★★</span>
-								<input type="range" value="0" step="1" min="0" max="10"
-								id="totalScore" name="totalScore">
-							</span>
-						</div>
+					<!-- 커리큘럼 만족도 -->
+					<div class="starBox">
+						<label>커리큘럼</label>
+						<span class="emptyStar" id="score4">
+							★★★★★
+							<span class="fillStar" style="width: ${afterwordBoardDTO.getCurriculumScore()*10}%">★★★★★</span>
+							<input type="range" value="${afterwordBoardDTO.getCurriculumScore()}" step="1" min="0" max="10"
+							id="curriScore" name="curriScore">
+						</span>
+					</div>
+				</div>
+                       <!-- 버튼 -->
+                       <div class="btn-group">
+                           <button type="reset" class="box">취소</button>
+                           <button type="submit" class="box">작성</button>
+                      </div>
+                   </form>
+               </div>
+        	</div>
 
-						<!-- 강사 만족도 -->
-						<div class="starBox col-3">
-							<label>강사</label>
-							<span class="emptyStar" id="score2">
-								★★★★★
-								<span class="fillStar">★★★★★</span>
-								<input type="range" value="0" step="1" min="0" max="10"
-								id="teacherScore" name="teacherScore">
-							</span>
-						</div>
-
-						<!-- 학원 시설 만족도 -->
-						<div class="starBox col-3">
-							<label>학원 시설</label>
-							<span class="emptyStar" id="score3">
-								★★★★★
-								<span class="fillStar">★★★★★</span>
-								<input type="range" value="0" step="1" min="0" max="10"
-								id="facScore" name="facScore">
-							</span>
-						</div>
-
-
-						<!-- 커리큘럼 만족도 -->
-						<div class="starBox col-3">
-							<label>커리큘럼</label>
-							<span class="emptyStar" id="score4">
-								★★★★★
-								<span class="fillStar">★★★★★</span>
-								<input type="range" value="0" step="1" min="0" max="10"
-								id="curriScore" name="curriScore">
-							</span>
-						</div>
-
-
-
-                        <!-- 제목 -->
-                        <div class="col-12">
-                            <input type="text" class="form-control" id="title" placeholder="제목" 
-                            maxlength="30" oninput="limitMaxLength(this);" name="title">
-                        </div>
-
-                        <!-- 내용 -->
-                        <div class="col-12">
-                            <textarea class="form-control" id="contents" rows="15" placeholder="내용" 
-                            maxlength="1500" oninput="limitMaxLength(this);" name="contents"></textarea>
-                        </div>
-
-                        <!-- 버튼 -->
-                        <div class="d-flex justify-content-center">
-                            <button type="reset" class="btn btn-outline-primary me-2">취소</button>
-                            <button type="submit" class="btn btn-primary ms-2">작성</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-        </main>
-        <!-- main -->
-
-		<!-- footer include 영역 -->
-        <jsp:include page="./common/footer.jsp"></jsp:include>
-    </div>
+			<!-- footer include 영역 -->
+        	<jsp:include page="./common/footer.jsp"></jsp:include>
+    	</div>
    
-   
-<% } %>
-		
-<% } %>	
-		
    
    
 	<!-- <script src="https://code.jquery.com/jquery-3.4.1.js"></script> -->
@@ -189,12 +182,18 @@ request.setAttribute("pageName", "afterword");
 	<script src="../resources/js/custom.js"></script>
 	<script>
 		let num = document.getElementById("academyNum");
-	    let openDate = ""; // 날짜 선택 시 값 적용됨
-		let endDate = ""; // 날짜 선택 시 값 적용됨
+	    let openDate = "<%= afterwordBoardDTO.getOpenDate()%>";
+		let endDate = "<%= afterwordBoardDTO.getEndDate() %>";
 		
+		let academyName = $("#academyName").val();
+		  
+		  if (!academyName) {
+	    	  // DB에서 가져온 값 유지
+	    	  academyName = "${afterwordBoardDTO.getAcademyName()}";
+	    	}
 		function posting() {	
 		    // 사용자 입력 값 받아오기
-		    let academyName = $("#academyName").val();
+		    
 		    let course = $("#course").val();
 		    let title = $("#title").val();
 		    let contents = $("#contents").val();
@@ -207,7 +206,11 @@ request.setAttribute("pageName", "afterword");
 		    let facScore = $("#facScore").val();
 		    let curriScore = $("#curriScore").val();
 		    
+		    console.log("학원이름: " + academyName);
 		    console.log("강사 이름: " + teacher);
+		    console.log("코스: " + course);
+		    console.log("타이틀: " + title);
+		    console.log("내용: " + contents);
 		    console.log("전공/비전공: " + major);
 		    console.log("유/무상: " + cost);
 		    console.log("개강일: " + openDate);
@@ -232,7 +235,7 @@ request.setAttribute("pageName", "afterword");
 		        return false;
 		    } 
 	
-		    // DB에 없는 학원 명 입력할 수 없도록 제한하기 --> 폼 제출 시 ajax로 통신하여 DB 확인
+		    // DB에 없는 학원 명 입력할 수 없도록 제한하기 --> 폼 제출 시 ajax로 통신하여 DB 확인  
 		    $.ajax({
 		        url: "/academy/searchjustone",
 		        method: "get",
@@ -249,7 +252,7 @@ request.setAttribute("pageName", "afterword");
 		            } else {
 		                console.log('글 작성 진행');
 		                num.value = result;
-		                document.postingForm.submit();
+		                document.posting_form.submit();
 		            }
 		        },
 	
@@ -271,31 +274,51 @@ request.setAttribute("pageName", "afterword");
 		};
 		
 		// enter key 입력 --> form 제출 X
-		document.postingForm.addEventListener("keydown", evt => {
+		document.posting_form.addEventListener("keydown", evt => {
 			if (evt.code === "Enter") evt.preventDefault();
 		});
 		
-		// 체크 여부에 따라 label.text와 input.val 변경
- 		let toggleCheckbox = (checkboxId, labelId, value1, value2) => {
-			$(checkboxId).on("click", function () {
-				let currentValue = $(this).val();
-				let labelText = $(labelId).text();
-				
-				if (currentValue === value1) {
-					$(labelId).text(value2);
-					$(this).val(value2);
-				} else {
-					$(labelId).text(value1);
-					$(this).val(value1);
-				}
-			});
-		};
+	// 체크 여부에 따라 label.text와 input.val 변경
+		  let toggleCheckbox = (checkboxId, labelId, value1, value2, isChecked) => {
+			  let $checkbox = $(checkboxId);
+			  let $label = $(labelId);
 
-		toggleCheckbox("#major", "#majorLabel", "전공", "비전공");
-		toggleCheckbox("#cost", "#costLabel", "유상", "무상");
-		
+			  if (isChecked) {
+			    $checkbox.prop("checked", true);
+			    $label.text(value2);
+			    $checkbox.val(value2);
+			  } else {
+			    $checkbox.prop("checked", false);
+			    $label.text(value1);
+			    $checkbox.val(value1);
+			  }
+
+			  $checkbox.on("click", function () {
+			    let currentValue = $(this).val();
+			    let labelText = $(labelId).text();
+
+			    if (currentValue === value1) {
+			      $(labelId).text(value2);
+			      $(this).val(value2);
+			    } else {
+			      $(labelId).text(value1);
+			      $(this).val(value1);
+			    }
+			  });
+			}; 
+
+			// DB에서 가져온 값에 따라 체크박스 초기 상태 설정
+			let majorValueFromDB = "<%= afterwordBoardDTO.getMajor() %>"; 
+			let costValueFromDB = "<%= afterwordBoardDTO.getCost() %>"; 
+
+			
+			toggleCheckbox("#major", "#majorLabel", "전공", "비전공", majorValueFromDB === "비전공");
+			toggleCheckbox("#cost", "#costLabel", "유상", "무상", costValueFromDB === "무상");
+		 
+		 
 		// 개강 ~ 종강 선택
-		$(function () {
+         
+		$(function () { 
             $('#openToEnd').daterangepicker({
                 "locale": {
                     "format": "YYYY-MM-DD",
@@ -310,15 +333,20 @@ request.setAttribute("pageName", "afterword");
                     "monthNames": ["1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"],
                     "firstDay": 1
                 },
-                "startDate": "2023-01-01",
-                "endDate": "2023-01-01",
+                "startDate": openDate,
+                "endDate":  endDate, 
                 "drops": "down"
             }, function (start, end, label) {
                 console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
-                openDate = start.format('YYYY-MM-DD');
-                endDate = end.format('YYYY-MM-DD');
-                console.log(openDate);
-                console.log(endDate);
+                
+                if(start && end) {
+                	openDate = start.format('YYYY-MM-DD');
+                    endDate = end.format('YYYY-MM-DD');
+                } else {
+                	$("#openToEnd").val(openDate + ' ~ ' + endDate);
+                	
+                }
+              
             });
         });		
 	</script>

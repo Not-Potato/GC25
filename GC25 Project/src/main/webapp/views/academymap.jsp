@@ -37,7 +37,7 @@
  			<div class="inner">
  				<div class="title">
 				    <h2>학원 찾기</h2>
-				    <p>설명설명설명</p>
+				    <p>키워드로 학원 위치를 검색해보세요</p>
 				</div>
  			
  			
