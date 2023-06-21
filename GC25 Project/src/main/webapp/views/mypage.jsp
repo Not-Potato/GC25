@@ -17,7 +17,7 @@
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('로그인이 필요한 페이지입니다.')");
-		script.println("location.href='/views/login.jsp';");
+		script.println("location.href='/mem/login.do';");
 		script.println("</script>");
 		script.close(); //오류생기면 이 jsp 페이지 종료
 	}
@@ -46,51 +46,51 @@
 <jsp:include page="./common/header.jsp"></jsp:include>
 
 <div class="container"> 
-	 <h2 class="mp_h2">마이페이지</h2>
-	 <div class="bodyContainer"> 
+	<h2 class="mp_h2">마이페이지</h2>
+	<div class="bodyContainer">
 		<div class="inner">
-		    <div class="my-page">
-	          <div id="profile" class="mp-profile">
-	            <form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
-	                <img src="../resources/images/profileimages/<%= memberImageFileName %>" alt="<%= memberImageFileName %>">
-	                <input type="file" name="profile"> 
-				</form>
-	            <div class="edit-del"> 
-	                <button class="profileBtn" onclick="profileChange()">수정</button> 
-	                <form method="post" enctype="multipart/form-data" name="/mem/proflieImgRemove" action="/mem/proflieImgRemove">
-	                	<button id="removeBtn" name="imgRemoveBtn" onclick="imgdel();"> 삭제 </button>
-	                </form>
-	            </div>
-	          </div>
+			<div class="my-page">
+				<div id="profile" class="mp-profile">
+					<form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
+						<img src="../resources/images/profileimages/<%= memberImageFileName %>" alt="<%= memberImageFileName %>">
+						<input type="file" name="profile"> 
+					</form>
+					<div class="edit-del"> 
+						<button class="profileBtn" onclick="profileChange()">수정</button> 
+						<form method="post" enctype="multipart/form-data" name="/mem/proflieImgRemove" action="/mem/proflieImgRemove">
+						<button id="removeBtn" name="imgRemoveBtn" onclick="imgdel();"> 삭제 </button>
+						</form>
+					</div>
+				</div>
 	
-	        <div id="inputBox" class="input-box">
-	            <p>
-	                <label for="">이메일</label>
-	                <input type="text" name="memberEmail" id="memberEmail" placeholder="${memberEmail}" readonly>
-	            </p>
-	            <p>
-	                <label for="">비밀번호</label>
-	                <input type="password" name="memberPwd" onkeyup="passwordCheck()" id="memberPwd" placeholder="비밀번호를 입력하세요." >
-	            </p>
-	            <p>
-	                <label for="">비밀번호 확인</label>
-	                <input type="password" name="memberPwd2" onkeyup="passwordCheck()" id="memberPwd2" placeholder="비밀번호를 다시 입력하세요." >
-	                <h5 id="passwordRegCheckMessage"></h5>
-	            </p>
-	            <p class="nickname">
-	                <label for="">닉네임</label>
-	                <input type="text" name="memberNickname" id="memberNickname" placeholder="${ memberNickname }">
-	                <button class="nicknameCheckBtn" onclick="nickcheck()">중복 확인</button>
-	                <div id="nicknameCheckMessage"></div>
-	            </p>
-	            <p>
-	                <button id="mypageSubmitBtn" name="mypageSubmitBtn" onclick="mypageSubmit()">적용</button>
-	                <button type="button" class="btn btn-outline-danger" onclick="withdrawal()">회원 탈퇴</button>
-	            </p>
-	        </div>
-	    </div>
+		        <div id="inputBox" class="input-box">
+					<p>
+		                <label for="">이메일</label>
+		                <input type="text" name="memberEmail" id="memberEmail" placeholder="${memberEmail}" readonly>
+					</p>
+		            <p>
+		                <label for="">비밀번호</label>
+		                <input type="password" name="memberPwd" onkeyup="passwordCheck()" id="memberPwd" placeholder="비밀번호를 입력하세요." >
+		            </p>
+		            <p>
+		                <label for="">비밀번호 확인</label>
+		                <input type="password" name="memberPwd2" onkeyup="passwordCheck()" id="memberPwd2" placeholder="비밀번호를 다시 입력하세요." >
+		                <h5 id="passwordRegCheckMessage"></h5>
+		            </p>
+		            <p class="nickname">
+		                <label for="">닉네임</label>
+		                <input type="text" name="memberNickname" id="memberNickname" placeholder="${ memberNickname }">
+		                <button class="nicknameCheckBtn" onclick="nickcheck()">중복 확인</button>
+		                <div id="nicknameCheckMessage"></div>
+		            </p>
+		            <p>
+		                <button id="mypageSubmitBtn" name="mypageSubmitBtn" onclick="mypageSubmit()">적용</button>
+		                <button type="button" class="btn btn-outline-danger" onclick="withdrawal()">회원 탈퇴</button>
+		            </p>
+		        </div>
+			</div>
+		</div>
 	</div>
-</div>    
 </div>    
 <jsp:include page="./common/footer.jsp"></jsp:include>
 
@@ -177,16 +177,18 @@ function profileChange() {
 			userResponse=false;
 			console.log(userResponse);
 			alert('이미지 변경이 취소되었습니다.');
-			history.back();
+			
 		}
 	
 }
 
+
 function changeSubmit(userResponse) {
+	
 	console.log("changeSubmit : " + userResponse);
 	var form = new FormData(document.getElementById("proflieImgChange"));
 	form.append("userResponse",userResponse);
-	  
+	
 	$.ajax({
 			type :"post",
 			async : true,
@@ -198,7 +200,6 @@ function changeSubmit(userResponse) {
 				console.log("result: "+result);
 				if(userResponse){
 					alert("이미지 전송이 완료되었습니다.");
-					
 				}
 			},
 			error : function(result)  {

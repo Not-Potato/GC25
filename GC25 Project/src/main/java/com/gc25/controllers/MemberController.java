@@ -264,7 +264,7 @@ public class MemberController extends HttpServlet {
 					PrintWriter script = response.getWriter();
 					script.println("<script>");
 					script.println("alert('로그아웃 되었습니다.')");
-					script.println("location.replace('/views/login.jsp')");
+					script.println("location.replace('/main')");
 					script.println("</script>");
 					
 					//nextPage = views + "/login.jsp";
@@ -486,7 +486,7 @@ public class MemberController extends HttpServlet {
 								return;
 							}
 						}
-					nextPage="/main";
+					
 					
 					} catch (Exception ex) {
 						ex.printStackTrace();
@@ -504,7 +504,6 @@ public class MemberController extends HttpServlet {
 					String memberPwd2 = request.getParameter("memberPwd2"); //비밀번호 확인용
 					String memberNickname = request.getParameter("memberNickname");
 					String memberImageFileName = memberService.getMemberImageFileName(memberEmail);
-
 					String nicknameOverlapCheckParam;
 					
 					PrintWriter out = response.getWriter();
@@ -587,29 +586,32 @@ public class MemberController extends HttpServlet {
 						memberPwd=request.getParameter("memberPwd");
 						System.out.println("비밀번호 넘어오나? : " +memberPwd);
 						System.out.println("정규식에 맞나??"+memberPwd.matches(passwordReg));
-						
-						//이미지 파일 세팅
-						memberImageFileName = (String) session.getAttribute("fileName");
-						System.out.println(memberImageFileName);
-						
-						session.setAttribute("memberImageFileName", memberImageFileName);
-						session.setAttribute("memberNickname", memberNickname);
+
+				//이미지 파일 세팅
+				memberImageFileName = (String) session.getAttribute("fileName");
+				System.out.println(memberImageFileName);
+				
+				if (memberImageFileName==null || memberImageFileName.equals("")) {
+					memberImageFileName="profile.jpg";
+				}
+				
+				session.setAttribute("memberImageFileName", memberImageFileName);
+				session.setAttribute("memberNickname", memberNickname);
+			
+				int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
+				if(updateSuccess==1) {
+					result = 1; 
+					out.print(result);
+					return;
+				}
 					
-						int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
-						if(updateSuccess==1) {
-							result = 1; 
-							out.print(result);
-							return;
-						}		
-					
 						
-					}
+				}
 				}//case
 				case "/imgchange.do" -> {
 				
 					//memberService.getMemberImageFileName(memberImageFileName, memberEmail);
 					//파일 저장할 경로
-					//test
 					File curPath=new File("C:\\Users\\wpwpq\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\");
 //					System.out.println(curPath);
 					//DiskFileItemFactory는 FileItem 객체를 생성하기 위한 팩토리 클래스  
@@ -653,8 +655,10 @@ public class MemberController extends HttpServlet {
 								}
 								
 								if (!allowedExtensions.contains(fileExtension.toLowerCase())) {
-									PrintWriter out = response.getWriter();
-									out.println("허용되지 않는 파일 확장자입니다.");
+									PrintWriter script = response.getWriter();
+									script.println("<script> alert('허용되지 않는 확장자입니다.') </script> ");
+									System.out.println(fileExtension);
+									script.close(); //오류생기면 이 jsp 페이지 종료
 								} else {
 									fileItem.write(uploadFile);
 									System.out.println("파일 이름 : " + fileName);
