@@ -50,7 +50,7 @@
                 	<!-- 상담 후기 게시판 최신 글 다섯 개 -->
                     <div class="board foreword">
                     	<div class="board-title">
-                    		<h3>상담 후기</h3>
+                    		<h3 onclick="location.href='/foreword/board.do'" >상담 후기</h3>
                     	</div>
                         
 						<ul>
@@ -85,7 +85,7 @@
                 	<!-- 수강 후기 게시판 최신 글 다섯 개 -->
                     <div class="board afterword">
                     	<div class="board-title">
-                    		<h3>수강 후기</h3>
+                    		<h3 onclick="location.href='/afterword/board.do'">수강 후기</h3>
                     	</div>
                         
 						<ul>

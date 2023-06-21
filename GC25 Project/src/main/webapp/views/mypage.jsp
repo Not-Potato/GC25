@@ -178,17 +178,18 @@ function profileChange() {
 			userResponse=false;
 			console.log(userResponse);
 			alert('이미지 변경이 취소되었습니다.');
-			history.back();
+			
 		}
 	
 }
 
+
 function changeSubmit(userResponse) {
+	
 	console.log("changeSubmit : " + userResponse);
 	var form = new FormData(document.getElementById("proflieImgChange"));
 	form.append("userResponse",userResponse);
 	
-	  
 	$.ajax({
 			type :"post",
 			async : true,
@@ -200,7 +201,6 @@ function changeSubmit(userResponse) {
 				console.log("result: "+result);
 				if(userResponse){
 					alert("이미지 전송이 완료되었습니다.");
-					
 				}
 			},
 			error : function(result)  {
