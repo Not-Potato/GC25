@@ -106,7 +106,6 @@ public class AcademyDAO {
 								SELECT COUNT(DISTINCT a_number) AS TOTAL_COUNT FROM GC25_ACADEMY
 								WHERE a_name LIKE ? OR a_address LIKE ? OR a_roadAddress LIKE ?
 						""";
-				System.out.println(query);
 				
 				pstmt = con.prepareStatement(query); 
 				
@@ -121,8 +120,6 @@ public class AcademyDAO {
 				if (rs.next()) {
 					totalPage = rs.getInt(1);
 				
-				
-					System.out.println("전체 페이지:" + totalPage);
 				}
 				rs.close(); 
 				pstmt.close(); 
@@ -141,7 +138,6 @@ public class AcademyDAO {
 	// 자동 완성 함수 (검색어 --> 문자열 포함 여부 검사해서 5개 가져오기)
 	public ArrayList<AcademyDTO> autoComplete(String keyword) {
 		ArrayList<AcademyDTO> list = new ArrayList<AcademyDTO>();
-		System.out.println("auto 메소드 실행");
 		
 		try {
 			con = ds.getConnection();
@@ -151,8 +147,7 @@ public class AcademyDAO {
 								"FROM GC25_ACADEMY " +
 								"WHERE a_name LIKE ?) " +
 								"WHERE ROWNUM <= 5";	
-			System.out.println("자동완성 쿼리 실행!");
-			System.out.println(query);
+		
 			
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, "%" + keyword + "%");
@@ -168,7 +163,7 @@ public class AcademyDAO {
 				academy.setAcademyName(academyName);
 			
 				list.add(academy); 
-				//System.out.println(academy);
+				
 			}
 			if(con!=null)try{con.close();} catch(Exception ex){}
 			if(pstmt!=null) try{pstmt.close();} catch(Exception ex){}
@@ -187,9 +182,7 @@ public class AcademyDAO {
 			con = ds.getConnection();
 			
 			String query = "SELECT COUNT(*) FROM GC25_ACADEMY WHERE a_name = ?";	
-			System.out.println(query);
-			
-			System.out.println("화면 --> dao에 넘어온 학원 이름: " + keyword);
+		
 			pstmt = con.prepareStatement(query);
 			pstmt.setString(1, keyword);
 			ResultSet rs = pstmt.executeQuery();
@@ -200,7 +193,6 @@ public class AcademyDAO {
 	        }
 			if (result != 0) {
 				query = "SELECT a_number FROM GC25_ACADEMY WHERE a_name = ?";	
-				System.out.println(query);
 				
 				pstmt = con.prepareStatement(query);
 				pstmt.setString(1, keyword);
@@ -232,7 +224,7 @@ public class AcademyDAO {
 						ORDER BY A_AVGSCORE DESC
 						FETCH FIRST 3 ROWS ONLY
 					""";
-			System.out.println(query);
+			
 			pstmt = con.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -247,7 +239,7 @@ public class AcademyDAO {
 				academy.setAcademyAvgScore(academyAvgScore);
 				
 	            academyAvg.add(academy);
-	            System.out.println("academy dao avg:"+academyAvg);
+	          
 			}
 			
 			if(con!=null)try{con.close();} catch(Exception ex){}
@@ -273,7 +265,7 @@ public class AcademyDAO {
 						ORDER BY a_reviewcount DESC
 						FETCH FIRST 3 ROWS ONLY
 					""";
-			System.out.println(query);
+			
 			pstmt = con.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -288,7 +280,7 @@ public class AcademyDAO {
 				academyR.setAcademyReviewCount(academyReviewCount);
 				
 				academyRev.add(academyR);
-				System.out.println("academy dao rev:"+academyRev);
+
 	            
 			}
 			if(con!=null)try{con.close();} catch(Exception ex){}

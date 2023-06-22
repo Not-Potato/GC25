@@ -21,7 +21,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | 상담후기 글쓰기 페이지 </title>
+	<title>GC25 | 수강후기 글쓰기 페이지 </title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon / date range picker -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
