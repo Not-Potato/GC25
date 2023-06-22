@@ -151,7 +151,7 @@
 		    }
 		}; 
 		
- 		document.posting-form.addEventListener("keydown", evt => {
+ 		document.posting_form.addEventListener("keydown", evt => {
 			if (evt.code === "Enter" || evt.keyCode === 13) evt.preventDefault();
 		});
 		
