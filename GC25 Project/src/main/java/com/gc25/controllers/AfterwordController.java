@@ -244,30 +244,9 @@ public class AfterwordController extends HttpServlet {
 					String open = openToEnd.split(" ~ ")[0];
 					String end = openToEnd.split(" ~ ")[1];
 					
-					
-					String m =""; 
-					String c = ""; 
-					
-					
-					
-					if (afterwordBoardDTO.getMajor().equals("비전공")) {
-						m = "전공";
-					}else {
-						m = "비전공";
-					}
-					
-					if (afterwordBoardDTO.getCost().equals("무상")) {
-						c = "유상";
-					}else {
-						c = "무상";
-					}
-					
-					
-					
 					// 체크박스 --> null(off)로 넘어오면 각각 "비전공", "무상"
-					String major = request.getParameter("major") == null ? m :afterwordBoardDTO.getMajor();
-						
-					String cost = request.getParameter("cost") == null ? c : afterwordBoardDTO.getCost();
+					String major = request.getParameter("major") == null ? "전공" : request.getParameter("major");
+					String cost = request.getParameter("cost") == null ? "유상" : request.getParameter("cost");
 					
 					
 					// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기

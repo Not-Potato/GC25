@@ -57,30 +57,16 @@ import org.json.simple.parser.ParseException;
 // DB 중복 저장 막기 위해 총 페이지 숫자를 범위로 넣어주세요! 
 //학원명과 총 페이지 수 한 세트씩 주석을 풀어가면서 시간 차를 두고 run on server해주세요.
 	 
-	String academyName = "이젠아카데미캠퍼스";
-	int totalPage = 3; 
+	int totalPage = 4; 
 	
+//	String academyName = "이젠아카데미캠퍼스";
 //	String academyName = "그린컴퓨터아트";
-//	int totalPage = 3; 
-	
 //	String academyName = "메가스터디컴퓨터";
-//	int totalPage = 2; 
-	
 //	String academyName = "하이미디어컴퓨터학원";
-//	int totalPage = 3; 
-	
 //	String academyName = "더조은아카데미";
-//	int totalPage = 2; 
-	
 //	String academyName = "에듀윌국비";
-//	int totalPage = 1; 
-	
 //	String academyName = "비트교육센터";
-//	int totalPage = 1; 
-	
-//외 검색결과가 안나오지?ㅠㅠ
-//	String academyName = "코리아IT";
-//	int totalPage = 1; 
+	String academyName = "코리아IT";
 	
 	
 	

@@ -63,7 +63,7 @@
 					<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/afterword/board.do?boardNum=${afterwordBoardDTO.getBoardNumber()}' ">목록</button>
 					
 					<div class="btn-right">
-<% if (mine) { %>
+<% if (mine) {%>
 
 						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/afterword/modify.do?boardNum=${afterwordBoardDTO.getBoardNumber()}'">수정</button>
 						<button type="button" class="btn use-btn" onclick= "confirmDelete('${afterwordBoardDTO.getBoardNumber()}','${afterwordBoardDTO.getAcademyName()}')" >삭제</button>
