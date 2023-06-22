@@ -228,7 +228,6 @@
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-	<script src="../resources/js/custom.js"></script>
 	<script>
 	    /* 게시글 시간 계산 (몇시간 전) */
 	    var writeDateValueElement = document.querySelector("#writeDateValue");
@@ -278,6 +277,12 @@
     		}
 		}
 		
+		function limitMaxLength(e) {
+			if (e.value.length > e.maxLength) {
+				e.value = e.value.slice(0, e.maxLength);
+				alert('입력 가능한 범위를 초과했습니다!');
+			}
+		}
 	</script>
 </body>
 </html>

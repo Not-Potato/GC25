@@ -61,14 +61,18 @@ public class CommentController extends HttpServlet {
 					String aBoardNumStr = request.getParameter("boardNum");
 					int aBoardNum = Integer.parseInt(aBoardNumStr);
 					
+
 				
 					int memberNumber = (Integer) session.getAttribute("memberNumber");
 			
+
 					//클라이언트로부터 댓글 내용 받기
 					String commentContents = request.getParameter("commentContents");
 					
+
 					//수강후기 게시글이니 상담후기게시글은 기본 0으로 셋팅
 					int fBoardNum = 0;	
+
 					
 					// 사용자정보 가져오기
 					//HttpSession session = request.getSession();
@@ -145,7 +149,6 @@ public class CommentController extends HttpServlet {
 		
 		
 	} //end of doGet
-
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub

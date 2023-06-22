@@ -170,7 +170,9 @@
  		    // 선택한 과정을 버튼에 표시
  		    document.querySelector('.coursebtn').textContent = course;
  		   	document.querySelector('.course-dropdown').classList.remove('show');
- 		  }
+		}
+ 		
+ 		
 	</script>
 </body>
 </html>

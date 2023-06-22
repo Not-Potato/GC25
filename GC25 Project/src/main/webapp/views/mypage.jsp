@@ -46,7 +46,11 @@
 	<jsp:include page="./common/header.jsp"></jsp:include>
 	
 	<div class="container"> 
-		<h2 class="mp_h2">마이페이지</h2>
+		<div class="title">
+			<h2 class="mp_h2">마이페이지</h2>
+			<p>나의 소중한 정보를 확인하고 원한다면 변경해 보세요!</p>
+		</div>
+		
 		<div class="bodyContainer">
 			<div class="inner">
 				<div class="my-page">
@@ -160,10 +164,10 @@
 			success : function(result) {
 				console.log(result);
 				if(result == 1) {
-					$("#nicknameCheckMessage").text("사용할 수 있는 닉네임입니다.");
+					$("#nicknameCheckMessage").html(ok + "사용할 수 있는 닉네임입니다.");
 					console.log("통신하니:"+result);
 				} else {
-					$("#nicknameCheckMessage").text("사용할 수 없는 닉네임입니다.");
+					$("#nicknameCheckMessage").html(not_ok + "사용할 수 없는 닉네임입니다.");
 					console.log("통신하니:"+result);
 				}
 			},
@@ -280,7 +284,6 @@
 				alert("비밀번호를 입력하세요.");
 				return;
 			}
-			
 		      /* 수정 + 적용 버튼 합치기 test 중 */
 	         if ($(".upload-name").val() != "첨부파일" && memberPwd == memberPwd2
 	               && $("#passwordRegCheckMessage").text() == "조건을 충족합니다!"
@@ -288,7 +291,7 @@
 	            console.log('됨?');
 	            changeSubmit(true);
 	         }
-			
+
 			$.ajax({
 				type :"post",
 				async : true,

@@ -563,14 +563,16 @@ public class MemberController extends HttpServlet {
 				if (memberImageFileName==null || memberImageFileName.equals("")) {
 					memberImageFileName=memberService.getMemberImageFileName(memberEmail);
 				}
-				
+
 				int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
 				if(updateSuccess==1) {
 					result = 1; 
+
 					//session.removeAttribute("memberNickname");
 					session.setAttribute("memberEmail", memberEmail);
 				    session.setAttribute("memberNickname", memberNickname);
 				    session.setAttribute("memberImageFileName", memberImageFileName);
+
 					out.print(result);
 					return;
 				}
