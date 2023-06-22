@@ -169,7 +169,6 @@ public class MemberController extends HttpServlet {
 					  //jsonResult.put("result", false);
 						int result = 0;
 						out.print(result);
-						System.out.println("click0"+result);
 						
 					}
 					
@@ -433,8 +432,7 @@ public class MemberController extends HttpServlet {
 						//이메일 인증이 안 되어 있다면 (emailhashcheck.jsp에서 session으로 isRight에 인증 여부 저장함.)
 						boolean isRight = (boolean) session.getAttribute("isRight");
 						if (isRight == false) {
-<
-							System.out.println(isRight);
+
 							result = -900; 
 
 							out.print(result);
@@ -484,6 +482,7 @@ public class MemberController extends HttpServlet {
 					
 					PrintWriter out = response.getWriter();
 					String passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@!%*#?&])[A-Za-z\\d@!%*#?&]{8,12}$";
+					memberEmail=(String)session.getAttribute("memberEmail");
 					
 					//로그인 정보 확인
 				    if (memberEmail != null) {
@@ -584,10 +583,10 @@ public class MemberController extends HttpServlet {
 				}
 				}//case
 				case "/imgchange.do" -> {
-				
+					
 					//memberService.getMemberImageFileName(memberImageFileName, memberEmail);
 					//파일 저장할 경로
-					File curPath=new File("C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\");
+					File curPath=new File("C:\\Users\\HJ LEE\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\");
 //					System.out.println(curPath);
 					//DiskFileItemFactory는 FileItem 객체를 생성하기 위한 팩토리 클래스  
 					//->getSize(), getName(), isFormField 등을 제공 -> 업로드된 파일의 정보(이름, 크기, 타입 등)를 확인하고, 데이터에 접근하여 원하는 처리를 수행 

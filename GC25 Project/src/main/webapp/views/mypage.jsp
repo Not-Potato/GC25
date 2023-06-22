@@ -283,9 +283,9 @@
 			}
 			
 			/* 수정 + 적용 버튼 합치기 test 중 */
-			if ($(".upload-name").val() != "첨부파일") {			
-				changeSubmit(true);
-			}
+	         if ($(".upload-name").val() != "첨부파일" && memberPwd == memberPwd2) {         
+	            changeSubmit(true);
+	         }
 			
 			$.ajax({
 				type :"post",
@@ -303,7 +303,7 @@
 					if(result == 1) {
 					  	alert ("회원정보수정이 완료되었습니다.");
 					  	console.log("수정완료"+result);
-					  	location.href="/index.jsp";
+					  	location.href="/main";
 					}else if(result == -100){
 						  alert("로그인을 해 주세요.");
 						  console.log(result);

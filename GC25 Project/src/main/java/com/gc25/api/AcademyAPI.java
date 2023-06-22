@@ -53,14 +53,36 @@ import org.json.simple.parser.ParseException;
 	
 	
 
-	//학원 > 
-	//이젠아카데미캠퍼스 --> 1~2page
-	//	
-	//아이티(1~3), 코딩(1~3), coding(1), 컴퓨터(1~3),그린컴퓨터(1~3)
-	//1) IT 1 page
+//학원 리스트 > 
+// DB 중복 저장 막기 위해 총 페이지 숫자를 범위로 넣어주세요! 
+//학원명과 총 페이지 수 한 세트씩 주석을 풀어가면서 시간 차를 두고 run on server해주세요.
+	 
+	String academyName = "이젠아카데미캠퍼스";
+	int totalPage = 3; 
 	
-	// API 호출
-		
+//	String academyName = "그린컴퓨터아트";
+//	int totalPage = 3; 
+	
+//	String academyName = "메가스터디컴퓨터";
+//	int totalPage = 2; 
+	
+//	String academyName = "하이미디어컴퓨터학원";
+//	int totalPage = 3; 
+	
+//	String academyName = "더조은아카데미";
+//	int totalPage = 2; 
+	
+//	String academyName = "에듀윌국비";
+//	int totalPage = 1; 
+	
+//	String academyName = "비트교육센터";
+//	int totalPage = 1; 
+	
+//외 검색결과가 안나오지?ㅠㅠ
+//	String academyName = "코리아IT";
+//	int totalPage = 1; 
+	
+	
 	
 	//영어 검색 시 사용
 	//IT 1~3
@@ -68,9 +90,11 @@ import org.json.simple.parser.ParseException;
 	
 	//한글 검색 시 사용
 		// 필요한 문자열 URL인코딩
-		String keyword = "코리아IT";
+		
+for (int i = 1; i <= totalPage; i++) {
+		String keyword = academyName; //검색어
 		String encodedKeyword = URLEncoder.encode(keyword, "UTF-8");
-		String apiUrl = "https://dapi.kakao.com/v2/local/search/keyword.json?page=1&size=15&sort=accuracy&query="+encodedKeyword+"&category_group_code=AC5";
+		String apiUrl = "https://dapi.kakao.com/v2/local/search/keyword.json?page="+i+"&size=15&sort=accuracy&query="+encodedKeyword+"&category_group_code=AC5";
 		
 	
 	//공통 사용 부분
@@ -145,7 +169,7 @@ import org.json.simple.parser.ParseException;
 	 // Connection Pool에서 Connection 가져오기
      try (Connection con = ds.getConnection()) {
          // PreparedStatement를 사용하여 쿼리 실행
-         String insertQuery = "INSERT INTO GC25_ACADEMY (a_number , a_name, a_tel, a_address, a_roadAddress, a_url, a_x, a_y) VALUES (seq_GC25_RECOMMEND.nextval, ?, ?, ?, ?, ?, ?, ?)";
+         String insertQuery = "INSERT INTO GC25_ACADEMY (a_number , a_name, a_tel, a_address, a_roadAddress, a_url, a_x, a_y) VALUES (seq_GC25_ACADEMY.nextval, ?, ?, ?, ?, ?, ?, ?)";
          try (PreparedStatement statement = con.prepareStatement(insertQuery)) {
              statement.setString(1, place_name);
              statement.setString(2, phone);
@@ -183,7 +207,7 @@ import org.json.simple.parser.ParseException;
 	System.out.println("API 요청 실패: " + responseCode);
 	
 	}
-	//}
+} //end of for
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
