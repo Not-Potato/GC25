@@ -37,7 +37,7 @@
  			<div class="inner">
  				<div class="title">
 				    <h2>학원 찾기</h2>
-				    <p>설명설명설명</p>
+				    <p>키워드로 학원 위치를 검색해보세요</p>
 				</div>
  			
  			
@@ -45,7 +45,7 @@
  					<div id="static-map"></div>	
  					
  					<form id="searchForm" action="${contextPath}/academy/map.do?searchValue=${searchValue}">
-						<input id="searchValue"  name="searchValue" type="text" onclick ='searchmap()' placeholder="검색어를 입력하세요  ex)안양 컴퓨터학원" > 
+						<input id="searchValue"  name="searchValue" type="text" placeholder="검색어를 입력하세요  ex)안양 or IT or 컴퓨터학원" > 
 						<input class="search-btn" type="submit" value="검색">
 					</form>
 					

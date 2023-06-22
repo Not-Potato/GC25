@@ -95,16 +95,15 @@ public class AfterwordController extends HttpServlet {
 				}
 				// 글 작성 페이지
 				case "/write.do" -> {
-					System.out.println("글 작성 페이지로 이동!!!");
+					
 					nextPage = views + "/afterwordwrite.jsp";
 				}
 				// 글 업로드 --> 작성 완료 얼럿 창 --> 목록으로 이동
 				case "/upload.do" -> {
-					System.out.println("포스팅 발행!!!!");
+					
 					
 					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 					dto.setMemberNumber((Integer)(session.getAttribute("memberNumber")));
-//					dto.setMemberNumber(10020);
 					
 					// 개강일과 종강일은 같이 들어오기 때문에 받아서 split으로 잘라서 담아야 함
 					String openToEnd = request.getParameter("openToEnd");
@@ -232,14 +231,55 @@ public class AfterwordController extends HttpServlet {
 					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 					afterwordBoardDTO.setMemberNumber((Integer)(session.getAttribute("memberNumber")));
 			
+					String openToEnd = request.getParameter("openToEnd");
+					String open = openToEnd.split(" ~ ")[0];
+					String end = openToEnd.split(" ~ ")[1];
+					
+					
+					String m =""; 
+					String c = ""; 
+					
+					
+					
+					if (afterwordBoardDTO.getMajor().equals("비전공")) {
+						m = "전공";
+					}else {
+						m = "비전공";
+					}
+					
+					if (afterwordBoardDTO.getCost().equals("무상")) {
+						c = "유상";
+					}else {
+						c = "무상";
+					}
+					
+					
+					
+					// 체크박스 --> null(off)로 넘어오면 각각 "비전공", "무상"
+					String major = request.getParameter("major") == null ? m :afterwordBoardDTO.getMajor();
+						
+					String cost = request.getParameter("cost") == null ? c : afterwordBoardDTO.getCost();
+					
+					
 					// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 					// 학원번호, 학원이름, 과정구분, 제목, 내용
 					afterwordBoardDTO.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
 					afterwordBoardDTO.setAcademyName(request.getParameter("academyName"));
 					afterwordBoardDTO.setCourse(request.getParameter("course"));
 					afterwordBoardDTO.setTitle(request.getParameter("title"));
+					afterwordBoardDTO.setTeacherName(request.getParameter("teacher"));
+					afterwordBoardDTO.setMajor(major);
+					afterwordBoardDTO.setCost(cost);
+					afterwordBoardDTO.setOpenDate(open);
+					afterwordBoardDTO.setEndDate(end);
+					afterwordBoardDTO.setTitle(request.getParameter("title"));
 					afterwordBoardDTO.setContents(request.getParameter("contents"));
-
+					afterwordBoardDTO.setTotalScore(Integer.parseInt(request.getParameter("totalScore")));
+					afterwordBoardDTO.setTeacherScore(Integer.parseInt(request.getParameter("teacherScore")));
+					afterwordBoardDTO.setFacilityScore(Integer.parseInt(request.getParameter("facScore")));
+					afterwordBoardDTO.setCurriculumScore(Integer.parseInt(request.getParameter("curriScore")));
+					
+					
 					afterwordViewerService.modifyAfterwordBoard(afterwordBoardDTO);
 
 					PrintWriter out = response.getWriter();
@@ -249,25 +289,36 @@ public class AfterwordController extends HttpServlet {
 					out.print("""
 							<script>
 								alert("게시글 수정 성공!");
-								document.location.href = "%s/foreword";
+								document.location.href = "%s/afterword";
 							</script>
 							""".formatted(request.getContextPath()));
 
+					
 				}case "/delete.do" -> {
 
 					// 해당 게시글의 게시글 번호 가져오기
 					String boardNumStr = request.getParameter("boardNum");
 					int boardNum = Integer.parseInt(boardNumStr);
-
-				
+					String academyName = request.getParameter("academyName");
+					
+					
 					//본문 삭제
-					afterwordViewerService.deleteAfterwordBoard(boardNum);
+					afterwordViewerService.deleteAfterwordBoard(boardNum, academyName);
 					//댓글 삭제
 					commentService.deleteFbComment(boardNum);
 					
 
-					// 다음페이지 이동
-					nextPage = "/foreword/board.do";
+					PrintWriter out = response.getWriter();
+					// forward 시 주소가 그대로 유지됨(upload.do)
+					// 그 상태에서 f5(새로고침) --> 글 중복으로 작성됨
+					// 얼럿 창 띄우면서 확인 누르면 기본 페이지로 이동하게끔 처리
+					out.print("""
+							<script>
+								alert("게시글 삭제 성공!");
+								document.location.href = "%s/afterword";
+							</script>
+							""".formatted(request.getContextPath()));
+
 				}
 				
 				// 디폴트 페이지 = 게시판 (글 목록)

@@ -1,5 +1,7 @@
 package com.gc25.dao;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -140,7 +142,6 @@ public class AfterwordViewerDAO {
 	//게시글 수정
 	
 		public void modifyAfterwordBoard(AfterwordBoardDTO afterwordBoardDTO) {
-
 			
 			try {
 				
@@ -150,24 +151,75 @@ public class AfterwordViewerDAO {
 									a_number = ?,
 									a_name = ?,
 									ab_course = ?,
+									ab_teacher = ?, 
+									ab_open = ?, 
+									ab_end = ?, 
+									ab_major = ?,
+									ab_cost = ?, 
+									ab_totalscore = ?,
+									ab_teacherscore = ?,
+									ab_facilityscore = ?,
+									ab_curriculumscore = ?, 
 									ab_title = ?,
 									ab_contents = ?
 									WHERE ab_number = ?
-					
 							""";
 				
 				con = ds.getConnection();	
 				pstmt = con.prepareStatement(updateQuery);
+				
 				pstmt.setInt(1, afterwordBoardDTO.getAcademyNumber());
-		
 				pstmt.setString(2, afterwordBoardDTO.getAcademyName());
 				pstmt.setString(3, afterwordBoardDTO.getCourse());
-				pstmt.setString(4, afterwordBoardDTO.getTitle());
-				pstmt.setString(5, afterwordBoardDTO.getContents());
-				pstmt.setInt(6, afterwordBoardDTO.getBoardNumber());
+				pstmt.setString(4, afterwordBoardDTO.getTeacherName());
+				pstmt.setString(5, afterwordBoardDTO.getOpenDate());
+				pstmt.setString(6, afterwordBoardDTO.getEndDate());
+				pstmt.setString(7, afterwordBoardDTO.getMajor());
 				
+				pstmt.setString(8, afterwordBoardDTO.getCost());
+				pstmt.setInt(9,afterwordBoardDTO.getTotalScore());
+				pstmt.setInt(10, afterwordBoardDTO.getTeacherScore());
+				pstmt.setInt(11, afterwordBoardDTO.getFacilityScore());
+				pstmt.setInt(12, afterwordBoardDTO.getCurriculumScore());
+				pstmt.setString(13, afterwordBoardDTO.getTitle());
+				pstmt.setString(14, afterwordBoardDTO.getContents());
+				pstmt.setInt(15, afterwordBoardDTO.getBoardNumber());
 				pstmt.executeUpdate();			
 				
+				
+				// 글 수정 후 학원 totalscore 평균 계산 (학원 명 기준)
+				
+			String totalQuery = """
+							SELECT AVG(ab_totalscore)
+						  	FROM GC25_AFTERWORD_BOARD
+						  	WHERE a_name = ?
+						  	GROUP BY a_name
+						""";
+				pstmt = con.prepareStatement(totalQuery);
+				pstmt.setString(1, afterwordBoardDTO.getAcademyName());
+				ResultSet rs = pstmt.executeQuery();
+				
+				double avg = 0;
+				
+				if (rs.next()) {
+					BigDecimal deAvg = rs.getBigDecimal(1); // 컬럼 인덱스나 컬럼 이름을 사용하여 값을 가져옵니다.
+					avg = deAvg.setScale(1, RoundingMode.HALF_UP).doubleValue(); // 1자리로 반올림하고 double로 변환합니다.
+				}
+				
+				// 2단계 --> 학원 테이블에서 a_avgscore 칼럼 값 변경하기
+				
+				String avgqQuery = """
+						UPDATE GC25_ACADEMY 
+							SET a_avgscore = ?
+							WHERE a_name = ?
+						""";
+				pstmt = con.prepareStatement(avgqQuery);				
+				pstmt.setDouble(1, avg);
+				pstmt.setString(2, afterwordBoardDTO.getAcademyName());
+				pstmt.executeUpdate();
+				
+				// 학원 테이블 a_reviewcount 칼럼 업데이트
+			
 				
 				con.close();
 				pstmt.close();
@@ -179,22 +231,31 @@ public class AfterwordViewerDAO {
 		}
 		
 		//게시글 삭제 
-		public void deleteAfterwordBoard(int boardNum) {
+		public void deleteAfterwordBoard(int boardNum, String academyName) {
 			
-			String deleteQuery = "DELETE GC25_AFTERWORD_BOARD WHERE ab_number  = ?";
-		
 			try {
-				
+				String deleteQuery = "DELETE GC25_AFTERWORD_BOARD WHERE ab_number  = ?";
+					
 				con = ds.getConnection();	
 				pstmt = con.prepareStatement(deleteQuery);
 				pstmt.setInt(1,boardNum);
 				pstmt.executeUpdate();
 				
+						
+			
+				//삭제 시 리뷰 수 -1
+				String reviewCountQuery = "UPDATE GC25_ACADEMY SET a_reviewcount = (a_reviewcount - 1) WHERE a_name = ?";
+			
+				pstmt = con.prepareStatement(reviewCountQuery);
+				pstmt.setString(1,academyName);
+				pstmt.executeUpdate();
+				
+				
 				con.close();
 				pstmt.close();
-
-			} catch(Exception ex) {
-				ex.printStackTrace();
+				
+			}catch(Exception ex) {
+				
 			}
 			
 	}

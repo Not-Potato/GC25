@@ -54,6 +54,8 @@ import org.json.simple.parser.ParseException;
 	
 
 	//학원 > 
+	//이젠아카데미캠퍼스 --> 1~2page
+	//	
 	//아이티(1~3), 코딩(1~3), coding(1), 컴퓨터(1~3),그린컴퓨터(1~3)
 	//1) IT 1 page
 	
@@ -66,9 +68,9 @@ import org.json.simple.parser.ParseException;
 	
 	//한글 검색 시 사용
 		// 필요한 문자열 URL인코딩
-		String keyword = "그린컴퓨터아카데미";
+		String keyword = "코리아IT";
 		String encodedKeyword = URLEncoder.encode(keyword, "UTF-8");
-		String apiUrl = "https://dapi.kakao.com/v2/local/search/keyword.json?page=3&size=15&sort=accuracy&query="+encodedKeyword+"&category_group_code=AC5";
+		String apiUrl = "https://dapi.kakao.com/v2/local/search/keyword.json?page=1&size=15&sort=accuracy&query="+encodedKeyword+"&category_group_code=AC5";
 		
 	
 	//공통 사용 부분

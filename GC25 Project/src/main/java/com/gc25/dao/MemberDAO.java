@@ -48,10 +48,10 @@ public class MemberDAO {
 				""";
 			pstmt = con.prepareStatement(query);
 			//콘솔창 쿼리 확인
-			System.out.println(query);
+			
 			
 			pstmt.setString(1, memberEmail);
-			System.out.println(memberEmail);
+			
 			rs = pstmt.executeQuery();
 			
 			//같은 이름의 email이 이미 존재 하는 경우나 빈 값인 경우
@@ -62,7 +62,7 @@ public class MemberDAO {
 			}else {
 				result= 1;
 			}
-			System.out.println(result);
+			
 			return result;
 			
 			
@@ -92,10 +92,10 @@ public class MemberDAO {
 					""";
 				pstmt = con.prepareStatement(query);
 				//콘솔창 쿼리 확인
-				System.out.println(query);
+				
 				
 				pstmt.setString(1, memberNickname);
-				System.out.println(memberNickname);
+				
 				rs = pstmt.executeQuery();
 				
 				//같은 이름의 email이 이미 존재 하는 경우나 빈 값인 경우
@@ -106,7 +106,7 @@ public class MemberDAO {
 				}else {
 					result= 1;
 				}
-				System.out.println(result);
+				
 				return result;
 				
 				
@@ -136,10 +136,10 @@ public class MemberDAO {
 					""";
 				pstmt = con.prepareStatement(query);
 				//콘솔창 쿼리 확인
-				System.out.println(query);
+				
 				
 				pstmt.setString(1, memberEmail);
-				System.out.println(memberEmail);
+				
 				rs = pstmt.executeQuery();
 				
 				//같은 이름의 email 찾아서 반환
@@ -172,10 +172,10 @@ public class MemberDAO {
 				""";
 			pstmt = con.prepareStatement(query);
 			//콘솔창 쿼리 확인
-			System.out.println(query);
+		
 			
 			pstmt.setString(1, memberEmail);
-			System.out.println("dao memberemail 삭제삭제: "+memberEmail);
+			
 			rs = pstmt.executeQuery();
 			
 			//같은 이름의 email 찾아서 반환
@@ -216,13 +216,12 @@ public class MemberDAO {
 				UPDATE GC25_MEMBER SET m_imagefilename = ? WHERE m_email = ?
 				""";
 			pstmt = con.prepareStatement(query);
-			//콘솔창 쿼리 확인
-			System.out.println(query);
+			
 			
 			pstmt.setString(1, memberImageFileName);
-			System.out.println(memberImageFileName);
+			
 			pstmt.setString(2, memberEmail);
-			System.out.println(memberEmail);
+			
 			
 			int updateCount = pstmt.executeUpdate();
 
@@ -255,14 +254,14 @@ public class MemberDAO {
 				""";
 			pstmt = con.prepareStatement(query);
 			//콘솔창 쿼리 확인
-			System.out.println(query);
+			
 			
 			pstmt.setString(1, memberEmail);
-			System.out.println("delete email:"+memberEmail);
+			
 			
 			pstmt.executeUpdate();
 
-			System.out.println("이미지 삭제 완료");
+			
 			
 		}catch(Exception ex) {
 			ex.printStackTrace();
@@ -322,7 +321,7 @@ public class MemberDAO {
 						SELECT m_pwd FROM GC25_MEMBER WHERE m_email = ?
 					""";
 			pstmt = con.prepareStatement(query);
-			System.out.println(query);
+			
 			
 			pstmt.setString(1, memberEmail);
 			rs=pstmt.executeQuery();
@@ -333,7 +332,7 @@ public class MemberDAO {
 				}else {
 					result= 0;
 				}
-				System.out.println("비교결과:"+result);
+				
 				return result;
 			}
 			
@@ -369,10 +368,10 @@ public class MemberDAO {
 						""";
 					pstmt = con.prepareStatement(query);
 					//콘솔창 쿼리 확인
-					System.out.println(query);
+					
 					
 					pstmt.setString(1, memberEmail);
-					System.out.println(memberEmail);
+					
 					rs = pstmt.executeQuery();
 					
 					//같은 이름의 email 찾아서 반환
@@ -394,7 +393,7 @@ public class MemberDAO {
 						ex.printStackTrace();
 					}
 				}
-				System.out.println(member);
+				
 				return member; //오류발생시 null값 반환
 			}
 		
@@ -477,7 +476,7 @@ public class MemberDAO {
 				pstmt = con.prepareStatement(query);
 				pstmt.setInt(1, memNum);
 				result = pstmt.executeUpdate();
-				System.out.println("DAO: "+result);
+				
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}finally {

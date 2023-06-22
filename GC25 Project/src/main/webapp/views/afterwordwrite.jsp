@@ -21,7 +21,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | Afterword Write Page</title>
+	<title>GC25 | 수강후기 글쓰기 페이지 </title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon / date range picker -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -38,7 +38,7 @@
 			<div class="inner">
 				<div class="title">
 					<h2>수강 후기 작성</h2>
-					<p>설명설명설명</p>				
+					<p>나의 경험을 다른 이용자와 공유해보세요!</p>				
 				</div>
 				
 				<form class="after-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/upload.do">

@@ -64,8 +64,10 @@
 					
 					<div class="btn-right">
 <% if (mine) { %>
-						<button type="button" class="btn use-btn edit-btn" onclick=" location.href='${contextPath}/afterword/modify.do?boardNum=${afterwordBoardDTO.getBoardNumber()}'">수정</button>
-						<button type="button" class="btn use-btn del-btn" onclick=" location.href='${contextPath}/afterword/delete.do?boardNum=${afterwordBoardDTO.getBoardNumber()}'">삭제</button>
+
+						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/afterword/modify.do?boardNum=${afterwordBoardDTO.getBoardNumber()}'">수정</button>
+						<button type="button" class="btn use-btn" onclick= "confirmDelete('${afterwordBoardDTO.getBoardNumber()}','${afterwordBoardDTO.getAcademyName()}')" >삭제</button>
+
 <% } else {%>
 						<div class="btn-none-group">
 							<button type="button" class="btn none">수정</button>				
@@ -173,7 +175,7 @@
 							<p>학원 평점 : ${afterwordBoardDTO.getAcademyAvgScore()} </p>
 							<span class="emptyStar">
 								★★★★★
-								<span class="fillStar" style="width: ${afterwordBoardDTO.getTotalScore()*10}%" >★★★★★</span>
+								<span class="fillStar" style="width: ${afterwordBoardDTO.getAcademyAvgScore()*10}%" >★★★★★</span>
 							</span> 
 						</div>
 					</div>
@@ -256,6 +258,16 @@
 		} else {
 		  console.error("writeDateValueElement or writeDateElement is null");
 		}
+		
+		
+		/* 글 삭제 시 ajax 통신부  */	
+		function confirmDelete(boardNum , academyName) {
+    		var confirmed = confirm("정말로 삭제하시겠습니까?");
+    		if (confirmed) {
+        	location.href = "${contextPath}/afterword/delete.do?boardNum=" + boardNum + "&academyName=" + academyName;
+    		}
+		}
+		
 	</script>
 </body>
 </html>

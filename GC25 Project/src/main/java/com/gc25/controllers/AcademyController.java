@@ -42,7 +42,7 @@ public class AcademyController extends HttpServlet {
 		String views ="/views";
 		String nextPage = ""; 
 		String action = request.getPathInfo();
-		System.out.println("controller action:" + action);
+		
 		
 		List<AcademyDTO> academyList = new ArrayList<AcademyDTO>(); 
 		
@@ -58,13 +58,12 @@ public class AcademyController extends HttpServlet {
 					String pageNumStr = request.getParameter("pageNum");
 					String searchValue = request.getParameter("searchValue");
 					
+					if (searchValue != null) {searchValue = searchValue.toUpperCase();}
+					
+				
+					
 					HttpSession session = request.getSession();
-					session.setAttribute("searchValue", searchValue);
 					
-					System.out.println("controller pageNumStr:" + pageNumStr);
-					System.out.println("controller searchValue (사용자 검색어):" + searchValue);
-					
-					String savedSearchValue = (String) session.getAttribute("searchValue");
 					
 					// 페이지 넘버 값이 없으면 1 적용 / 있으면 그 값 그대로 유지
 					pageNumStr = (pageNumStr == null || pageNumStr.equals("") ? "1" : pageNumStr); 
@@ -72,7 +71,7 @@ public class AcademyController extends HttpServlet {
 					// 받아온 pageNumStr int로 캐스팅 
 					int pageNum = Integer.parseInt(pageNumStr);
 					
-					System.out.println(pageNum);
+				
 					// 한 페이지에 보여질 학원글 수 : 1개
 					int pagePerScreen = 1; 
 					
@@ -84,19 +83,17 @@ public class AcademyController extends HttpServlet {
 					int endPage = totalPage;
 					int startPage = endPage - (endPage -1);
 					
-					System.out.println("controller endPage" + endPage);
-					System.out.println("controller startPage" +startPage);
-					// 리스트 불러오기
 					
+					// 리스트 불러오기
 					academyList = academyService.listAcademys(pageNum, searchValue);
 					
-					//
+					
 					request.setAttribute("pageNum", pageNum);
 					request.setAttribute("totalPage", totalPage);
 					request.setAttribute("startPage", startPage);
 					request.setAttribute("endPage", endPage);
 					request.setAttribute("pagePerScreen", pagePerScreen);
-					//request.setAttribute("searchValue", searchValue);
+					
 					
 					// 리스트 반환
 					request.setAttribute("academyList", academyList);
@@ -107,11 +104,11 @@ public class AcademyController extends HttpServlet {
 				case "/search" -> {
 					// 검색창에 입력된 값 받아오기
 					String keyword = request.getParameter("keyword");
-					System.out.println("컨트롤러에 들어온 키워드: " + keyword);
+				
 					
 					// keyword 통해 리스트 받아오기
 					academyList = academyService.autoComplete(keyword);
-					System.out.println(academyList);
+					
 					
 					// JSONArray 선언
 					JSONArray jsonArray = new JSONArray();
@@ -129,7 +126,7 @@ public class AcademyController extends HttpServlet {
 					// JSON 객체에 JSONArray에 담기
 					jobj.put("list", jsonArray);
 					// 출력해 보기
-					System.out.println(jobj.toJSONString());
+				
 					
 					// 보낼 양식 정하기
 					response.setContentType("application/x-json; charset=utf-8");
@@ -139,11 +136,11 @@ public class AcademyController extends HttpServlet {
 				case "/searchjustone" -> {
 					// 입력된 academyName 값 받아오기
 					String academyName = request.getParameter("academyName");
-					System.out.println("컨트롤러에 들어온 학원명: " + academyName);
+					
 					
 					// academyName와 일치하는 Data 존재하는지 확인하기
 					int result = academyService.searchJustOne(academyName);
-					System.out.println("존재하면 학원 번호가, 존재하지 않으면 0이 출력되어야 함!! 결과는 [" + result + "]");
+				
 					
 					response.setContentType("text/html; charset=UTF-8");
 					response.getWriter().print(result);
