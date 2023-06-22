@@ -126,11 +126,7 @@ public class MemberController extends HttpServlet {
 					
 						if(nicknameCheckSuccess == 1) {
 							 session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
-
-							//session.setAttribute("memberNickname", memberNickname);
-
 							 PrintWriter out = response.getWriter();
-							 //jsonResult.put("result", nicknameCheckSuccess);
 							 out.print(nicknameCheckSuccess);
 							 return;
 						} else if (nicknameCheckSuccess == 0) {
@@ -248,7 +244,6 @@ public class MemberController extends HttpServlet {
 				case "/mypage.do" -> {
 					
 					nextPage = views + "/mypage.jsp";
-					
 					
 				}
 				case "/logout.do" -> {
@@ -485,6 +480,8 @@ public class MemberController extends HttpServlet {
 					
 					PrintWriter out = response.getWriter();
 					String passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@!%*#?&])[A-Za-z\\d@!%*#?&]{8,12}$";
+				
+					memberEmail=(String)session.getAttribute("memberEmail");
 					
 					//로그인 정보 확인
 				    if (memberEmail != null) {
@@ -555,19 +552,16 @@ public class MemberController extends HttpServlet {
 						return;
 					}
 		
-					memberImageFileName = memberService.setMemberImageFileName(memberImageFileName, memberEmail);
-					
-
 					 //비밀번호 받아서 세팅
 				    if(request.getParameter("memberPwd")!=null){
 						memberPwd=request.getParameter("memberPwd");
 						
 				//이미지 파일 세팅
-				memberImageFileName = (String) session.getAttribute("fileName");
-
+				memberImageFileName = (String) session.getAttribute("memberImageFileName");
+				memberService.setMemberImageFileName(memberImageFileName, memberEmail);
 			
 				if (memberImageFileName==null || memberImageFileName.equals("")) {
-					memberImageFileName="profile.jpg";
+					memberImageFileName=memberService.getMemberImageFileName(memberEmail);
 				}
 
 				int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
@@ -613,35 +607,36 @@ public class MemberController extends HttpServlet {
 //								System.out.println(fileItem.getFieldName()+"="+fileItem.getString("UTF-8"));
 							
 								if(fileItem.getSize()>0) {
-								String fullpath = fileItem.getName();
-								//파일경로에서 마지막 \\를 찾아 저장 ex)C:\path\to\file.text라면
-								// idx=\file.txt
-								int idx=fullpath.lastIndexOf("\\"); //윈도우 사용자
-								
-								if(idx==-1) {
-									idx=fullpath.lastIndexOf("/"); //만약 맥,리눅스 사용자라면
-								}
-								//idx는 " \ " 포함되어 있으므로 전체 경로에서 idx + 1 해주면 파일명만 저장 
-								String fileName = fullpath.substring(idx+1);
-								File uploadFile = new File(curPath+"\\"+fileName);
-								
-								//업로드 확장자 제한
-								String fileExtension="";
-								List<String> allowedExtensions = new ArrayList<>(Arrays.asList("jpg", "png", "gif", "svg" , "jpeg"));
-								if (fileName != null && !fileName.isEmpty()) {
-									fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
-								}
-								
-								if (!allowedExtensions.contains(fileExtension.toLowerCase())) {
-									PrintWriter script = response.getWriter();
-									script.println("<script> alert('허용되지 않는 확장자입니다.') </script> ");
+									String fullpath = fileItem.getName();
+									//파일경로에서 마지막 \\를 찾아 저장 ex)C:\path\to\file.text라면
+									// idx=\file.txt
+									int idx=fullpath.lastIndexOf("\\"); //윈도우 사용자
 									
-									script.close(); //오류생기면 이 jsp 페이지 종료
-								} else {
-									fileItem.write(uploadFile);
+									if(idx==-1) {
+										idx=fullpath.lastIndexOf("/"); //만약 맥,리눅스 사용자라면
+									}
+									//idx는 " \ " 포함되어 있으므로 전체 경로에서 idx + 1 해주면 파일명만 저장 
+									String fileName = fullpath.substring(idx+1);
+									File uploadFile = new File(curPath+"\\"+fileName);
 									
-									session.setAttribute("fileName", fileName);
-								}
+									//업로드 확장자 제한
+									String fileExtension="";
+									List<String> allowedExtensions = new ArrayList<>(Arrays.asList("jpg", "png", "gif", "svg" , "jpeg"));
+									if (fileName != null && !fileName.isEmpty()) {
+										fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
+									}
+									
+									if (!allowedExtensions.contains(fileExtension.toLowerCase())) {
+										PrintWriter script = response.getWriter();
+										script.println("<script> alert('허용되지 않는 확장자입니다.') </script> ");
+										
+										script.close(); //오류생기면 이 jsp 페이지 종료
+									} else {
+										fileItem.write(uploadFile);
+										
+										session.setAttribute("memberImageFileName", fileName);
+										System.out.println("파일이름:" + fileName);
+									}
 								
 								}
 							}//if	
