@@ -211,7 +211,7 @@
 				},  
 				success : function(result) {
 					console.log(result);
-					if(result==1) {
+					if(result ==1) {
 					  	alert ("인증메일이 발송되었습니다.");
 					  	console.log(result);
 					  

@@ -5,8 +5,9 @@
 <%@ page import="java.io.PrintWriter"%>
 <%
 
-	
 	String memberEmail = (String)session.getAttribute("memberEmail");
+	String memberNickname = (String)session.getAttribute("memberNickname");
+
 
 	if (memberEmail != null) {
    	 //로그인이 되어있는 경우
@@ -53,7 +54,8 @@
 				<div id="profile" class="mp-profile">
 					<form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" > <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
 						<img src="../resources/images/profileimages/<%= memberImageFileName %>" alt="<%= memberImageFileName %>">
-						<input type="file" name="profile" accept="image/*">
+						
+
 					</form>
 					<div class="edit-del"> 
 						<button class="profileBtn" onclick="profileChange()">수정</button> 
