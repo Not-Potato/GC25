@@ -479,10 +479,7 @@ public class MemberController extends HttpServlet {
 					
 					PrintWriter out = response.getWriter();
 					String passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@!%*#?&])[A-Za-z\\d@!%*#?&]{8,12}$";
-<<<<<<< HEAD
-=======
-				
->>>>>>> branch 'master' of https://github.com/Not-Potato/GC25.git
+
 					memberEmail=(String)session.getAttribute("memberEmail");
 					
 					//로그인 정보 확인
@@ -586,7 +583,7 @@ public class MemberController extends HttpServlet {
 					
 					//memberService.getMemberImageFileName(memberImageFileName, memberEmail);
 					//파일 저장할 경로
-					File curPath=new File("C:\\Users\\HJ LEE\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\");
+					File curPath=new File("C:\\Users\\wpwpq\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\");
 //					System.out.println(curPath);
 					//DiskFileItemFactory는 FileItem 객체를 생성하기 위한 팩토리 클래스  
 					//->getSize(), getName(), isFormField 등을 제공 -> 업로드된 파일의 정보(이름, 크기, 타입 등)를 확인하고, 데이터에 접근하여 원하는 처리를 수행 
@@ -663,7 +660,7 @@ public class MemberController extends HttpServlet {
 					
 					if(userResponse) {
 						memberImageFileName = memberService.getMemberImageFileName(memberEmail);
-						 String filePath = "C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\";
+						 String filePath = "C:\\Users\\wpwpq\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\";
 					     File file = new File(filePath+memberImageFileName);
 					      
 					     if (!memberImageFileName.equals("profile.jpg")) {

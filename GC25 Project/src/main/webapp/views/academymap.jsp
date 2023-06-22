@@ -63,7 +63,7 @@
 								<i class="xi-school"></i>
 								학원 명
 							</h4>
-							<p>${academyList[pageNum-1].academyName}</p>
+							<p id="academyName">${academyList[pageNum-1].academyName}</p>
 						</div>
 						<div>
 							<h4>
@@ -105,40 +105,43 @@
 							</div>
 						</div>
 					</div>
-					
-					<nav aria-label="...">
-						<ul class="pagination justify-content-center">
-							
-	 	<c:if test="${pageNum == 1 && pageNum < -1 }">
-							<li class="page-item disabled"><a class="page-link">◀</a></li>	    
-		</c:if >	 
-										
-		<c:if test="${pageNum != 1}">
-							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum-1}&searchValue=${searchValue}">◀</a></li>
-		</c:if>  
-
-		<c:forEach var="page" begin="${startPage}" end="${endPage}" step="1">	
-			<c:choose> 
-				<c:when test="${ page == pageNum }"> 
-							<li class="page-item"><a class="page-link active" href="#">${page}</a></li>
-				</c:when>
-				<c:otherwise>   
-							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${page}&searchValue=${searchValue}">${page}</a></li>
-				</c:otherwise>
-			</c:choose>	    
-		</c:forEach>	
-										   
-								    	 
-		<c:if test="${pageNum == endPage && pageNum > endPage}">   
-							<li class="page-item"><a class="page-link disabled" href="#">▶</a></li>
-		</c:if >
-		<c:if test="${ pageNum != endPage}">
-							<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${pageNum+ 1}&searchValue=${searchValue}">▶</a></li>
-		</c:if>	     
-						</ul>
-					</nav>
 	</c:otherwise> 
 </c:choose>
+					<nav aria-label="...">
+						<ul class="pagination justify-content-center">
+
+<c:choose>
+	<c:when test="${ pageNum <= pagePerScreen }">
+						<li class="page-item"><a class="page-link disabled">◀</a></li>
+	</c:when>
+	<c:otherwise>
+						<li class="page-item"><a class="page-link usable" href="${contextPath}/academy/map.do?pageNum=${ startPage - 1 }&searchValue=${ searchValue }">◀</a></li>
+	</c:otherwise>
+</c:choose>
+
+<c:forEach var="page" begin="${ startPage }" end="${ endPage }" step="1">
+	<c:choose>
+		<c:when test="${ page == pageNum }">
+						<li class="page-item"><a class="page-link active" href="#">${ page }</a></li>
+		</c:when>
+		<c:otherwise>
+						<li class="page-item"><a class="page-link" href="${contextPath}/academy/map.do?pageNum=${ page }&searchValue=${ searchValue }">${ page }</a></li>
+		</c:otherwise>
+	</c:choose>
+</c:forEach>
+							
+				<!-- "다음 페이지 버튼" disabled(비활성화) / 활성화 -->
+<c:choose>
+	<c:when test="${ endPage != totalPage }">
+						<li class="page-item"><a class="page-link usable" href="${contextPath}/academy/map.do?pageNum=${ endPage + 1 }&searchValue=${ searchValue }">▶</a></li>
+	</c:when>
+	<c:otherwise>
+						<li class="page-item"><a class="page-link disabled">▶</a></li>
+	</c:otherwise>
+</c:choose>	     
+						</ul>
+					</nav>
+
 				</div>
 			</div>  <!-- end of inner -->
 		</div>  <!-- end of map-page -->
@@ -172,7 +175,7 @@
 		var staticMapContainer  = document.getElementById('static-map'), // 이미지 지도를 표시할 div
 		    staticMapOption = { 
 		        center: new kakao.maps.LatLng(academyY, academyX), // 이미지 지도의 중심좌표
-		        level: 3, // 이미지 지도의 확대 레벨
+		        level: 2, // 이미지 지도의 확대 레벨
 		        marker: marker // 이미지 지도에 표시할 마커
 		    };
 		
@@ -181,12 +184,12 @@
 		           	//position: new kakao.maps.LatLng(37.39876608892914, 126.9209608170776),
 		            //text: ""
 		        };
-		var staticMapContainer  = document.getElementById('static-map'), // 이미지 지도를 표시할 div
-	    staticMapOption = { 
-	        center: new kakao.maps.LatLng(37.39876608892914, 126.9209608170776), // 이미지 지도의 중심좌표
-	        level: 3, // 이미지 지도의 확대 레벨
-	        marker: marker // 이미지 지도에 표시할 마커
-		    };	
+			var staticMapContainer  = document.getElementById('static-map'), // 이미지 지도를 표시할 div
+		    staticMapOption = { 
+		        center: new kakao.maps.LatLng(37.39876608892914, 126.9209608170776), // 이미지 지도의 중심좌표
+		        level: 2, // 이미지 지도의 확대 레벨
+		        marker: marker // 이미지 지도에 표시할 마커
+			    };	
 		}
 	
 		// 이미지 지도를 생성합니다

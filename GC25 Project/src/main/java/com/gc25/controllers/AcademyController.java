@@ -73,16 +73,18 @@ public class AcademyController extends HttpServlet {
 					
 				
 					// 한 페이지에 보여질 학원글 수 : 1개
-					int pagePerScreen = 1; 
+					int pagePerScreen = 10; 
 					
 					// 현재 게시물의 전체 페이지 수 
 					int totalPage = academyService.getTotalPage(searchValue);
 					
 					
 					// 마지막 페이지 = 현재페이지 + (페이지당 글 수 - (현재페이지 % 페이지당 글 수) 
-					int endPage = totalPage;
-					int startPage = endPage - (endPage -1);
-					
+//					int endPage = totalPage;
+//					int startPage = endPage - (endPage -1);
+					int endPage = pageNum + (pagePerScreen - (pageNum % pagePerScreen));
+					int startPage = endPage - (pagePerScreen - 1);
+					if (endPage > totalPage) endPage = totalPage;
 					
 					// 리스트 불러오기
 					academyList = academyService.listAcademys(pageNum, searchValue);
@@ -93,6 +95,7 @@ public class AcademyController extends HttpServlet {
 					request.setAttribute("startPage", startPage);
 					request.setAttribute("endPage", endPage);
 					request.setAttribute("pagePerScreen", pagePerScreen);
+					request.setAttribute("searchValue", searchValue);
 					
 					
 					// 리스트 반환
