@@ -133,7 +133,7 @@ public class ForewordViewerDAO {
 			pstmt = con.prepareStatement(updateQuery);
 			pstmt.setInt(1, forewordBoardDTO.getAcademyNumber());
 	
-			System.out.println("forewordViewer DTO의 회원번호" + forewordBoardDTO.getAcademyNumber());
+		
 			pstmt.setString(2, forewordBoardDTO.getAcademyName());
 			pstmt.setString(3, forewordBoardDTO.getCourse());
 			pstmt.setString(4, forewordBoardDTO.getTitle());
@@ -171,6 +171,8 @@ public class ForewordViewerDAO {
 			pstmt = con.prepareStatement(reviewCountQuery);
 			pstmt.setString(1,academyName);
 			pstmt.executeUpdate();
+			
+			
 			
 			con.close();
 			pstmt.close();

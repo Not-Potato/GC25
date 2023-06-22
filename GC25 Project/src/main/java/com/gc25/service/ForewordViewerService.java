@@ -27,10 +27,10 @@ public class ForewordViewerService {
 		}
 			
 		
-		 //좋아요 수 업데이트 
-		 public void setRecommend(int memberNum, int boardNum, int aBoard) { 
-			 recommendDao.fbSetRecommend(memberNum, boardNum, aBoard); 
-		}
+	 //좋아요 수 업데이트 
+	 public void setRecommend(int memberNum, int boardNum, int aBoard) { 
+		 recommendDao.fbSetRecommend(memberNum, boardNum, aBoard); 
+	}
 		 
 
 	// 게시글 삭제

@@ -148,7 +148,6 @@ public class ForewordBoardDAO {
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setInt(1, dto.getMemberNumber());
-			System.out.println("forewordBoardDTO 회원번호 확인용: "+ dto.getMemberNumber());
 			pstmt.setInt(2, dto.getAcademyNumber());
 			pstmt.setString(3, dto.getAcademyName());
 			pstmt.setString(4, dto.getCourse());
@@ -166,7 +165,7 @@ public class ForewordBoardDAO {
 							SET m_status = 1
 							WHERE m_number = ? AND m_status = 0
 						""";
-				System.out.println("forewordBoardDTO 회원등급 업데이트 확인용: " + query);
+				
 				pstmt = con.prepareStatement(query);
 				pstmt.setInt(1, dto.getMemberNumber());
 				pstmt.executeUpdate();
@@ -179,7 +178,7 @@ public class ForewordBoardDAO {
 						WHERE a_name = ?
 						""";
 				pstmt = con.prepareStatement(query);	
-				System.out.println("forewordBoardDTO 회원등급 reviewcount 확인용: " + query);
+				
 				pstmt.setString(1, dto.getAcademyName());
 				pstmt.executeUpdate();
 			}

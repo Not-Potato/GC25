@@ -142,8 +142,7 @@ public class AfterwordViewerDAO {
 	//게시글 수정
 	
 		public void modifyAfterwordBoard(AfterwordBoardDTO afterwordBoardDTO) {
-			System.out.println("afterword DAO 수정 null test major:"+ afterwordBoardDTO.getMajor());
-			System.out.println("afterword DAO 수정 null test cost:"+ afterwordBoardDTO.getCost());
+			
 			try {
 				
 				String updateQuery = """
@@ -240,19 +239,17 @@ public class AfterwordViewerDAO {
 				con = ds.getConnection();	
 				pstmt = con.prepareStatement(deleteQuery);
 				pstmt.setInt(1,boardNum);
-				System.out.println("afterwordView DAO 삭제:" + deleteQuery);
 				pstmt.executeUpdate();
 				
 						
 			
-			//삭제 시 리뷰 수 -1
+				//삭제 시 리뷰 수 -1
 				String reviewCountQuery = "UPDATE GC25_ACADEMY SET a_reviewcount = (a_reviewcount - 1) WHERE a_name = ?";
 			
 				pstmt = con.prepareStatement(reviewCountQuery);
 				pstmt.setString(1,academyName);
 				pstmt.executeUpdate();
 				
-				System.out.println("afterwordView DAO 리뷰카운트 마이너스확인용:" + academyName);
 				
 				con.close();
 				pstmt.close();

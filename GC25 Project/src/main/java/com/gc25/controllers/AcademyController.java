@@ -42,7 +42,7 @@ public class AcademyController extends HttpServlet {
 		String views ="/views";
 		String nextPage = ""; 
 		String action = request.getPathInfo();
-		System.out.println("controller action:" + action);
+		
 		
 		List<AcademyDTO> academyList = new ArrayList<AcademyDTO>(); 
 		
@@ -60,7 +60,7 @@ public class AcademyController extends HttpServlet {
 					
 					if (searchValue != null) {searchValue = searchValue.toUpperCase();}
 					
-					System.out.println("academycontroller 검색어" + searchValue);
+				
 					
 					HttpSession session = request.getSession();
 					
@@ -104,11 +104,11 @@ public class AcademyController extends HttpServlet {
 				case "/search" -> {
 					// 검색창에 입력된 값 받아오기
 					String keyword = request.getParameter("keyword");
-					System.out.println("컨트롤러에 들어온 키워드: " + keyword);
+				
 					
 					// keyword 통해 리스트 받아오기
 					academyList = academyService.autoComplete(keyword);
-					System.out.println(academyList);
+					
 					
 					// JSONArray 선언
 					JSONArray jsonArray = new JSONArray();
@@ -126,7 +126,7 @@ public class AcademyController extends HttpServlet {
 					// JSON 객체에 JSONArray에 담기
 					jobj.put("list", jsonArray);
 					// 출력해 보기
-					System.out.println(jobj.toJSONString());
+				
 					
 					// 보낼 양식 정하기
 					response.setContentType("application/x-json; charset=utf-8");
@@ -136,11 +136,11 @@ public class AcademyController extends HttpServlet {
 				case "/searchjustone" -> {
 					// 입력된 academyName 값 받아오기
 					String academyName = request.getParameter("academyName");
-					System.out.println("컨트롤러에 들어온 학원명: " + academyName);
+					
 					
 					// academyName와 일치하는 Data 존재하는지 확인하기
 					int result = academyService.searchJustOne(academyName);
-					System.out.println("존재하면 학원 번호가, 존재하지 않으면 0이 출력되어야 함!! 결과는 [" + result + "]");
+				
 					
 					response.setContentType("text/html; charset=UTF-8");
 					response.getWriter().print(result);

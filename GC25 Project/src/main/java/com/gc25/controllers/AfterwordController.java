@@ -95,12 +95,12 @@ public class AfterwordController extends HttpServlet {
 				}
 				// 글 작성 페이지
 				case "/write.do" -> {
-					System.out.println("글 작성 페이지로 이동!!!");
+					
 					nextPage = views + "/afterwordwrite.jsp";
 				}
 				// 글 업로드 --> 작성 완료 얼럿 창 --> 목록으로 이동
 				case "/upload.do" -> {
-					System.out.println("포스팅 발행!!!!");
+					
 					
 					// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기
 					dto.setMemberNumber((Integer)(session.getAttribute("memberNumber")));
@@ -253,8 +253,6 @@ public class AfterwordController extends HttpServlet {
 						c = "무상";
 					}
 					
-					System.out.println(m);
-					System.out.println(c);
 					
 					
 					// 체크박스 --> null(off)로 넘어오면 각각 "비전공", "무상"
@@ -262,7 +260,7 @@ public class AfterwordController extends HttpServlet {
 						
 					String cost = request.getParameter("cost") == null ? c : afterwordBoardDTO.getCost();
 					
-					System.out.println();
+					
 					// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 					// 학원번호, 학원이름, 과정구분, 제목, 내용
 					afterwordBoardDTO.setAcademyNumber(Integer.parseInt(request.getParameter("academyNum")));
@@ -302,7 +300,7 @@ public class AfterwordController extends HttpServlet {
 					String boardNumStr = request.getParameter("boardNum");
 					int boardNum = Integer.parseInt(boardNumStr);
 					String academyName = request.getParameter("academyName");
-					System.out.println("afterwordcontroller 삭제 test:" + academyName);
+					
 					
 					//본문 삭제
 					afterwordViewerService.deleteAfterwordBoard(boardNum, academyName);

@@ -78,8 +78,7 @@ public class ForewordController extends HttpServlet {
 				if (endPage > totalPage)
 					endPage = totalPage;
 
-				System.out.println("현재 정렬 기준: " + searchType);
-				System.out.println("현재 페이지 번호: " + pageNum);
+			
 
 				// 리스트 불러오기
 				list = service.getList(searchType, pageNum);
@@ -99,12 +98,12 @@ public class ForewordController extends HttpServlet {
 			}
 			// 글 작성 페이지
 			case "/write.do" -> {
-				System.out.println("글 작성 페이지로 이동!!!");
+			
 				nextPage = views + "/forewordwrite.jsp";
 			}
 			// 글 업로드 --> 작성 완료 얼럿 창 --> 목록으로 이동
 			case "/upload.do" -> {
-				System.out.println("포스팅 발행!!!!");
+				
 
 				// write.do(글 작성 페이지)에서 받아온 정보를 dto에 담기
 				// session에 저장되어 있는 회원번호(현재 접속 중인) dto에 담기

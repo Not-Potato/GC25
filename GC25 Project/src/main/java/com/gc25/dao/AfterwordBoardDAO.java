@@ -75,7 +75,7 @@ public class AfterwordBoardDAO {
 				""";
 			}
 			
-			System.out.println(query);
+			
 			pstmt = con.prepareStatement(query);
 			pstmt.setInt(1, offset);
 			ResultSet rs = pstmt.executeQuery();
@@ -124,7 +124,7 @@ public class AfterwordBoardDAO {
 
 //			String query = "SELECT CEIL(count(*) / 10) total_page FROM GC25_AFTERWORD_BOARD";
 			String query = "SELECT COUNT(DISTINCT ab_number) AS total_count FROM GC25_AFTERWORD_BOARD";
-			System.out.println(query);
+		
 			
 			pstmt = con.prepareStatement(query);
 			
@@ -166,7 +166,7 @@ public class AfterwordBoardDAO {
 							?, ?, 0, 0, 0
 						)
 					""";
-			System.out.println(query);
+			
 			pstmt = con.prepareStatement(query);
 			
 			pstmt.setInt(1, dto.getMemberNumber());
@@ -192,7 +192,6 @@ public class AfterwordBoardDAO {
 			// 학원 테이블 평점 업데이트
 			// 학원 테이블 후기카운팅 칼럼 업데이트
 			if (result == 1) {
-				System.out.println("업로드 성공!");
 				// 회원 등급
 				query = "";
 				query = """
@@ -200,7 +199,7 @@ public class AfterwordBoardDAO {
 						SET m_status = 1
 						WHERE m_number = ? AND m_status = 0
 					""";
-				System.out.println(query);
+				
 				pstmt = con.prepareStatement(query);
 				pstmt.setInt(1, dto.getMemberNumber());
 				pstmt.executeUpdate();
