@@ -16,7 +16,7 @@
 <html lang="ko-KR">
 <head>
 	<meta charset="UTF-8">
-	<title> 학원 검색 </title>
+	<title>GC25</title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -37,7 +37,7 @@
  			<div class="inner">
  				<div class="title">
 				    <h2>학원 찾기</h2>
-				    <p>키워드로 학원 위치를 검색해보세요</p>
+				    <p>궁금한 학원을 키워드로 검색해보세요!</p>
 				</div>
  			
  			

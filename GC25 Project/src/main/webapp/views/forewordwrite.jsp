@@ -22,7 +22,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | 상담후기 글쓰기</title>
+	<title>GC25</title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -38,7 +38,7 @@
 			<div class="inner">
 				<div class="title">
 					<h2>상담 후기 작성</h2>
-					<p>나의 경험을 다른 이용자와 공유해보세요!</p>				
+					<p>상담 하며 느낀 점을 공유하고 조언을 받아 보세요.</p>				
 				</div>
 				
 				<form class="foreword-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/upload.do">

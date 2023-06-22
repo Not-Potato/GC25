@@ -6,8 +6,7 @@
 <%
 
 	String memberEmail = (String)session.getAttribute("memberEmail");
-	String memberNickname = (String)session.getAttribute("memberNickname");
-
+	
 
 	if (memberEmail != null) {
    	 //로그인이 되어있는 경우
@@ -55,7 +54,7 @@
 						<img src="../resources/images/profileimages/<%= memberImageFileName %>" alt="<%= memberImageFileName %>">
 						
 						<form method="post" class="image-form" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
-							<input class="upload-name" value="첨부파일" placeholder="첨부파일">
+							<input class="upload-name" value="첨부파일" placeholder="첨부파일" readonly>
 							<input type="file" id="file" name="profile" accept="image/*">
 							<label for="file">파일찾기</label> 
 							<input type="reset" class="reset-btn" value="초기화">
@@ -282,10 +281,13 @@
 				return;
 			}
 			
-			/* 수정 + 적용 버튼 합치기 test 중 */
-			if ($(".upload-name").val() != "첨부파일") {			
-				changeSubmit(true);
-			}
+		      /* 수정 + 적용 버튼 합치기 test 중 */
+	         if ($(".upload-name").val() != "첨부파일" && memberPwd == memberPwd2
+	               && $("#passwordRegCheckMessage").text() == "조건을 충족합니다!"
+	               && $("#nicknameCheckMessage").text() != "사용할 수 없는 닉네임입니다.") {         
+	            console.log('됨?');
+	            changeSubmit(true);
+	         }
 			
 			$.ajax({
 				type :"post",
@@ -303,7 +305,7 @@
 					if(result == 1) {
 					  	alert ("회원정보수정이 완료되었습니다.");
 					  	console.log("수정완료"+result);
-					  	location.href="/index.jsp";
+					  	location.href="/main";
 					}else if(result == -100){
 						  alert("로그인을 해 주세요.");
 						  console.log(result);

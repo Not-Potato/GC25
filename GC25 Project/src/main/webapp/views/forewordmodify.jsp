@@ -30,7 +30,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | 상담후기 수정페이지 </title>
+	<title>GC25</title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -47,8 +47,8 @@
 		<div class="board-page foreword-page write-page foreword-write-page">
 			<div class="inner">
 				<div class="title">
-					<h2>상담 후기 수정</h2>
-					<p>나의 경험을 다른 이용자와 공유해보세요!</p>
+					<h2>상담 후기</h2>
+					<p>앗! 빠뜨리거나 더할 것이 있으신가요?</p>
 				</div>
        
 				<form class="foreword-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/foreword/modifyupload.do?boardNum=${forewordBoardDTO.getBoardNumber()}">

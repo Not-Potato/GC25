@@ -15,7 +15,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-	<title>GC25 | Foreword</title>
+	<title>GC25</title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -30,7 +30,7 @@
 			<div class="inner">        
 				<div class="title">
 				    <h2>상담 후기</h2>
-				    <p>상담 후기 게시판입니다!</p>
+				    <p>후기를 보고 나와 맞는 학원을 골라보세요.</p>
 				</div>
 				
 				<div class="top-menu">
