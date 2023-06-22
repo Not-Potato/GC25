@@ -5,8 +5,9 @@
 <%@ page import="java.io.PrintWriter"%>
 <%
 
-	
 	String memberEmail = (String)session.getAttribute("memberEmail");
+	String memberNickname = (String)session.getAttribute("memberNickname");
+
 
 	if (memberEmail != null) {
    	 //로그인이 되어있는 경우
@@ -51,9 +52,10 @@
 		<div class="inner">
 			<div class="my-page">
 				<div id="profile" class="mp-profile">
-					<form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" action="/mem/proflieImgChange"> <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
+					<form method="post" enctype="multipart/form-data" name="proflieImgChange" id="proflieImgChange" > <!-- 파일을 업로드 할 땐 항상 post방식 get은 사용 할 수 없다. -->
 						<img src="../resources/images/profileimages/<%= memberImageFileName %>" alt="<%= memberImageFileName %>">
-						<input type="file" name="profile"> 
+						
+
 					</form>
 					<div class="edit-del"> 
 						<button class="profileBtn" onclick="profileChange()">수정</button> 
@@ -225,7 +227,6 @@ function imgdel(){
 			userResponse=false;
 			console.log(userResponse);
 			alert('삭제 취소 되었습니다.');
-			history.back();
 		}
 		
 		$.ajax({
@@ -284,7 +285,7 @@ function mypageSubmit() {
 				if(result == 1) {
 				  	alert ("회원정보수정이 완료되었습니다.");
 				  	console.log("수정완료"+result);
-				  	location.href="/index.jsp";
+				  	location.href="/main";
 				}else if(result == -100){
 					  alert("로그인을 해 주세요.");
 					  console.log(result);
