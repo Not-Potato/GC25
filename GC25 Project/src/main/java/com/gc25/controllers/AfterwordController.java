@@ -168,6 +168,15 @@ public class AfterwordController extends HttpServlet {
 				 	ArrayList<CommentDTO> commentList =  commentService.getAfterwordComment(boardNum);
 				 	request.setAttribute("commentList", commentList);
 				 	
+				 	// 추천 여부 가져오기
+					if (session.getAttribute("memberNumber") != null) {
+						int mn = (int)session.getAttribute("memberNumber");
+						// 접속자 회원번호(세션), 현재 접속한 게시글 번호, "현재 게시판" 넘겨주기
+						int isRecommended = afterwordViewerService.getRecommend(mn, boardNum, "ab");
+						// 접속자가 이미 추천한 글인 경우 isRecommended = 1
+						// 접속자가 추천하지 않은 글인 경우 isRecommended = 0
+						request.setAttribute("isRecommended", isRecommended);
+					}
 				 	
 					//사용자 아이디 심어주기 (TEST)
 					//int memberNum = 10000;

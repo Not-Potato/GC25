@@ -150,4 +150,35 @@ public class RecommendDAO {
 				ex.printStackTrace();
 			}
 		}
+	public int getRecommend(int memberNum, int boardNum, String where) {
+		int isRecommended = 0;
+		try {
+			con = ds.getConnection();
+
+			String query = "";
+			
+			if (where == "fb") {
+				query = "SELECT count(*) FROM GC25_RECOMMEND WHERE M_NUMBER = ? AND FB_NUMBER = ?";
+			} else {
+				query = "SELECT count(*) FROM GC25_RECOMMEND WHERE M_NUMBER = ? AND AB_NUMBER = ?";
+			}
+			
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, memberNum);
+			pstmt.setInt(2, boardNum);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				isRecommended = rs.getInt(1); 
+			}
+			
+			rs.close();
+			pstmt.close();
+			con.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return isRecommended;
+	}
 }

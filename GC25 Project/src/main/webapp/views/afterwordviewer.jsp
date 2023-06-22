@@ -162,17 +162,27 @@
 						<p>${afterwordBoardDTO.getContents()}</p>
 					</div>
 
+<c:choose>
+	<c:when test="${ isRecommended == 1}">
+					<div class="like liked">
+						<i class="xi-thumbs-up"></i>
+						<p>이미 추천한 게시글입니다!</p>
+					</div>
+	</c:when>         
+	<c:otherwise>
 					<div class="like">
 						<a href="${contextPath}/afterword/recommend.do?boardNum=${afterwordBoardDTO.getBoardNumber()}">
 							<i class="xi-thumbs-up"></i>
-							<p>Good!</p>
+							<p>추천합니다!</p>
 						</a>
 					</div>
+	</c:otherwise>
+</c:choose>
 
 					<div class="academy-info">
-						<p>학원 이름: ${afterwordBoardDTO.getAcademyName()}</p>				
+						<p><i class="xi-school"></i> ${afterwordBoardDTO.getAcademyName()}</p>				
 						<div class="starBox">
-							<p>학원 평점 : ${afterwordBoardDTO.getAcademyAvgScore()} </p>
+							<p><i class="xi-trophy"></i> ${afterwordBoardDTO.getAcademyAvgScore()} </p>
 							<span class="emptyStar">
 								★★★★★
 								<span class="fillStar" style="width: ${afterwordBoardDTO.getAcademyAvgScore()*10}%" >★★★★★</span>

@@ -147,7 +147,16 @@ public class ForewordController extends HttpServlet {
 				// 댓글 리스트 가져오기
 				ArrayList<CommentDTO> commentList = commentService.getForewordComment(boardNum);
 				request.setAttribute("commentList", commentList);
-
+				
+				// 추천 여부 가져오기
+				if (session.getAttribute("memberNumber") != null) {
+					int mn = (int)session.getAttribute("memberNumber");
+					int isRecommended = forewordViewerService.getRecommend(mn, boardNum, "fb");
+					// 접속자가 이미 추천한 글인 경우 isRecommended = 1
+					// 접속자가 추천하지 않은 글인 경우 isRecommended = 0
+					request.setAttribute("isRecommended", isRecommended);
+				}
+				
 				// 사용자 아이디 심어주기 (TEST)
 				// request.getAttribute("memberNumber");
 				// int memberNumber = 10000;

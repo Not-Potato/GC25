@@ -45,7 +45,7 @@
 					<!-- 첫 번째 줄 (학원 명 / 과정 구분) -->
 					<div class="first-line">
 						<div>
-							<input type="text" id="academy_name" class="box" placeholder="학원 명" autocomplete="off" name="academyName">
+							<input type="text" id="academy-name" class="box" placeholder="학원 명" autocomplete="off" name="academyName">
 							<input type="hidden" name="academyNum" id="academyNum" value="">
 							<div class="search-list">
 								<ul class="d-none" id="none">
@@ -240,7 +240,7 @@
 		
 		// enter key 입력 --> form 제출 X
 		document.posting_form.addEventListener("keydown", evt => {
-			if (evt.code === "Enter") evt.preventDefault();
+			if (evt.code === "Enter" || evt.keyCode === 13) evt.preventDefault();
 		});
 		
 		// 체크 여부에 따라 label.text와 input.val 변경

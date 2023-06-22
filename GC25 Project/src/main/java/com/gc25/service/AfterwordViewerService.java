@@ -35,4 +35,8 @@ public class AfterwordViewerService {
 	afterwordViewrDao.deleteAfterwordBoard (boardNum);
 	}
 	
+	// 좋아요 여부 확인
+	public int getRecommend(int memberNum, int boardNum, String where) {
+		return recommendDao.getRecommend(memberNum, boardNum, where);
+	}
 }
