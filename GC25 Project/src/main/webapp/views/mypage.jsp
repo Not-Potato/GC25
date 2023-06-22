@@ -284,6 +284,18 @@
 				alert("비밀번호를 입력하세요.");
 				return;
 			}
+<<<<<<< HEAD
+			
+			/* 수정 + 적용 버튼 합치기 test 중 */
+
+			if ($(".upload-name").val() != "첨부파일" && memberPwd == memberPwd2
+					&& $("#passwordRegCheckMessage").text() == "조건을 충족합니다!"
+					&& $("#nicknameCheckMessage").text() != "사용할 수 없는 닉네임입니다.") {			
+				console.log('됨?');
+				changeSubmit(true);
+			}
+			
+=======
 		      /* 수정 + 적용 버튼 합치기 test 중 */
 	         if ($(".upload-name").val() != "첨부파일" && memberPwd == memberPwd2
 	               && $("#passwordRegCheckMessage").text() == "조건을 충족합니다!"
@@ -292,6 +304,7 @@
 	            changeSubmit(true);
 	         }
 
+>>>>>>> branch 'master' of https://github.com/Not-Potato/GC25.git
 			$.ajax({
 				type :"post",
 				async : true,
