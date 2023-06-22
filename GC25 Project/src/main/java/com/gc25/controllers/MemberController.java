@@ -126,7 +126,9 @@ public class MemberController extends HttpServlet {
 					
 						if(nicknameCheckSuccess == 1) {
 							 session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
+
 							//session.setAttribute("memberNickname", memberNickname);
+
 							 PrintWriter out = response.getWriter();
 							 //jsonResult.put("result", nicknameCheckSuccess);
 							 out.print(nicknameCheckSuccess);
@@ -433,8 +435,7 @@ public class MemberController extends HttpServlet {
 						//이메일 인증이 안 되어 있다면 (emailhashcheck.jsp에서 session으로 isRight에 인증 여부 저장함.)
 						boolean isRight = (boolean) session.getAttribute("isRight");
 						if (isRight == false) {
-<
-							System.out.println(isRight);
+
 							result = -900; 
 
 							out.print(result);
@@ -568,14 +569,16 @@ public class MemberController extends HttpServlet {
 				if (memberImageFileName==null || memberImageFileName.equals("")) {
 					memberImageFileName="profile.jpg";
 				}
-				
+
 				int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
 				if(updateSuccess==1) {
 					result = 1; 
+
 					//session.removeAttribute("memberNickname");
 					session.setAttribute("memberEmail", memberEmail);
 				    session.setAttribute("memberNickname", memberNickname);
 				    session.setAttribute("memberImageFileName", memberImageFileName);
+
 					out.print(result);
 					return;
 				}
