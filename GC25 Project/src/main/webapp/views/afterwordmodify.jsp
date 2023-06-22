@@ -57,32 +57,34 @@ request.setAttribute("pageName", "afterword");
 								</ul>
 							</div>
 						</div>
-						<select class="box form-select" id="course" name="course">
-					 		<option disabled value="">----- 과정 구분 -----</option>
-       				 		<c:choose>
-			            		<c:when test="${afterwordBoardDTO.getCourse() == '프론트엔드'}">
-					                <option value="프론트엔드" selected>프론트엔드</option>
-					                <option value="백엔드">백엔드</option>
-					                <option value="풀스택">풀스택</option>
-			            		</c:when>
-			            		<c:when test="${afterwordBoardDTO.getCourse() == '백엔드'}">
-					                <option value="프론트엔드">프론트엔드</option>
-					                <option value="백엔드" selected>백엔드</option>
-					                <option value="풀스택">풀스택</option>
-			            		</c:when>
-			            		<c:when test="${afterwordBoardDTO.getCourse() == '풀스택'}">
-					                <option value="프론트엔드">프론트엔드</option>
-					                <option value="백엔드">백엔드</option>
-					                <option value="풀스택" selected>풀스택</option>
-			            		</c:when>
-			            		<c:otherwise>
-					            	<option disabled selected value="">----- 과정 구분 -----</option> 
-					                <option value="프론트엔드">프론트엔드</option>
-					                <option value="백엔드">백엔드</option>
-					                <option value="풀스택">풀스택</option>
-			            		</c:otherwise>
-       				 		</c:choose>
-					</select>	
+						<div class="course-dropdown">
+							<select class="box form-select" id="course" name="course">
+						 		<option disabled value="">----- 과정 구분 -----</option>
+	       				 		<c:choose>
+				            		<c:when test="${afterwordBoardDTO.getCourse() == '프론트엔드'}">
+						                <option value="프론트엔드" selected>프론트엔드</option>
+						                <option value="백엔드">백엔드</option>
+						                <option value="풀스택">풀스택</option>
+				            		</c:when>
+				            		<c:when test="${afterwordBoardDTO.getCourse() == '백엔드'}">
+						                <option value="프론트엔드">프론트엔드</option>
+						                <option value="백엔드" selected>백엔드</option>
+						                <option value="풀스택">풀스택</option>
+				            		</c:when>
+				            		<c:when test="${afterwordBoardDTO.getCourse() == '풀스택'}">
+						                <option value="프론트엔드">프론트엔드</option>
+						                <option value="백엔드">백엔드</option>
+						                <option value="풀스택" selected>풀스택</option>
+				            		</c:when>
+				            		<c:otherwise>
+						            	<option disabled selected value="">----- 과정 구분 -----</option> 
+						                <option value="프론트엔드">프론트엔드</option>
+						                <option value="백엔드">백엔드</option>
+						                <option value="풀스택">풀스택</option>
+				            		</c:otherwise>
+	       				 		</c:choose>
+						</select>	
+					</div>
 				</div>
 				
 				<!-- 두 번째 줄(강사명 / 개강~종강 / 전공·비전공여부 / 유·무상 여부)  -->
@@ -275,7 +277,7 @@ request.setAttribute("pageName", "afterword");
 		
 		// enter key 입력 --> form 제출 X
 		document.posting_form.addEventListener("keydown", evt => {
-			if (evt.code === "Enter") evt.preventDefault();
+			if (evt.code === "Enter" || evt.keyCode === 13) evt.preventDefault();
 		});
 		
 	// 체크 여부에 따라 label.text와 input.val 변경

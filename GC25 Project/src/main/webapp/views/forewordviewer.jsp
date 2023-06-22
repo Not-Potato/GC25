@@ -97,18 +97,26 @@
 					<div class="text">
 						<p>${forewordBoardDTO.getContents()}</p>
 					</div>
-
-					<div class="like">
-  						<a href="${contextPath}/foreword/recommend.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
-	    					<i class="xi-thumbs-up"></i>
-	    					<p>Good!</p>
-  						</a>
+<c:choose>
+	<c:when test="${ isRecommended == 1}">
+					<div class="like liked">
+						<i class="xi-thumbs-up"></i>
+						<p>이미 추천한 게시글입니다!</p>
 					</div>
-
+	</c:when>         
+	<c:otherwise>
+					<div class="like">
+						<a href="${contextPath}/foreword/recommend.do?boardNum=${forewordBoardDTO.getBoardNumber()}">
+							<i class="xi-thumbs-up"></i>
+							<p>추천합니다!</p>
+						</a>
+					</div>
+	</c:otherwise>
+</c:choose>
 					<div class="academy-info">
-						<p>학원 이름: ${forewordBoardDTO.getAcademyName()}</p>				
+						<p><i class="xi-school"></i> ${forewordBoardDTO.getAcademyName()}</p>				
 						<div class="starBox">
-							<p>학원 평점 : ${forewordBoardDTO.getAcademyAvgScore()} </p>
+							<p><i class="xi-trophy"></i> ${forewordBoardDTO.getAcademyAvgScore()} </p>
 							<span class="emptyStar">
 								★★★★★
 								<span class="fillStar" style="width: ${forewordBoardDTO.getAcademyAvgScore()*10}%" >★★★★★</span>

@@ -36,7 +36,7 @@ public class AcademyDAO {
 	// 형주 작업 영역
 
 // 검색어 적용 학원 리스트 가져오기
-	public ArrayList<AcademyDTO> selectArticle(int pageNumber , String searchValue) {
+	public ArrayList<AcademyDTO> selectArticle(int pageNumber, String searchValue) {
 		ArrayList<AcademyDTO> list = new ArrayList<AcademyDTO>();
 		
 		try {

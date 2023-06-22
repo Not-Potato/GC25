@@ -240,7 +240,7 @@
 		
 		// enter key 입력 --> form 제출 X
 		document.posting_form.addEventListener("keydown", evt => {
-			if (evt.code === "Enter") evt.preventDefault();
+			if (evt.code === "Enter" || evt.keyCode === 13) evt.preventDefault();
 		});
 		
 		// 체크 여부에 따라 label.text와 input.val 변경

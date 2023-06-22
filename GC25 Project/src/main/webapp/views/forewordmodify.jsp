@@ -180,8 +180,8 @@
 		    }
 		}; 
 		
-		document.postingForm.addEventListener("keydown", evt => {
-			if (evt.code === "Enter") evt.preventDefault();
+		document.posting_form.addEventListener("keydown", evt => {
+			if (evt.code === "Enter" || evt.keyCode === 13) evt.preventDefault();
 		});
 		
 		// 글자수 제한 함수

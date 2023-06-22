@@ -63,7 +63,14 @@
 								<i class="xi-school"></i>
 								학원 명
 							</h4>
-							<p id="academyName">${academyList[pageNum-1].academyName}</p>
+							<p>${academyList[pageNum-1].academyName}</p>
+						</div>
+						<div>
+							<h4>
+								<i class="xi-call"></i>
+								전화번호
+							</h4>
+							<p>${academyList[pageNum-1].academyTel}</p>
 						</div>
 						<div>
 							<h4>
@@ -74,12 +81,28 @@
 							<p>일반 주소: ${academyList[pageNum-1].academyAddress}</p>
 						</div>
 						  
+ 						<div>
+							<h4>
+								<i class="xi-home"></i>
+								학원 홈페이지
+							</h4>
+							<%-- <p>${academyList[pageNum-1].a_url}</p>  --%>
+						</div> 
+						
 						<div>
 							<h4>
 								<i class="xi-trophy"></i>
 								학원 평점
 							</h4>
-							<p id="academyAvgScore">${academyList[pageNum-1].academyAvgScore}</p> 
+							<div class="map-in-score">
+								<p id="academyAvgScore">${academyList[pageNum-1].academyAvgScore} 점</p> 
+								<div class="starBox">
+									<span class="emptyStar">
+										★★★★★ 
+										<span class="fillStar" style="width: ${academyList[pageNum-1].academyAvgScore *10}%" >★★★★★</span>
+									</span> 
+								</div>
+							</div>
 						</div>
 					</div>
 					
