@@ -155,7 +155,6 @@
 	<!-- footer include 영역 -->
 	<jsp:include page="./common/footer.jsp"></jsp:include>
 	<script src="<c:url value='./js/jquery.js' />"></script>
-	<script src="<c:url value='./js/custom.js' />"></script>
 	<script>
 	 /* 게시글 시간 계산 (몇시간 전) */
 	    var writeDateValueElement = document.querySelector("#writeDateValue");

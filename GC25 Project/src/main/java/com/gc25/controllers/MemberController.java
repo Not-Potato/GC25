@@ -131,7 +131,6 @@ public class MemberController extends HttpServlet {
 						System.out.println("nicknameCheckSuccess: "+nicknameCheckSuccess);
 						if(nicknameCheckSuccess == 1) {
 							 session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
-							 session.setAttribute("memberNickname", memberNickname);
 							 PrintWriter out = response.getWriter();
 							 //jsonResult.put("result", nicknameCheckSuccess);
 							 out.print(nicknameCheckSuccess);
@@ -547,7 +546,6 @@ public class MemberController extends HttpServlet {
 							if(nicknameCheckSuccess == 1) {
 								 memberNickname = request.getParameter("memberNickname"); 
 								 session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
-								 session.setAttribute("memberNickname", memberNickname);
 							} else if (nicknameCheckSuccess == 0){
 								 result= -200;
 								 out.print(result);
@@ -594,13 +592,13 @@ public class MemberController extends HttpServlet {
 				if (memberImageFileName==null || memberImageFileName.equals("")) {
 					memberImageFileName="profile.jpg";
 				}
-				
-				session.setAttribute("memberImageFileName", memberImageFileName);
-				session.setAttribute("memberNickname", memberNickname);
 			
 				int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
 				if(updateSuccess==1) {
 					result = 1; 
+					session.setAttribute("memberEmail", memberEmail);
+	                session.setAttribute("memberNickname", memberNickname);
+	                session.setAttribute("memberImageFileName", memberImageFileName);
 					out.print(result);
 					return;
 				}

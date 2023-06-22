@@ -464,11 +464,13 @@ aside .rank li:last-child {
 
 
 
-.board-page .title {
+.board-page .title,
+.container .title { /* 마이페이지 */ 
     width: 1400px;
     height: 150px;
     padding-left: 50px;
     box-sizing: border-box;
+    margin: auto;
 }
 .afterword-page .title {
 	background-image: url("../images/sub-title-afterword.png");
@@ -476,14 +478,19 @@ aside .rank li:last-child {
 .foreword-page .title {
 	background-image: url("../images/sub-title-foreword.png");
 }
-.board-page .title h2 {
+.container .title {
+	background-image: url("../images/sub-title-mypage.png");
+}
+.board-page .title h2,
+.container .title h2 {
 	font-size: 30px;
 	font-weight: 700;
 	padding-top: 40px;
 	color: #FFF;
 	box-sizing: border-box;
 }
-.board-page .title p {
+.board-page .title p,
+.container .title p {
 	font-size: 20px;
 	color: #FFF;
 }
@@ -556,15 +563,15 @@ aside .rank li:last-child {
 	width: 100%;
     border-bottom: 1px solid #007CFF;
     margin-bottom: 50px;
-    padding: 30px 50px;
-    padding-bottom: 60px;
+    padding: 0 50px;
+    padding-bottom: 40px;
     box-sizing: border-box;
 }
 .board-page .board-list > li div {
-	font-size: 28px;
+	font-size: 25px;
 }
 .board-page .board-list > li h3 {
-	font-size: 35px;
+	font-size: 30px;
 	font-weight: 700;
 	margin: 30px 0;
 	color: #007CFF;
@@ -1052,7 +1059,7 @@ aside .rank li:last-child {
 	box-sizing: border-box;
 }
 .view-page .post .info h4 {
-	font-size: 30px;
+	font-size: 35px;
 	font-weight: 700;
 }
 .view-page .post .info .profile p {
@@ -1088,6 +1095,7 @@ aside .rank li:last-child {
 	padding: 50px;
 	margin-bottom: 400px;
 	box-sizing: border-box;
+	font-size: 20px;
 }
 .view-page .post .liked i,
 .view-page .post .liked p {
@@ -1224,12 +1232,14 @@ aside .rank li:last-child {
     display: flex;
     margin: auto;
     justify-content: space-between;
-	background: pink;
     align-items: center;
     position: relative;
     height: 550px;
     margin-bottom: 50px;
-    padding-top: 50px;
+    /* padding-top: 50px; */
+
+    border: 1px solid #fff;
+    border-radius: 0.8em;
 }
 .my-page button {
     width: 100px; height: 50px;
@@ -1263,14 +1273,14 @@ aside .rank li:last-child {
     padding: 10px;
     color: #fff;
     vertical-align: middle;
-    background-color: #dddddd;
+    background-color: #b2b2b2;
     cursor: pointer;
     font-size: 14px;
     width: 60px;
     text-align: center;
     text-indent: 0px;
-    border: 1px solid #dddddd;
-    color: #999999;
+    border: 1px solid #b2b2b2;
+    color: #fff;
     height: 43px;
 }
 /* .my-page .mp-profile .edit-del {
@@ -1281,6 +1291,9 @@ aside .rank li:last-child {
 .my-page .input-box {
 	width: 900px;
 }
+.my-page .input-box #memberEmail::placeholder  {
+	color: #007cff;
+}
 .my-page .input-box p {
     display: flex;
 /*     justify-content: space-between; */
@@ -1288,7 +1301,7 @@ aside .rank li:last-child {
     margin: 50px 0;
 }
 .my-page .input-box label {
-	width: 130px;
+	width: 160px;
 	font-size: 18px;
 }
 .my-page .input-box p input {
@@ -1297,17 +1310,20 @@ aside .rank li:last-child {
     height: 50px;
     text-indent: 10px;
     font-size: 18px;
+    border-bottom: 1px solid #999;
 }
 .my-page .input-box p span {
 	width: 350px;
 	margin-left: 10px;
+	font-size: 17px;
 }
 .my-page .input-box .nickname button {
-    width: 100px; 
+    width: 70px; 
     background: #ededed;
     color: #999;
     border-radius: 0;
     height: 52px;
+    font-size: 14px;
 }
 .my-page .btn-quit {
 	color: #e60005;
@@ -1318,6 +1334,9 @@ aside .rank li:last-child {
 	color: #fff;
 	background-color: #e60005;
 }
+.my-page #mypageSubmitBtn {
+	border: 1px solid #fff;
+}
 .my-page #mypageSubmitBtn:hover {
 	color: #007cff;
 	background-color: #fff;
@@ -1327,25 +1346,13 @@ aside .rank li:last-child {
 	color: #1fc05c;
 	margin: -1px 10px 0 0;
 	align-self: center;
+	font-size: 17px;
 }
 .my-page .input-box .no {
 	color: #e60005;
-	margin: -1px 10px 0 0;
+	margin: 0 10px 0 0;
 	align-self: center;
-}
-.mp_h2 {
-    width: 1400px;
-    height: 150px;
-    padding-left: 50px;
-    box-sizing: border-box;
-    background-image: url("../images/sub-title-mypage.png");
-	font-size: 30px;
-	font-weight: 700;
-	padding-top: 40px;
-	color: #FFF;
-	box-sizing: border-box;
-	margin: auto;
-	margin-top: 50px;
+	font-size: 17px;
 }
 .my-page .btn-group {
 	width: 690px;
@@ -1379,5 +1386,13 @@ aside .rank li:last-child {
     padding: 0;
     overflow: hidden;
     border: 0;
+}
+.container {
+	width: 100%;
+	height: 100%;
+	background-repeat: no-repeat;
+/*     background-image: url("../images/sub-signup-bg.png"); */
+    background-size: 100%;
+    padding-top: 50px;
 }
 /* ********** 마이 페이지 ********** */
