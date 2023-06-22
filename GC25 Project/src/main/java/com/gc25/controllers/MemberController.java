@@ -52,17 +52,14 @@ public class MemberController extends HttpServlet {
 		
 		MemberService memberService = new MemberService();
 		MemberDTO memberDTO = new MemberDTO();
-		JSONObject jsonResult = new JSONObject();
-		
-		
-		
 		
 		try {												//컨트롤러에 있는 페이지만...
 			if (action == null || action.equals("/")) action="/mypage.do";
 			
-			System.out.println(action);
+			
 			
 			switch(action) {
+				
 				case "/emailCheck.do" -> {
 					
 					String memberEmail = request.getParameter("memberEmail");
@@ -75,17 +72,17 @@ public class MemberController extends HttpServlet {
 					
 					//email 버튼 click 했다면 넘어오는 emailOverlapCheckParam
 					emailOverlapCheckParam = request.getParameter("emailOverlapCheck");
-					System.out.println("이메일버튼 on/off 여부: " + emailOverlapCheckParam);
+
 					//getparameter는 string 타입이기 때문에 boolean으로 형 변환 click 했다면 true 넘어옴.
 					boolean emailOverlapCheck = Boolean.parseBoolean(emailOverlapCheckParam);
-					System.out.println("emailOverlapCheck???? :" + emailOverlapCheck);
+					
 					session.setAttribute("emailOverlapCheck", emailOverlapCheck);
 					
 					//email 중복확인 했다면??
 					if(emailOverlapCheck) {
 						//db에서 중복되는 email 확인
 						int emailCheckSuccess = memberService.emailCheck(memberEmail);
-						System.out.println("emailCheckSuccess: " + emailCheckSuccess);
+						
 						//중복되는 email 없다면
 						if(emailCheckSuccess == 1) {
 							//세션에 email 중복 여부와 email 저장
@@ -121,17 +118,15 @@ public class MemberController extends HttpServlet {
 					
 					//nickname 버튼 click 했다면 넘어오는 nicknameOverlapCheck
 					nicknameOverlapCheckParam = request.getParameter("nicknameOverlapCheck");
-					System.out.println("이메일버튼 on/off 여부: " + nicknameOverlapCheckParam);
 					//getparameter는 string 타입이기 때문에 boolean으로 형 변환 click 했다면 true 넘어옴.
 					boolean nicknameOverlapCheck = Boolean.parseBoolean(nicknameOverlapCheckParam);
-					System.out.println("nicknameOverlapCheck???? :" + nicknameOverlapCheck);
 					
 					if(nicknameOverlapCheck){
 						int nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
-						System.out.println("nicknameCheckSuccess: "+nicknameCheckSuccess);
+					
 						if(nicknameCheckSuccess == 1) {
 							 session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
-							 session.setAttribute("memberNickname", memberNickname);
+							//session.setAttribute("memberNickname", memberNickname);
 							 PrintWriter out = response.getWriter();
 							 //jsonResult.put("result", nicknameCheckSuccess);
 							 out.print(nicknameCheckSuccess);
@@ -157,7 +152,7 @@ public class MemberController extends HttpServlet {
 					String emailOverlapCheckParam;
 
 					
-					System.out.println(action);
+					
 					PrintWriter out = response.getWriter();
 					
 					
@@ -166,38 +161,35 @@ public class MemberController extends HttpServlet {
 					emailOverlapCheckParam = request.getParameter("emailOverlapCheck");
 					boolean emailOverlapCheck = (boolean) session.getAttribute("emailOverlapCheck");
 					
-					System.out.println("emailOverlapCheck emailsend에서 :" + emailOverlapCheck);
-					System.out.println("emailCheckSuccess emailsend에서 :" + emailCheckSuccess);
+					
+					
 					
 					if(emailOverlapCheck == false ||  emailOverlapCheckParam == null) {
-						System.out.println("return:"+emailCheckSuccess);
+						
 					  //jsonResult.put("result", false);
-						int result=0;
+						int result = 0;
 						out.print(result);
+						System.out.println("click0"+result);
 						
 					}
-					System.out.println("success:"+emailCheckSuccess);
+					
 					if (emailOverlapCheck) {
 						//jsonResult.put("result", true);
 						if(emailCheckSuccess == 0) {
-							int result=-1;
+							int result = 0;
 							out.print(result);
 						}
 						else{
 							int result = 1;
 							out.print(result);
-							System.out.println("emailsendresult:"+result);
+
 						
-						
-					
-					
 					//이메일 중복확인을 했다면
 					//Gmail 에서 아웃룩이나 다른 전자 메일 프로그램을 통해 메일을 보낼 수 있도록 하기 위해 
 					//Gmail SMTP(Simple Mail Transfer Protocol) 설정
 					//memberEmail = memberService.getMemberEmail(memberEmail);
 							
-						System.out.println("이메일이메일!!!!"+emailCheckSuccess);
-						System.out.println("emailHashCheck"+memberEmail);
+						
 						String host="http://localhost:8080/views/";
 						String from="bko2369@gmail.com";
 						String to = memberEmail;
@@ -246,13 +238,13 @@ public class MemberController extends HttpServlet {
 				}//case	   
 				
 				case "/login.do" -> {
-					System.out.println("로그인페이지");
+					
 					nextPage = views + "/login.jsp";
 					
 				}
 				
 				case "/mypage.do" -> {
-					System.out.println("마이페이지");
+					
 					nextPage = views + "/mypage.jsp";
 					
 					
@@ -268,12 +260,11 @@ public class MemberController extends HttpServlet {
 					script.println("</script>");
 					
 					//nextPage = views + "/login.jsp";
-					System.out.println("로그아웃");
 					
 					
 				}
 				case "/signup.do" -> {
-					System.out.println("회원가입");
+					
 					nextPage = views + "/signup.jsp";
 					
 				}
@@ -289,17 +280,12 @@ public class MemberController extends HttpServlet {
 					String memberImageFileName = memberDTO.getMemberImageFileName();
 					
 					try {
-						System.out.println("로그인주소:"+action);
 						
 						PrintWriter script = response.getWriter();
 					
 						
-						System.out.println("로그인 이메일?? : " + memberEmail);
-						System.out.println("로그인 패스워드?? :" + memberPwd);
-
 						int loginSuccess = memberService.memberLogin(memberEmail, memberPwd);
 						
-						System.out.println("비교결과 넘어왔나??:"+loginSuccess);
 						
 						// 비밀번호 틀린 경우
 						if(loginSuccess == 0) {
@@ -310,8 +296,7 @@ public class MemberController extends HttpServlet {
 						
 						// 로그인 성공 (비밀번호 일치한 경우)
 						} else if (loginSuccess == 1) {
-							System.out.println("들어오나보자");
-							System.out.println("contextPath : " + request.getContextPath());
+							
 							// nextPage="/index.jsp";
 							PrintWriter out = response.getWriter();
 							out.println("<script>");
@@ -333,6 +318,7 @@ public class MemberController extends HttpServlet {
 							memberImageFileName = memberService.getMemberImageFileName(memberEmail);
 							
 							//세션에 저장
+							//세션에 이메일, 회원번호,닉네임,이미지 저장
 							session.setAttribute("memberEmail",memberEmail);
 //							session.setAttribute("memberNumber", memberNumber);
 							//test
@@ -341,12 +327,6 @@ public class MemberController extends HttpServlet {
 							session.setAttribute("memberNickname", memberNickname);
 							session.setAttribute("memberStatus", memberStatus);
 							session.setAttribute("memberImageFileName",memberImageFileName);
-							//세션에 이메일, 회원번호,닉네임,이미지 저장
-							System.out.println("이메일 : " + memberEmail);
-							System.out.println("회원번호 : " +memberNumber);
-							System.out.println("닉네임 : "+memberNickname);
-							System.out.println("이미지 파일 : "+memberImageFileName);
-							System.out.println("등급 : "+memberStatus);
 							
 							//response.sendRedirect(request.getContextPath() + "/main");
 							
@@ -382,7 +362,6 @@ public class MemberController extends HttpServlet {
 					String nicknameOverlapCheckParam;
 					
 					try {
-					PrintWriter script = response.getWriter();
 					PrintWriter out = response.getWriter();
 					//이메일 중복체크 여부
 					emailOverlapCheckParam = request.getParameter("emailOverlapCheck");
@@ -396,9 +375,6 @@ public class MemberController extends HttpServlet {
 					int emailCheckSuccess = (int)session.getAttribute("emailCheckSuccess");
 					int nicknameCheckSuccess = (int)session.getAttribute("nicknameCheckSuccess");
 					
-					System.out.println("ec : "+emailCheckSuccess+"nc : "+nicknameCheckSuccess);
-					System.out.println("이메일버튼 on/off 여부: " + emailOverlapCheckParam);
-					System.out.println("닉네임버튼 on/off 여부: " + nicknameOverlapCheckParam);
 					
 					//이메일,비밀번호,닉네임을 저장한다.
 					if(request.getParameter("memberEmail")!=null){
@@ -406,8 +382,7 @@ public class MemberController extends HttpServlet {
 					}
 					if(request.getParameter("memberPwd")!=null){
 						memberPwd=request.getParameter("memberPwd");
-						System.out.println("비밀번호 넘어오나? : " +memberPwd);
-						System.out.println("정규식에 맞나??"+memberPwd.matches(passwordReg));
+						
 						
 					}
 					if(request.getParameter("memberNickname")!=null){
@@ -458,14 +433,15 @@ public class MemberController extends HttpServlet {
 						//이메일 인증이 안 되어 있다면 (emailhashcheck.jsp에서 session으로 isRight에 인증 여부 저장함.)
 						boolean isRight = (boolean) session.getAttribute("isRight");
 						if (isRight == false) {
+<
 							System.out.println(isRight);
-							result = -800; 
+							result = -900; 
+
 							out.print(result);
 							session.removeAttribute("emailOverlapCheck");
 							return;
 						}
 						result = memberService.addMember(new MemberDTO(memberEmail, memberPwd, memberNickname, memberStatus, memberImageFileName));
-						System.out.println("제발"+result);
 						
 						if (result==1) {
 							 // jsonResult.put("result", result);
@@ -510,7 +486,6 @@ public class MemberController extends HttpServlet {
 					String passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@!%*#?&])[A-Za-z\\d@!%*#?&]{8,12}$";
 					
 					//로그인 정보 확인
-				    memberEmail = (String)session.getAttribute("memberEmail");
 				    if (memberEmail != null) {
 				        //로그인이 되어있는 경우
 				    	memberEmail=(String)session.getAttribute("memberEmail");
@@ -523,7 +498,7 @@ public class MemberController extends HttpServlet {
 				    
 					//닉네임 중복 확인
 				    session = request.getSession(); // 세션 가져오기
-					session.setMaxInactiveInterval(1800);//30분 세션유지
+				    session.setMaxInactiveInterval(1800);//30분 세션유지
 				    //nickname 버튼 click 했다면 넘어오는 nicknameOverlapCheck
 					nicknameOverlapCheckParam = request.getParameter("nicknameOverlapCheck");
 					//System.out.println("mypage 이메일버튼 on/off 여부: " + nicknameOverlapCheckParam);
@@ -540,14 +515,14 @@ public class MemberController extends HttpServlet {
 					}
 					else {
 						if(nicknameOverlapCheck){
+
 							nicknameCheckSuccess = memberService.nicknameCheck(memberNickname);
-							System.out.println("memberNickname: "+memberNickname);
-							System.out.println("nicknameCheckSuccess: "+nicknameCheckSuccess);
+							
+
 							//중복검사했고 중복되지 않은 닉네임이라면
 							if(nicknameCheckSuccess == 1) {
-								 memberNickname = request.getParameter("memberNickname"); 
+								// memberNickname = request.getParameter("memberNickname"); 
 								 session.setAttribute("nicknameCheckSuccess", nicknameCheckSuccess);
-								 session.setAttribute("memberNickname", memberNickname);
 							} else if (nicknameCheckSuccess == 0){
 								 result= -200;
 								 out.print(result);
@@ -578,29 +553,29 @@ public class MemberController extends HttpServlet {
 						out.print(result);
 						return;
 					}
-					
+		
 					memberImageFileName = memberService.setMemberImageFileName(memberImageFileName, memberEmail);
-					System.out.println("삭제후 이미지"+memberImageFileName);
+					
+
 					 //비밀번호 받아서 세팅
 				    if(request.getParameter("memberPwd")!=null){
 						memberPwd=request.getParameter("memberPwd");
-						System.out.println("비밀번호 넘어오나? : " +memberPwd);
-						System.out.println("정규식에 맞나??"+memberPwd.matches(passwordReg));
-
+						
 				//이미지 파일 세팅
 				memberImageFileName = (String) session.getAttribute("fileName");
-				System.out.println(memberImageFileName);
-				
+
+			
 				if (memberImageFileName==null || memberImageFileName.equals("")) {
 					memberImageFileName="profile.jpg";
 				}
 				
-				session.setAttribute("memberImageFileName", memberImageFileName);
-				session.setAttribute("memberNickname", memberNickname);
-			
 				int updateSuccess = memberService.updateMember(memberEmail, memberPwd, memberNickname, memberImageFileName);
 				if(updateSuccess==1) {
 					result = 1; 
+					//session.removeAttribute("memberNickname");
+					session.setAttribute("memberEmail", memberEmail);
+				    session.setAttribute("memberNickname", memberNickname);
+				    session.setAttribute("memberImageFileName", memberImageFileName);
 					out.print(result);
 					return;
 				}
@@ -612,7 +587,7 @@ public class MemberController extends HttpServlet {
 				
 					//memberService.getMemberImageFileName(memberImageFileName, memberEmail);
 					//파일 저장할 경로
-					File curPath=new File("C:\\Users\\wpwpq\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\");
+					File curPath=new File("C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\");
 //					System.out.println(curPath);
 					//DiskFileItemFactory는 FileItem 객체를 생성하기 위한 팩토리 클래스  
 					//->getSize(), getName(), isFormField 등을 제공 -> 업로드된 파일의 정보(이름, 크기, 타입 등)를 확인하고, 데이터에 접근하여 원하는 처리를 수행 
@@ -627,7 +602,7 @@ public class MemberController extends HttpServlet {
 					try {
 						List <FileItem> items=upload.parseRequest(request); //request로 form이 리스트 형태로 넘어오면 
 						//파일목록 (items)에서 첫번째 파일 아이템을 가져옴
-						//System.out.println("아이템:"+items);
+						
 						for(FileItem fileItem : items) {
 							
 							//객체가 일판필드인지 파일필드인지 확인
@@ -657,11 +632,11 @@ public class MemberController extends HttpServlet {
 								if (!allowedExtensions.contains(fileExtension.toLowerCase())) {
 									PrintWriter script = response.getWriter();
 									script.println("<script> alert('허용되지 않는 확장자입니다.') </script> ");
-									System.out.println(fileExtension);
+									
 									script.close(); //오류생기면 이 jsp 페이지 종료
 								} else {
 									fileItem.write(uploadFile);
-									System.out.println("파일 이름 : " + fileName);
+									
 									session.setAttribute("fileName", fileName);
 								}
 								
@@ -679,7 +654,7 @@ public class MemberController extends HttpServlet {
 					
 					//로그인 한 이메일 세션에서 가져오기
 					String memberEmail = (String)session.getAttribute("memberEmail");
-					System.out.println("컨트롤러에서 이메일:"+memberEmail);
+					
 					//이메일로 이미지파일 이름 받아 오기
 					String memberImageFileName = memberService.getMemberImageFileName(memberEmail);
 					
@@ -688,12 +663,12 @@ public class MemberController extends HttpServlet {
 					
 					if(userResponse) {
 						memberImageFileName = memberService.getMemberImageFileName(memberEmail);
-						 String filePath = "C:\\Users\\wpwpq\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages";
+						 String filePath = "C:\\Users\\bko23\\git\\GC25\\GC25 Project\\src\\main\\webapp\\resources\\images\\profileimages\\";
 					     File file = new File(filePath+memberImageFileName);
 					      
 					     if (!memberImageFileName.equals("profile.jpg")) {
 						     if (file.delete()) {
-						        System.out.println("이미지가 삭제되었습니다.");
+						        
 						        memberService.delMemberImageFileName(memberEmail);
 						        file=new File(filePath+memberService.getMemberImageFileName(memberEmail));
 						        session.setAttribute("fileName", "profile.jpg");
@@ -701,7 +676,7 @@ public class MemberController extends HttpServlet {
 						        //session.setAttribute("fileName", file);
 						        
 						     } else {
-						        System.out.println("이미지 삭제를 실패했습니다.");
+						        
 						     }
 					     }
 					}
@@ -712,7 +687,7 @@ public class MemberController extends HttpServlet {
 					int memberNumber = (int) session.getAttribute("memberNumber");
 					// service --> DAO -->  DB 삭제 진행
 					int result = memberService.withdrawal(memberNumber);
-					System.out.println("컨트롤러: " + result);
+					
 					
 					// "회원 탈퇴 처리가 완료되었습니다" 
 					// "그동안 이용해 주셔서 감사합니다"
@@ -733,7 +708,7 @@ public class MemberController extends HttpServlet {
 			}//switch
 			
 			if (!nextPage.equals("")) {
-				System.out.println(nextPage);
+				
 				RequestDispatcher dispatch = request.getRequestDispatcher(nextPage);
 				dispatch.forward(request, response);
 			}

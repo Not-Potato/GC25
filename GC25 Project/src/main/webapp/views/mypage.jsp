@@ -5,8 +5,9 @@
 <%@ page import="java.io.PrintWriter"%>
 <%
 
-	
 	String memberEmail = (String)session.getAttribute("memberEmail");
+	String memberNickname = (String)session.getAttribute("memberNickname");
+
 
 	if (memberEmail != null) {
    	 //로그인이 되어있는 경우
@@ -147,6 +148,7 @@
 			alert("닉네임을 입력하세요.");
 			return;
 			}
+
 		
 		$.ajax({
 			type :"post",
@@ -219,7 +221,6 @@
 					alert("프로필 사진 변경 관련 오류가 발생했습니다.");
 				},
 				complete : function(result) {
-					
 				}
 			});
 	}

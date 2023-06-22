@@ -27,6 +27,7 @@
 	int authorId = forewordBoardDTO.getMemberNumber();
 	boolean mine = memberNumber == authorId ? true : false;
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -58,7 +59,7 @@
 <% if (mine) { %>
 
 						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/foreword/modify.do?boardNum=${forewordBoardDTO.getBoardNumber()}'">수정</button>
-						<button type="button" class="btn use-btn" onclick=" confirmDelete(${forewordBoardDTO.getBoardNumber()})">삭제</button>
+						<button type="button" class="btn use-btn" onclick=" confirmDelete('${forewordBoardDTO.getBoardNumber()}','${forewordBoardDTO.getAcademyName()}')">삭제</button>
 
 <% } else {%>
 						<button type="button" class="btn none">수정</button>				
@@ -197,13 +198,12 @@
 		}
 	
 	/* 글 삭제 시 ajax 통신부  */	
-		function confirmDelete(boardNum) {
-    		var confirmed = confirm("정말로 삭제하시겠습니까?");
-    		if (confirmed) {
-        	location.href = "${contextPath}/foreword/delete.do?boardNum=" + boardNum;
-    		}
-		}
-		
+		function confirmDelete(boardNum , academyName) {
+	    		var confirmed = confirm("정말로 삭제하시겠습니까?");
+	    		if (confirmed) {
+	        	location.href = "${contextPath}/foreword/delete.do?boardNum=" + boardNum + "&academyName=" + academyName;
+	    		}
+			}
 	</script>
 
 </body>

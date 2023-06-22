@@ -66,7 +66,7 @@
 <% if (mine) { %>
 
 						<button type="button" class="btn use-btn" onclick=" location.href='${contextPath}/afterword/modify.do?boardNum=${afterwordBoardDTO.getBoardNumber()}'">수정</button>
-						<button type="button" class="btn use-btn" onclick= "confirmDelete(${afterwordBoardDTO.getBoardNumber()})" >삭제</button>
+						<button type="button" class="btn use-btn" onclick= "confirmDelete('${afterwordBoardDTO.getBoardNumber()}','${afterwordBoardDTO.getAcademyName()}')" >삭제</button>
 
 <% } else {%>
 						<div class="btn-none-group">
@@ -271,10 +271,10 @@
 		
 		
 		/* 글 삭제 시 ajax 통신부  */	
-		function confirmDelete(boardNum) {
+		function confirmDelete(boardNum , academyName) {
     		var confirmed = confirm("정말로 삭제하시겠습니까?");
     		if (confirmed) {
-        	location.href = "${contextPath}/afterword/delete.do?boardNum=" + boardNum;
+        	location.href = "${contextPath}/afterword/delete.do?boardNum=" + boardNum + "&academyName=" + academyName;
     		}
 		}
 		

@@ -95,12 +95,12 @@ request.setAttribute("pageName", "afterword");
                
                     <div>
 						<div class="chk-box">
-							<input class="chk" type="checkbox" role="switch" id="major" name="major" value="">
-							<label id="majorLabel" for="major">비전공</label>
+							<input class="chk" type="checkbox" role="switch" id="major" name="major" value="${afterwordBoardDTO.getMajor()}">
+							<label id="majorLabel" for="major">${afterwordBoardDTO.getMajor()}</label>
 						</div>
 						<div class="chk-box">
-							<input class="chk" type="checkbox" role="switch" id="cost" name="cost" value="무상">
-							<label id="costLabel" for="cost">무상</label>
+							<input class="chk" type="checkbox" role="switch" id="cost" name="cost" value="${afterwordBoardDTO.getCost()}">
+							<label id="costLabel" for="cost">${afterwordBoardDTO.getCost()}</label>
 						</div>
 					</div>
 				</div>	

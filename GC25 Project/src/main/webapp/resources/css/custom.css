@@ -402,6 +402,10 @@ textarea {outline: none; }
 #content .inner .board ul li .post-stats ul li i {
 	margin-right: 10px;
 }
+#content .inner .board .list-click {
+	cursor: pointer;
+}
+
 /* 메인 콘텐츠 영역 */
 
 @media screen and (max-width: 1900px) {
@@ -458,6 +462,9 @@ li {
 }
 aside .rank li:last-child {
     border: none;
+}
+aside .rank .aside-click {
+	cursor: pointer;
 }
 /* 어사이드 */
 /* ********** 메인 영역 ********** */
@@ -551,6 +558,12 @@ aside .rank li:last-child {
 
 .board-page .board-list {
 	margin: 70px 0;
+}
+.board-page .board-list .afterword-list {
+	cursor:pointer;
+}
+.board-page .board-list .foreword-list {
+	cursor:pointer;
 }
 .board-page .board-list > li {
 	width: 100%;
