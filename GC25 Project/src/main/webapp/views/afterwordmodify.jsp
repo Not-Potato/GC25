@@ -25,7 +25,7 @@ request.setAttribute("pageName", "afterword");
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>GC25 | 수강후기 수정 페이지</title>
+	<title>GC25</title>
 	<!-- 커스텀.css / reset.css / 파비콘 / x-icon / date range picker -->
 	<link href="<c:url value='/resources/css/custom.css' />" rel="stylesheet">
 	<link href="<c:url value='/resources/css/reset.css' />" rel="stylesheet">
@@ -41,8 +41,8 @@ request.setAttribute("pageName", "afterword");
       	<div class="board-page foreword-page write-page foreword-write-page">
 			<div class="inner">
 				<div class="title">
-					<h2>수강후기 수정하기</h2>
-					<p></p>				
+					<h2>수강 후기</h2>
+					<p>앗! 빠뜨리거나 더할 것이 있으신가요?</p>				
 				</div>
 
 				<form class="after-form" name="posting_form" onsubmit="return posting();" method="POST" action="${contextPath}/afterword/modifyupload.do?boardNum=${afterwordBoardDTO.getBoardNumber()}">
