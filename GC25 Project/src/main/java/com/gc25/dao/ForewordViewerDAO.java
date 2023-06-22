@@ -133,7 +133,7 @@ public class ForewordViewerDAO {
 			pstmt = con.prepareStatement(updateQuery);
 			pstmt.setInt(1, forewordBoardDTO.getAcademyNumber());
 	
-			System.out.println("forewordViewer DTO의 회원번호" + forewordBoardDTO.getAcademyNumber());
+		
 			pstmt.setString(2, forewordBoardDTO.getAcademyName());
 			pstmt.setString(3, forewordBoardDTO.getCourse());
 			pstmt.setString(4, forewordBoardDTO.getTitle());
@@ -153,16 +153,26 @@ public class ForewordViewerDAO {
 	}
 	
 	//게시글 삭제 
-	public void deleteForewordBoard(int boardNum) {
-		
-		String deleteQuery = "DELETE GC25_FOREWORD_BOARD WHERE fb_number  = ?";
+	public void deleteForewordBoard(int boardNum, String academyName) {
 	
 		try {
+			String deleteQuery = "DELETE GC25_FOREWORD_BOARD WHERE fb_number  = ?";
 			
 			con = ds.getConnection();	
 			pstmt = con.prepareStatement(deleteQuery);
 			pstmt.setInt(1,boardNum);
 			pstmt.executeUpdate();
+			
+			
+
+			//삭제 시 리뷰 수 -1
+			String reviewCountQuery = "UPDATE GC25_ACADEMY SET a_reviewcount = (a_reviewcount - 1) WHERE a_name = ?";
+		
+			pstmt = con.prepareStatement(reviewCountQuery);
+			pstmt.setString(1,academyName);
+			pstmt.executeUpdate();
+			
+			
 			
 			con.close();
 			pstmt.close();

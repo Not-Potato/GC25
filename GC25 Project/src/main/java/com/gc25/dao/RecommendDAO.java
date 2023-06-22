@@ -86,37 +86,37 @@ public class RecommendDAO {
 			ex.printStackTrace();
 		}
 			
-	}// end fo setRecommend
+	}// end of setRecommend
 	
 	
 	
 	
-	// 상담후기 게시글
+	//상담후기 게시글
 	public void fbSetRecommend(int memberNum, int boardNum, int bBoard) {
 		
 		// 게시글 당 사용자가 좋아요 1번만 누를수 있게 하는 장치
-				try {
-					
-					con = ds.getConnection();	
-					
-					String checkQuery = "SELECT COUNT(*) AS like_count FROM GC25_RECOMMEND WHERE m_number = ? AND fb_number = ?";
-					pstmt = con.prepareStatement(checkQuery);
-					pstmt.setInt(1, memberNum);
-					pstmt.setInt(2, boardNum);
-					ResultSet rs = pstmt.executeQuery();
-					
-					if(rs.next()) {
-							int likeCount = rs.getInt("like_count");
-							if (likeCount > 0) {
-								return;// 매소드 종료
-							}
-					}
-				
-				} catch(Exception ex) {
-					ex.printStackTrace();
+		try {
+			
+			con = ds.getConnection();	
+			
+			String checkQuery = "SELECT COUNT(*) AS like_count FROM GC25_RECOMMEND WHERE m_number = ? AND fb_number = ?";
+			pstmt = con.prepareStatement(checkQuery);
+			pstmt.setInt(1, memberNum);
+			pstmt.setInt(2, boardNum);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				int likeCount = rs.getInt("like_count");
+				if (likeCount > 0) {
+					return; // 이미 좋아요 눌렀다면 매소드 종료
 				}
-				
-		// 만약 사용자가 좋아요 누르지 않았다면 아래 코드부 진행
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		
+			// 만약 사용자가 좋아요 누르지 않았다면 아래 코드부 진행
 			// 게시글_ 추천 수 증가
 			String updateQueryforewordBoard = "UPDATE GC25_FOREWORD_BOARD SET fb_recommend = fb_recommend + 1 WHERE fB_number = ?";
 			
@@ -130,8 +130,8 @@ public class RecommendDAO {
 			} catch(Exception ex) {
 				ex.printStackTrace();
 			}
-			
-			
+				
+				
 		// 추천내용 DB에 추가	
 			String updateQueryRecommend = """
 										INSERT INTO GC25_RECOMMEND 
@@ -146,8 +146,13 @@ public class RecommendDAO {
 				pstmt.setInt(3,0);
 				pstmt.executeUpdate();
 				
+				 //  첫 좋아요 클릭  시 참 반환
+				
+			
 			}catch(Exception ex) {
 				ex.printStackTrace();
 			}
+		
 		}
-}
+	
+}//end of class recommendDAO
