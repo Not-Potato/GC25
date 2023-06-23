@@ -479,10 +479,7 @@ public class MemberController extends HttpServlet {
 					
 					PrintWriter out = response.getWriter();
 					String passwordReg = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@!%*#?&])[A-Za-z\\d@!%*#?&]{8,12}$";
-<<<<<<< HEAD
-=======
-				
->>>>>>> branch 'master' of https://github.com/Not-Potato/GC25.git
+
 					memberEmail=(String)session.getAttribute("memberEmail");
 					
 					//로그인 정보 확인
