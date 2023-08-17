@@ -6,11 +6,12 @@
 <br />   
 
 ### 사용된 기술 스택
-- JSP/Servlet
-- JSTL
-- JDBC
-- Oracle
-
+<p dir="auto">
+ <img src="https://img.shields.io/badge/JSTL-0099E5?style=flat&logo=&logoColor=black"/>
+ <img src="https://img.shields.io/badge/JDBC-000000?style=flat&logo=&logoColor=black"/>
+ <img src="https://img.shields.io/badge/Oracle-F80000?style=flat&logo=Oracle&logoColor=black"/>
+ <img src="https://img.shields.io/badge/JSP/Servlet-0099E5?style=flat&logo=&logoColor=black"/>
+</p>
 <br />   
 
 ### 팀원 소개 & 담당 기능 소개
@@ -95,7 +96,7 @@
   3. `java`  파일경로에서 확장자 부분 잘라서 한 번 더 확인합니다. DiskFileItemFactory로 파일 정보 확인 후 FileItem 객체 만들어 업로드 처리합니다.
 
 ----
-#### [학원 찾기 기능 관련] `이형주`  
+#### [학원찾기 & 게시글 수정/삭제 기능 관련] `이형주`  
 
 > 학원검색기능(위치) 주요 기능:  API 연동, 데이터추출, 지도서비스구현
   1. `JAVA` 카카오 로컬 Rest API를 사용한 "카테고리로 장소 검색하기" 로 IT학원을 검색해 검색결과를 바로DB에 저장합니다.  (사용키워드 : 전국 프렌차이즈 컴퓨터 학원명 )
